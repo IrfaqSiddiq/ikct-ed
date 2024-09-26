@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>8-Column Data Table with Sidebar</title> -->
+    <link rel="stylesheet" href="/css/student_list/student_list.css"> <!-- Link to your CSS file -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <ul>
+                <li><a href="#" class="admin-portal">Admin Portal</a></li>
+                <!-- Other menu items -->
+                <li><a href="#">Student List</a></li>
+                <li><a href="#">School</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+        
+
+        <!-- Main content area -->
+        <div class="main-content">
+            <h1>Data Table</h1>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Assistance</th>
+                        <th>Religion</th>
+                        <th>NRC</th>
+                        <th>Contact</th>
+                        <th>School</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Data from API will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="../../js/student_list/student_list.js"></script> <!-- Link to your JavaScript file -->
+</body>
+</html>

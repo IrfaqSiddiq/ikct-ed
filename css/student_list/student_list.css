@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Poppins, Helvetica, "sans-serif";
+}
+
+.container {
+    display: flex;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 200px;
+    background-color: #3c658e;
+    height: 100vh;
+    position: fixed;
+    border-radius: 0 10px 10px 0; /* Rounded corners */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Shadow on the sidebar */
+}
+
+
+.sidebar ul {
+    list-style: none;
+    padding: 20px;
+}
+
+.sidebar ul li {
+    margin: 20px 0;
+}
+
+.sidebar ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    display: block;
+    padding: 5px;
+    transition: background-color 0.3s;
+    border-radius: 8px;
+    box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Remove box appearance and shadow for Admin Portal link */
+.sidebar ul li a.admin-portal {
+    background-color: transparent; /* Remove background color */
+    border-radius: 0; /* Remove rounded corners */
+    box-shadow: none; /* Remove shadow */
+    padding: 10px 20px; /* Adjust padding as needed */
+}
+
+/* Hover effect for Admin Portal link */
+.sidebar ul li a.admin-portal:hover {
+    background-color: #005f8a; /* Optional: Change background color on hover */
+    color: #e0e0e0; /* Lighter text color on hover */
+    transform: none; /* No scale effect */
+}
+
+.sidebar ul li a:hover {
+    background-color: #6ba1f1;
+}
+
+/* Main content styles */
+.main-content {
+    margin-left: 200px;
+    padding: 20px;
+    width: calc(100% - 200px);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: left;
+    font-size: 18px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* Remove borders and outlines from the table */
+#data-table {
+    border-collapse: separate; /* Ensures borders are collapsed */
+    width: 100%; /* Adjust table width if necessary */
+}
+
+#data-table th, #data-table td {
+    border: none; /* Remove borders from table headers and cells */
+    padding: 8px; /* Optional: add some padding for better spacing */
+}
+
+#data-table th {
+    background-color: #f2f2f2; /* Optional: light background for headers */
+}
+
+#data-table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Optional: alternate row colors */
+}
+
+/* Remove any outline or border on focus */
+.details-button {
+    border: none;
+    outline: none;
+}
+

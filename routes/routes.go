@@ -1,0 +1,81 @@
+package routes
+
+import (
+	"ikct-ed/controllers"
+	"log"
+	"net/http"
+	"os"
+
+	"github.com/gin-gonic/gin"
+)
+
+func AddRoutes(router *gin.RouterGroup) {
+	api := router.Group("/api")
+	{
+		students := api.Group("/students")
+		{
+			students.GET("/list", controllers.GetStudentsList)
+			students.POST("/add/csv", controllers.AddStudentsCSV)
+			students.GET("/detail/:id", controllers.GetStudentDetail)
+			students.POST("/add/sheet", controllers.AddStudentsFromSheet)
+		}
+
+		admin := api.Group("/user")
+		{
+			admin.POST("/create", controllers.CreateUser)
+			admin.POST("/login", controllers.Login)
+		}
+	}
+
+	v1 := router.Group("/v1")
+	{
+		v1.GET("/student/list", controllers.StudentListPage)
+		v1.GET("/student/detail/:id", controllers.StudentDetailPage)
+
+	}
+	router.GET("/test-css", func(c *gin.Context) {
+		// Debug log file path
+		filePath := "./css/student_list/student_list.css"
+		if _, err := os.Stat(filePath); os.IsNotExist(err) {
+			log.Printf("File does not exist: %s", filePath)
+		} else {
+			log.Printf("File exists: %s", filePath)
+		}
+		c.File("/Users/tutree/personal/ikct-ed/css/student_list/student_list.css")
+	})
+}
+
+func SetupRouter() *gin.Engine {
+
+	router := gin.Default()
+
+	router.Use(corsMiddleware())
+	gin.SetMode(os.Getenv("GIN_MODE"))
+	router.LoadHTMLGlob("./templates/**/*")
+	router.Static("/css", "./css")
+	router.Static("/static/img", "./static/img")
+	router.Static("/js", "./js")
+
+	router.GET("/", controllers.LoginForm)
+	// Add all current URls
+	AddRoutes(&router.RouterGroup)
+
+	return router
+}
+
+// corsMiddleware sets the necessary headers for CORS
+func corsMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization,token")
+
+		// Handle preflight requests
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(http.StatusOK)
+			return
+		}
+
+		c.Next()
+	}
+}

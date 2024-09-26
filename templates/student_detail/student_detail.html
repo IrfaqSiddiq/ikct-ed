@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Detail</title>
+    <link rel="stylesheet" href="/css/student_detail/student_detail.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <ul>
+                <li><a href="#" class="admin-portal">Admin Portal</a></li>
+                <li><a href="#">Student List</a></li>
+                <li><a href="#">School</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+
+        <!-- Student Info -->
+        <div class="student-info">
+
+            <div id="student-img">
+                <div style="display: flex;">
+
+                
+                <img src="/static/img/sky.jpg" style="border: 2px solid black; width: 150px; height: 150px; border-radius: 50%;" alt="">
+                <h1>Student Name</h1>
+            </div>
+                <div id="update-btn">
+                    <button id="profile-btn" class="button" onclick="alert('Button 1 Clicked!')">Update Profile</button>
+                </div>
+            </div>
+            
+
+            <!-- Fields to be populated dynamically -->
+            <div class="info-box">
+                <h2>Personal Information</h2>
+                <div class="info-label">
+                    <label>Assistance:</label> 
+                    <input type="text" class="text-field" id="assistance" name="assistance">
+                </div>
+                <div class="info-label">
+                    <label>Religion:</label> 
+                    <input type="text" class="text-field" id="Religion" name="Religion" >
+                </div>
+                <div class="info-label">
+                    <label>NRC:</label>
+                    <input type="text" class="text-field" id="nrc" name="NRC" >
+                </div>
+                <div class="info-label">
+                    <label>Contact:</label> 
+                    <input type="text" class="text-field" id="contact" name="Contact" >
+                </div>
+                <div class="info-label">
+                    <label>School:</label> 
+                    <input type="text" class="text-field" id="school" name="School" >
+                </div>
+                <div class="info-label">
+                    <label>Course:</label> 
+                    <input type="text" class="text-field" id="course" name="Course" >
+                </div>
+                <div class="info-label">
+                    <label>Program Duration:</label> 
+                    <input type="text" class="text-field" id="program_duration" name="Program_Duration" >
+                </div>
+                <div class="info-label">
+                    <label>Current Year:</label> 
+                    <input type="text" class="text-field" id="current_year" name="Current_Year" >
+                </div>
+                <div class="info-label">
+                    <label>Semester Term:</label> 
+                    <input type="text" class="text-field" id="semester_term" name="Semester_Term" >
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h2>Course Fee Details</h2>
+                <div class="info-label">
+                    <label>Total Course Cost:</label> 
+                    <input type="text" class="text-field" id="total_course_cost" name="total_course_cost" >
+                </div>
+                <div class="info-label">
+                    <label>Estimated Fees Year 1:</label> 
+                    <input type="text" class="text-field" id="estimated_fees_year_1" name="estimated_fees_year_1" >
+                </div>
+                <div class="info-label">
+                    <label>Estimated Fees Year 2:</label> 
+                    <input type="text" class="text-field" id="estimated_fees_year_2" name="estimated_fees_year_2" >
+                </div>
+                <div class="info-label">
+                    <label>Estimated Fees Year 3:</label> 
+                    <input type="text" class="text-field" id="estimated_fees_year_3" name="estimated_fees_year_3" >
+                </div>
+                <div class="info-label">
+                    <label>Estimated Fees Year 4:</label>
+                    <input type="text" class="text-field" id="estimated_fees_year_4" name="estimated_fees_year_4" >
+                </div>
+                <div class="info-label">
+                    <label>Estimated Fees Year 5:</label> 
+                    <input type="text" class="text-field" id="estimated_fees_year_5" name="estimated_fees_year_5" >
+                </div>
+                <div class="info-label">
+                    <label>Payment Date Sem 1 Year 1:</label> 
+                    <input type="text" class="text-field" id="payment_date_sem1_year1" name="payment_date_sem1_year1" >
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h2>Semester Tuition Fee Details</h2>
+                <div class="info-label">
+                    <label>Payment Amount Sem 1 Year 1:</label> 
+                    <input type="text" class="text-field" id="payment_amount_sem1_year1" name="payment_amount_sem1_year1" >
+                </div>
+                <div class="info-label">
+                    <label>Payment Date Sem 1 Year 2:</label> 
+                    <input type="text" class="text-field" id="payment_date_sem1_year2" name="payment_date_sem1_year1" >
+                </div>
+                <div class="info-label">
+                    <label>Payment Amount Sem 1 Year 2:</label> 
+                    <input type="text" class="text-field" id="payment_amount_sem1_year2" name="payment_amount_sem1_year2" >
+                </div>
+                <div class="info-label">
+                    <label>Other Fees Payment Date 1:</label> 
+                    <input type="text" class="text-field" id="other_fees_payment_date1" name="other_fees_payment_date1" >
+                </div>
+                <div class="info-label">
+                    <label>Other Fees Details 1:</label> 
+                    <input type="text" class="text-field" id="other_fees_details1" name="other_fees_details1" >
+                </div>
+                <div class="info-label">
+                    <label>Other Fees Amount 1:</label> 
+                    <input type="text" class="text-field" id="other_fees_amount1" name="other_fees_amount1" >
+                </div>
+                <div class="info-label">
+                    <label>Other Fees Payment Date 2:</label> 
+                    <input type="text" class="text-field" id="other_fees_payment_date2" name="other_fees_payment_date1" >
+                </div>
+                <div class="info-label">
+                    <label>Other Fees Details 2:</label> 
+                    <input type="text" class="text-field" id="other_fees_details2" name="other_fees_details2" >
+                </div>
+                <div class="info-label">
+                    <label>Other Fees Amount 2:</label> 
+                    <input type="text" class="text-field" id="other_fees_amount2" name="other_fees_amount2" >
+                </div>
+                <div class="info-label">
+                    <label>Other Fees Payment Date 3:</label> 
+                    <input type="text" class="text-field" id="other_fees_payment_date3" name="other_fees_payment_date3" >
+                </div>
+                <div class="info-label">
+                    <label>Other Fees Details 3:</label> 
+                    <input type="text" class="text-field" id="other_fees_details3" name="other_fees_details3" >
+                </div>
+                <div class="info-label">
+                    <label>Other Fees Amount 3:</label> 
+                    <input type="text" class="text-field" id="other_fees_amount3" name="other_fees_amount3" >
+                </div>
+                <div class="info-label">
+                    <label>Projected Total Fees Current Year:</label> 
+                    <input type="text" class="text-field" id="projected_total_fees_curr_year" name="projected_total_fees_curr_year" >
+                </div>
+                <div class="info-label">
+                    <label>Remaining Tuition Fees Current Year:</label> 
+                    <input type="text" class="text-field" id="remaining_tuition_fees_curr_year" name="remaining_tuition_fees_curr_year" >
+                </div>
+                <div class="info-label">
+                    <label>Tuition Fees Paid By:</label> 
+                    <input type="text" class="text-field" id="tuition_fees_paid_by" name="tuition_fees_paid_by" >
+                </div>
+                <div class="info-label">
+                    <label>Rent Payment Date 1:</label> 
+                    <input type="text" class="text-field" id="rent_payment_date1" name="rent_payment_date1" >
+                </div>
+                <div class="info-label">
+                    <label>Rent Paid Months 1:</label> 
+                    <input type="text" class="text-field" id="rent_paid_month1" name="rent_paid_month1" >
+                </div>
+                <div class="info-label">
+                    <label>Rent Amount 1:</label> 
+                    <input type="text" class="text-field" id="rent_amount1" name="rent_amount1" >
+                </div>
+                <div class="info-label">
+                    <label>Rent Payment Date 2:</label> 
+                    <input type="text" class="text-field" id="rent_payment_date2" name="rent_payment_date2" >
+                </div>
+                <div class="info-label">
+                    <label>Rent Paid Months 2:</label> 
+                    <input type="text" class="text-field" id="rent_paid_month2" name="rent_paid_month2" >
+                </div>
+                <div class="info-label">
+                    <label>Rent Amount 2:</label> 
+                    <input type="text" class="text-field" id="rent_amount2" name="rent_amount2" >
+                </div>
+                <div class="info-label">
+                    <label>Rent Payment Date 3:</label> 
+                    <input type="text" class="text-field" id="rent_payment_date3" name="rent_payment_date3" >
+                </div>
+                <div class="info-label">
+                    <label>Rent Paid Months 3:</label> 
+                    <input type="text" class="text-field" id="rent_paid_month3" name="rent_paid_month3" >
+                </div>
+                <div class="info-label">
+                    <label>Rent Amount 3:</label> 
+                    <input type="text" class="text-field" id="rent_amount3" name="rent_amount3" >
+                </div>
+                <div class="info-label">
+                    <label>Rent Payment Date 4:</label> 
+                    <input type="text" class="text-field" id="rent_payment_date4" name="rent_payment_date4" >
+                </div>
+                <div class="info-label">
+                    <label>Rent Paid Months 4:</label> 
+                    <input type="text" class="text-field" id="rent_paid_month4" name="rent_paid_month4" >
+                </div>
+                <div class="info-label">
+                    <label>Rent Amount 4:</label> 
+                    <input type="text" class="text-field" id="rent_amount4" name="rent_amount4" >
+                </div>
+                <div class="info-label">
+                    <label>Upkeep Payment Date 1:</label> 
+                    <input type="text" class="text-field" id="upkeep_payment_date1" name="upkeep_payment_date1" >
+                </div>
+                <div class="info-label">
+                    <label>Upkeep Paid Months 1:</label> 
+                    <input type="text" class="text-field" id="upkeep_paid_months1" name="upkeep_paid_months1" >
+                </div>
+                <div class="info-label">
+                    <label>Upkeep Amount 1:</label> 
+                    <input type="text" class="text-field" id="upkeep_amount1" name="upkeep_amount1" >
+                </div>
+                <div class="info-label">
+                    <label>Upkeep Payment Date 2:</label> 
+                    <input type="text" class="text-field" id="upkeep_payment_date2" name="upkeep_payment_date2" >
+                </div>
+                <div class="info-label">
+                    <label>Upkeep Paid Months 2:</label> 
+                    <input type="text" class="text-field" id="upkeep_paid_months2" name="upkeep_paid_months2" >
+                </div>
+                <div class="info-label">
+                    <label>Upkeep Amount 2:</label> 
+                    <input type="text" class="text-field" id="upkeep_amount2" name="upkeep_amount2" >
+                </div>
+                <div class="info-label">
+                    <label>Upkeep Payment Date 3:</label> 
+                    <input type="text" class="text-field" id="upkeep_payment_date3" name="upkeep_payment_date3" >
+                </div>
+                <div class="info-label">
+                    <label>Upkeep Paid Months 3:</label> 
+                    <input type="text" class="text-field" id="upkeep_paid_months3" name="upkeep_paid_months3" >
+                </div>
+                <div class="info-label">
+                    <label>Upkeep Amount 3:</label> 
+                    <input type="text" class="text-field" id="upkeep_amount3" name="upkeep_amount3" >
+                </div>
+                <div class="info-label">
+                    <label>Upkeep Payment Date 4:</label> 
+                    <input type="text" class="text-field" id="upkeep_payment_date4" name="upkeep_payment_date4" >
+                </div>
+                <div class="info-label">
+                    <label>Upkeep Paid Months 4:</label> 
+                    <input type="text" class="text-field" id="upkeep_paid_months4" name="upkeep_paid_months4" >
+                </div>
+                <div class="info-label">
+                    <label>Upkeep Amount 4:</label> 
+                    <input type="text" class="text-field" id="upkeep_amount4" name="upkeep_amount4" >
+                </div>
+            </div>
+
+            <!-- Box Container -->
+            <div class="box-container">
+                <!-- Placeholder for boxes -->
+                <!-- These can be used for future content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript to fetch and populate data -->
+    <script src="/js/student_detail/student_detail.js"></script>
+</body>
+</html>
