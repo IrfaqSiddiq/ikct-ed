@@ -16,14 +16,11 @@ body {
 h1 {
     font-weight: 400;
     color: #3c658e;
-    margin-bottom: 80px;
     margin-left: 30px;
 }
 
 #update-btn{
-    display: flex;
     justify-content: end;
-
 }
 
 #profile-btn{
@@ -34,12 +31,14 @@ h1 {
     text-decoration: none; /* No underline */
     display: inline-block; /* Inline block */
     font-size: 20px; /* Increased font size */
-    margin: 4px 2px; /* Margin */
+    margin: 6px 2px; /* Margin */
     cursor: pointer; /* Pointer cursor on hover */
     border: none; /* No border */
     border-radius: 30px; 
-
+    
 }
+
+
 
 .container {
     display: flex;
@@ -87,11 +86,17 @@ h1 {
     transition: 0.3s ease;
 }
 
-#student-img{
+#student-info-container{
     display: flex;
     align-items: center;    
-    justify-content: space-between;
+    justify-content: start;
     margin-left: 15px;
+}
+#student-info-container button{
+    margin-left: 30px;
+}
+#student-img{
+    position: relative;
 }
 
 .student-info {
