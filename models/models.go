@@ -33,6 +33,7 @@ type StudentsFinancialInfo struct {
 	PaymentAmountSem1Year1          float64 `json:"payment_amount_sem1_year1"`
 	PaymentDateSem1Year2            string  `json:"payment_date_sem1_year2"`
 	PaymentAmountSem1Year2          float64 `json:"payment_amount_sem1_year2"`
+	ETC                             string  `json:"etc"`
 	OtherFeesPaymentDate1           string  `json:"other_fees_payment_date1"`
 	OtherFeesDetails1               string  `json:"other_fees_details1"`
 	OtherFeesAmount1                float64 `json:"other_fees_amount1"`
@@ -602,6 +603,7 @@ func GetStudentDetail(studentID int64) (StudentsFinancialInfo, error) {
 		PaymentAmountSem1Year1:          payment_amount_sem1_year1.Float64,
 		PaymentDateSem1Year2:            payment_date_sem1_year2.String,
 		PaymentAmountSem1Year2:          payment_amount_sem1_year2.Float64,
+		ETC:                             etc.String,
 		OtherFeesPaymentDate1:           other_fees_payment_date1.String,
 		OtherFeesDetails1:               other_fees_details1.String,
 		OtherFeesAmount1:                other_fees_amount1.Float64,
@@ -640,4 +642,145 @@ func GetStudentDetail(studentID int64) (StudentsFinancialInfo, error) {
 		UpkeepAmount4:                   upkeep_amount4.Float64,
 	}
 	return studentInfo, nil
+}
+
+func UpdateStudentDetail(studentInfo StudentsFinancialInfo) error {
+
+	db, err := config.GetDB2()
+	if err != nil {
+		log.Println("GetStudentsList: Failed while connecting with database with error: ", err)
+		return err
+	}
+	defer db.Close()
+
+	query := `UPDATE
+				student_financial_info
+			SET 
+    			name = $2,
+    			assistance = $3,
+    			religion = $4,
+    			nrc = $5,
+    			contact = $6,
+    			school = $7,
+    			course = $8,
+    			program_duration = $9,
+    			current_year = $10,
+    			semester_term = $11,
+    			total_course_cost = $12,
+    			estimated_fees_year_1 = $13,
+    			estimated_fees_year_2 = $14,
+    			estimated_fees_year_3 = $15,
+    			estimated_fees_year_4 = $16,
+    			estimated_fees_year_5 = $17,
+    			payment_date_sem1_year1 = CASE WHEN $18 != '' THEN TO_DATE($18, 'DD/MM/YYYY') ELSE NULL END,
+    			payment_amount_sem1_year1 = $19,
+    			payment_date_sem1_year2 = CASE WHEN $20 != '' THEN TO_DATE($20, 'DD/MM/YYYY') ELSE NULL END,
+    			payment_amount_sem1_year2 = $21,
+    			etc = $22,
+    			other_fees_payment_date1 = CASE WHEN $23 != '' THEN TO_DATE($23, 'DD/MM/YYYY') ELSE NULL END,
+    			other_fees_details1 = $24,
+    			other_fees_amount1 = $25, 
+    			other_fees_payment_date2 = CASE WHEN $26 != '' THEN TO_DATE($26, 'DD/MM/YYYY') ELSE NULL END,
+    			other_fees_details2 = $27,
+    			other_fees_amount2 = $28,
+    			other_fees_payment_date3 = CASE WHEN $29 != '' THEN TO_DATE($29, 'DD/MM/YYYY') ELSE NULL END,
+    			other_fees_details3 = $30,
+    			other_fees_amount3 = $31,
+    			projected_total_fees_current_year = $32,
+    			remaining_tuition_fees_current_year = $33,
+    			tuition_fees_paid_by = $34,
+    			rent_payment_date1 = CASE WHEN $35 != '' THEN TO_DATE($35, 'DD/MM/YYYY') ELSE NULL END,
+    			rent_paid_months1 = $36,
+    			rent_amount1 = $37,
+    			rent_payment_date2 = CASE WHEN $38 != '' THEN TO_DATE($38, 'DD/MM/YYYY') ELSE NULL END,
+    			rent_paid_months2 = $39,
+    			rent_amount2 = $40,
+    			rent_payment_date3 = CASE WHEN $41 != '' THEN TO_DATE($41, 'DD/MM/YYYY') ELSE NULL END,
+    			rent_paid_months3 = $42,
+    			rent_amount3 = $43,
+    			rent_payment_date4 = CASE WHEN $44 != '' THEN TO_DATE($44, 'DD/MM/YYYY') ELSE NULL END,
+    			rent_paid_months4 = $45,
+    			rent_amount4 = $46,
+    			upkeep_payment_date1 = CASE WHEN $47 != '' THEN TO_DATE($47, 'DD/MM/YYYY') ELSE NULL END,
+    			upkeep_paid_months1 = $48,
+    			upkeep_amount1 = $49,
+    			upkeep_payment_date2 = CASE WHEN $50 != '' THEN TO_DATE($50, 'DD/MM/YYYY') ELSE NULL END,
+    			upkeep_paid_months2 = $51,
+    			upkeep_amount2 = $52,
+    			upkeep_payment_date3 = CASE WHEN $53 != '' THEN TO_DATE($53, 'DD/MM/YYYY') ELSE NULL END,
+    			upkeep_paid_months3 = $54,
+    			upkeep_amount3 = $55,
+    			upkeep_payment_date4 = CASE WHEN $56 != '' THEN TO_DATE($56, 'DD/MM/YYYY') ELSE NULL END,
+    			upkeep_paid_months4 = $57,
+    			upkeep_amount4 = $58
+			WHERE 
+				id = $1
+			`
+
+	fmt.Println("date", studentInfo.PaymentDateSem1Year2)
+	_, err = db.Exec(query,
+		studentInfo.Id,
+		studentInfo.Name,
+		studentInfo.Assistance,
+		studentInfo.Religion,
+		studentInfo.NRC,
+		studentInfo.Contact,
+		studentInfo.School,
+		studentInfo.Course,
+		studentInfo.ProgramDuration,
+		studentInfo.CurrentYear,
+		studentInfo.SemesterTerm,
+		studentInfo.TotalCourseCost,
+		studentInfo.EstimatedFeesYear1,
+		studentInfo.EstimatedFeesYear2,
+		studentInfo.EstimatedFeesYear3,
+		studentInfo.EstimatedFeesYear4,
+		studentInfo.EstimatedFeesYear5,
+		studentInfo.PaymentDateSem1Year1,
+		studentInfo.PaymentAmountSem1Year1,
+		studentInfo.PaymentDateSem1Year2,
+		studentInfo.PaymentAmountSem1Year2,
+		studentInfo.ETC,
+		studentInfo.OtherFeesPaymentDate1,
+		studentInfo.OtherFeesDetails1,
+		studentInfo.OtherFeesAmount1,
+		studentInfo.OtherFeesPaymentDate2,
+		studentInfo.OtherFeeDetails2,
+		studentInfo.OtherFeesAmount2,
+		studentInfo.OtherFeesPaymentDate3,
+		studentInfo.OtherFeesDetails3,
+		studentInfo.OtherFeesAmount3,
+		studentInfo.ProjectedTotalFeesCurrentYear,
+		studentInfo.RemainingTuitionFeesCurrentYear,
+		studentInfo.TuitionFeesPaidBy,
+		studentInfo.RentPaymentDate1,
+		studentInfo.RentPaidMonths1,
+		studentInfo.RentAmount1,
+		studentInfo.RentPaymentDate2,
+		studentInfo.RentPaidMonths2,
+		studentInfo.RentAmount2,
+		studentInfo.RentPaymentDate3,
+		studentInfo.RentPaidMonths3,
+		studentInfo.RentAmount3,
+		studentInfo.RentPaymentDate4,
+		studentInfo.RentPaidMonths4,
+		studentInfo.RentAmount4,
+		studentInfo.UpkeepPaymentDate1,
+		studentInfo.UpkeepPaidMonths1,
+		studentInfo.UpkeepAmount1,
+		studentInfo.UpkeepPaymentDate2,
+		studentInfo.UpkeepPaidMonths2,
+		studentInfo.UpkeepAmount2,
+		studentInfo.UpkeepPaymentDate3,
+		studentInfo.UpkeepPaidMonths3,
+		studentInfo.UpkeepAmount3,
+		studentInfo.UpkeepPaymentDate4,
+		studentInfo.UpkeepPaidMonths4,
+		studentInfo.UpkeepAmount4,
+	)
+	if err != nil {
+		log.Println("UpdateStudentDetails: failed to update student details with error: ", err)
+		return err
+	}
+	return nil
 }
