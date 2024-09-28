@@ -54,6 +54,13 @@ h1 {
     font-size: 16px;
 }
 
+.text-field:focus {
+    outline: none;
+    border-color: #C4C4C4; /* Keeps the same border color */
+    background-color: white; /* Keeps the background color the same */
+    color: black; /* Keeps the text color the same */
+}
+
 .sidebar {
     width: 250px;
     background-color: #3c658e;

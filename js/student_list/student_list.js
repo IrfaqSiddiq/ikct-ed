@@ -19,7 +19,7 @@ fetch('http://localhost:8778/api/students/list') // Replace with your API URL
                     <td>${item.nrc}</td>
                     <td>${item.contact}</td>
                     <td>${item.string}</td>
-                    <td><a href="#" class="details-button" data-url="/details/${item.id}">Details</a></td> <!-- Details button -->
+                    <td><a href="#" class="details-button" data-url="/v1/student/detail/${item.id}">Details</a></td> <!-- Details button -->
                 `;
 
                 tableBody.appendChild(row);

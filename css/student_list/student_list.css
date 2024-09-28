@@ -12,58 +12,43 @@ body {
     display: flex;
 }
 
-/* Sidebar styles */
 .sidebar {
-    width: 200px;
+    width: 250px;
     background-color: #3c658e;
-    height: 100vh;
+    height: 100%; /* Ensure it occupies full height of the container */
+    padding: 20px;
     position: fixed;
-    border-radius: 0 10px 10px 0; /* Rounded corners */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Shadow on the sidebar */
 }
-
 
 .sidebar ul {
     list-style: none;
-    padding: 20px;
+    padding: 0; /* Ensure no padding */
 }
 
 .sidebar ul li {
-    margin: 20px 0;
+    margin-bottom: 20px;
 }
 
 .sidebar ul li a {
-    color: #ffffff;
+    color: #ecf0f1;
     text-decoration: none;
+    font-weight: 500;
+    font-size: 18px;
     display: block;
-    padding: 5px;
-    transition: background-color 0.3s;
-    border-radius: 8px;
-    box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Remove box appearance and shadow for Admin Portal link */
-.sidebar ul li a.admin-portal {
-    background-color: transparent; /* Remove background color */
-    border-radius: 0; /* Remove rounded corners */
-    box-shadow: none; /* Remove shadow */
-    padding: 10px 20px; /* Adjust padding as needed */
-}
-
-/* Hover effect for Admin Portal link */
-.sidebar ul li a.admin-portal:hover {
-    background-color: #005f8a; /* Optional: Change background color on hover */
-    color: #e0e0e0; /* Lighter text color on hover */
-    transform: none; /* No scale effect */
+    padding: 10px 0;
 }
 
 .sidebar ul li a:hover {
-    background-color: #6ba1f1;
+    background-color: #34495e;
+    padding-left: 10px;
+    transition: 0.3s ease;
 }
+
+
 
 /* Main content styles */
 .main-content {
-    margin-left: 200px;
+    margin-left: 250px;
     padding: 20px;
     width: calc(100% - 200px);
 }

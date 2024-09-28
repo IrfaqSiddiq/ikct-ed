@@ -188,13 +188,29 @@ func StudentListPage(c *gin.Context) {
 
 func StudentDetailPage(c *gin.Context) {
 	// Get the dynamic id from the path
-	studentID := c.Param("id")
-
+	studentID := c.Params.ByName("id")
+	fmt.Println("********studentID", studentID)
 	c.HTML(
 		// Set the HTTP status to 200 (OK)
 		http.StatusOK,
 		// Use the student_detail.html template
 		"student_detail.html",
+		gin.H{
+			"title":      "Student Detail page",
+			"student_id": studentID, // Pass the student ID to the template
+		},
+	)
+}
+
+func UpdateStudentTemplate(c *gin.Context) {
+	// Get the dynamic id from the path
+	studentID := c.Params.ByName("id")
+	fmt.Println("********studentID", studentID)
+	c.HTML(
+		// Set the HTTP status to 200 (OK)
+		http.StatusOK,
+		// Use the student_detail.html template
+		"student_update.html",
 		gin.H{
 			"title":      "Student Detail page",
 			"student_id": studentID, // Pass the student ID to the template
@@ -226,6 +242,37 @@ func GetStudentDetail(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status":       "success",
 		"student_info": studentInfo,
+	})
+}
+
+func UpdateStudentDetail(c *gin.Context) {
+	var studentInfo models.StudentsFinancialInfo
+	err := c.ShouldBindJSON(&studentInfo)
+
+	if err != nil {
+		log.Println("UpdateStudentDetail: Failed to bind json in studentInfo struct with error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "fail",
+			"message": "failed to bind json",
+			"error":   err,
+		})
+		return
+	}
+
+	err = models.UpdateStudentDetail(studentInfo)
+
+	if err != nil {
+		log.Println("UpdateStudentDetail: Failed to update student detail with error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "fail",
+			"message": "Failed to update student detail",
+			"error":   err,
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"status":  "success",
+		"message": "succesfully updated student details",
 	})
 }
 
