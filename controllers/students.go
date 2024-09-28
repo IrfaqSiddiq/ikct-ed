@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"ikct-ed/models"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -245,6 +246,54 @@ func GetStudentDetail(c *gin.Context) {
 	})
 }
 
+func UploadImageofStudent(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Params.ByName("id"), 10, 64)
+	if err != nil {
+		log.Println("UploadImageofStudent: Failed to get student id with error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "fail",
+			"message": "failed to get student id",
+			"error":   err,
+		})
+		return
+	}
+	profilePic, fileHandler, err := c.Request.FormFile("profile_pic")
+	if err != nil {
+		log.Println("UploadImageofStudent: Failed to get profile image with error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "fail",
+			"message": "failed to get profile picture",
+			"error":   err,
+		})
+		return
+	}
+
+	defer profilePic.Close()
+
+	// Read the image file into a byte array
+	imageData, err := ioutil.ReadAll(profilePic)
+	if err != nil {
+		c.String(http.StatusInternalServerError, "Failed to read the image: %v", err)
+		return
+	}
+
+	err = models.UploadImageofStudent(imageData, id)
+	if err != nil {
+		log.Println("UploadImageofStudent: Failed to upload profile image with error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "fail",
+			"message": "failed to upload profile picture",
+			"error":   err,
+		})
+		return
+	}
+	fmt.Printf("Uploaded file: %s, Size: %d bytes\n", fileHandler.Filename, len(imageData))
+	c.JSON(http.StatusOK, gin.H{
+		"status":  "success",
+		"message": "successfully uploaded image",
+	})
+}
+
 func UpdateStudentDetail(c *gin.Context) {
 	var studentInfo models.StudentsFinancialInfo
 	err := c.ShouldBindJSON(&studentInfo)
@@ -300,4 +349,30 @@ func readGoogleSheetsValues(sheetsService *sheets.Service, spreadsheetID string,
 		log.Println("readGoogleSheetsValues: Unable to retrieve data from sheet: ", err)
 	}
 	return resp.Values
+}
+
+func GetImageData(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Params.ByName("id"), 10, 64)
+	if err != nil {
+		log.Println("GetImageData: Failed to get student id with error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "fail",
+			"message": "failed to get student id",
+			"error":   err,
+		})
+		return
+	}
+
+	imageData, err := models.GetImageData(id)
+	if err != nil {
+		log.Println("GetImageData: Failed to get image with error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "fail",
+			"message": "failed to get image",
+			"error":   err,
+		})
+		return
+	}
+	c.Data(http.StatusOK, "image/jpeg", imageData)
+
 }

@@ -784,3 +784,21 @@ func UpdateStudentDetail(studentInfo StudentsFinancialInfo) error {
 	}
 	return nil
 }
+
+func UploadImageofStudent(imageData []byte, id int64) error {
+	db, err := config.GetDB2()
+	if err != nil {
+		log.Println("UploadImageofStudent: Failed while connecting with database with error: ", err)
+		return err
+	}
+	defer db.Close()
+
+	query := ` UPDATE student_financial_info SET profile_pic = $1 WHERE id=$2`
+
+	_, err = db.Exec(query, imageData, id)
+	if err != nil {
+		log.Println("UploadImageofStudent: Failed while executing the query with error: ", err)
+		return err
+	}
+	return nil
+}

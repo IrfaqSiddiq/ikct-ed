@@ -18,7 +18,9 @@ func AddRoutes(router *gin.RouterGroup) {
 			students.POST("/add/csv", controllers.AddStudentsCSV)
 			students.GET("/detail/:id", controllers.GetStudentDetail)
 			students.POST("/add/sheet", controllers.AddStudentsFromSheet)
-			students.PUT("/update/:id",controllers.UpdateStudentDetail)
+			students.PUT("/update/:id", controllers.UpdateStudentDetail)
+			students.POST("/upload/img/:id", controllers.UploadImageofStudent)
+			students.GET("/image/:id",controllers.GetImageData)
 		}
 
 		admin := api.Group("/user")
@@ -32,7 +34,7 @@ func AddRoutes(router *gin.RouterGroup) {
 	{
 		v1.GET("/student/list", controllers.StudentListPage)
 		v1.GET("/student/detail/:id", controllers.StudentDetailPage)
-		v1.GET("/student/update/:id",controllers.UpdateStudentTemplate)
+		v1.GET("/student/update/:id", controllers.UpdateStudentTemplate)
 	}
 	router.GET("/test-css", func(c *gin.Context) {
 		// Debug log file path
