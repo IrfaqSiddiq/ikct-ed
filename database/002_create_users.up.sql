@@ -1,5 +1,5 @@
 CREATE TABLE public.users (
-    id integer NOT NULL,
+    id serial primary key,
     name character varying(100) NOT NULL,
     email character varying(100) NOT NULL,
     password character varying(100) NOT NULL,
@@ -9,9 +9,10 @@ CREATE TABLE public.users (
 );
 
 CREATE TABLE session (
-    id integer NOT NULL,
+    id serial primary key,
     user_id bigint,
     user_token character varying(300) NOT NULL,
+    valid_until timestamp with time zone,
     is_expire boolean,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
 );

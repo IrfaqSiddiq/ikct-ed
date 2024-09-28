@@ -47,8 +47,7 @@ func Login(c *gin.Context) {
 	email := c.PostForm("email")
 	email = strings.ToLower(email)
 	password := c.PostForm("password")
-	fmt.Println("********email", email)
-	fmt.Println("password***********", password)
+
 	if len(email) == 0 {
 		log.Println("Login Failed: Field Email is missing. Email is mandatory")
 		c.JSON(http.StatusBadRequest, gin.H{
