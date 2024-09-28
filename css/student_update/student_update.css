@@ -1,0 +1,204 @@
+/* Reset some default styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    height: 100vh;
+    overflow: hidden; /* Prevent body scroll */
+}
+
+h1 {
+    font-weight: 400;
+    color: #3c658e;
+    margin-left: 30px;
+}
+
+#update-btn{
+    justify-content: end;
+}
+
+#profile-btn{
+    background-color: #3c658e;
+    color: #fff;
+    padding: 15px 20px; /* Increased padding for larger buttons */
+    text-align: center; /* Centered text */
+    text-decoration: none; /* No underline */
+    display: inline-block; /* Inline block */
+    font-size: 20px; /* Increased font size */
+    margin: 6px 2px; /* Margin */
+    cursor: pointer; /* Pointer cursor on hover */
+    border: none; /* No border */
+    border-radius: 30px; 
+    
+}
+
+
+
+.container {
+    display: flex;
+    width: 100%;
+    height: 100vh; /* Make the container full height */
+}
+
+.text-field{
+    border: 1px solid #C4C4C4;
+    width: 100%;
+    margin: 8px 0px;
+    padding: 14px;
+    font-size: 16px;
+}
+
+.text-field:focus {
+    outline: none;
+    border-color: #C4C4C4; /* Keeps the same border color */
+    background-color: white; /* Keeps the background color the same */
+    color: black; /* Keeps the text color the same */
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #3c658e;
+    height: 100%; /* Ensure it occupies full height of the container */
+    padding: 20px;
+    position: fixed;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0; /* Ensure no padding */
+}
+
+.sidebar ul li {
+    margin-bottom: 20px;
+}
+
+.sidebar ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 18px;
+    display: block;
+    padding: 10px 0;
+}
+
+.sidebar ul li a:hover {
+    background-color: #34495e;
+    padding-left: 10px;
+    transition: 0.3s ease;
+}
+
+#student-info-container{
+    display: flex;
+    align-items: center;    
+    justify-content: start;
+    margin-left: 15px;
+}
+#student-info-container button{
+    margin-left: 30px;
+}
+#student-img{
+    position: relative;
+}
+
+.student-info {
+    margin: 20px; /* Space around student info */
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    height: 96vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-left: 280px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.student-info label {
+    font-weight: 500;
+    display: block;
+    margin-top: 10px;
+    color: #232323
+}
+
+.student-info .value {
+    margin-left: 10px;
+    color: #555;
+}
+
+.back-btn {
+    margin-top: 20px;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.back-btn:hover {
+    background-color: #0056b3;
+}
+
+.info-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Align items to the start */
+    margin-bottom: 20px;
+}
+
+.info-box h2{
+    width: 100%;
+    margin-left: 15px;
+    font-weight: 500;
+    margin-top: 15px;
+    font-size: large;
+    color: #3c658e;
+}
+
+.info-label {
+    flex: 0 0 calc(33.333% - 10px); /* 3 in a row, subtract margin space */
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.button-container {
+    margin-top: auto; /* This will push the button to the bottom */
+    text-align: center; /* Center align the button */
+}
+
+.save-button {
+    background-color: #28a745; /* Green background */
+    color: white; /* White text */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around the text */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Cursor changes to pointer on hover */
+    transition: background-color 0.3s; /* Transition effect */
+}
+
+.save-button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .info-label {
+        flex: 0 0 calc(50% - 10px); /* 2 in a row on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .info-label {
+        flex: 0 0 calc(100% - 10px); /* 1 in a row on very small screens */
+    }
+}
+
