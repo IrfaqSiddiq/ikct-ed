@@ -164,8 +164,11 @@
     </div>
 
     <script>
+
         // Wait for the DOM to fully load
         document.addEventListener('DOMContentLoaded', function() {
+            const hostURL = "{{ .host_url }}";
+            console.log(hostURL)
             // Get the form element
             const form = document.getElementById('login-form');
 
@@ -201,7 +204,8 @@
                 .then(data => {
                     // Handle the response from the server
                     console.log('Success:', data);
-                    alert('Login successful!');
+                    window.location.href = '/v1/student/list';
+
                 })
                 .catch((error) => {
                     // Handle any errors
@@ -245,9 +249,6 @@
                 localStorage.removeItem('savedEmail');
                 localStorage.setItem('rememberMe', 'false');
             }
-
-            // Add your form submission logic here
-            alert('Form submitted');
         });
     });
     </script>

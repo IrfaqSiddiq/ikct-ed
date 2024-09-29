@@ -13,11 +13,7 @@ body {
     overflow: hidden; /* Prevent body scroll */
 }
 
-h1 {
-    font-weight: 400;
-    color: #3c658e;
-    margin-left: 30px;
-}
+
 
 #update-btn{
     justify-content: end;
@@ -169,26 +165,6 @@ h1 {
     border-radius: 5px;
 }
 
-.button-container {
-    margin-top: auto; /* This will push the button to the bottom */
-    text-align: center; /* Center align the button */
-}
-
-.save-button {
-    background-color: #28a745; /* Green background */
-    color: white; /* White text */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px 20px; /* Padding around the text */
-    font-size: 16px; /* Font size */
-    cursor: pointer; /* Cursor changes to pointer on hover */
-    transition: background-color 0.3s; /* Transition effect */
-}
-
-.save-button:hover {
-    background-color: #218838; /* Darker green on hover */
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .info-label {
@@ -200,5 +176,19 @@ h1 {
     .info-label {
         flex: 0 0 calc(100% - 10px); /* 1 in a row on very small screens */
     }
+}
+
+#profile-btn{
+    background-color: #3c658e;
+    color: #fff;
+    padding: 15px 20px; /* Increased padding for larger buttons */
+    text-align: center; /* Centered text */
+    text-decoration: none; /* No underline */
+    display: inline-block; /* Inline block */
+    font-size: 20px; /* Increased font size */
+    margin: 6px 2px; /* Margin */
+    cursor: pointer; /* Pointer cursor on hover */
+    border: none; /* No border */
+    border-radius: 30px; 
 }
 

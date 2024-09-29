@@ -7,7 +7,8 @@ function callApiWithId(id) {
         .then(data => {
             console.log(data); // Handle the API response data
             // You can update the DOM or do something with the data here
-            document.getElementById('sname').innerText = `${data.student_info.name}`;
+            document.getElementById('name').value=data.student_info.name || '';
+           
             document.getElementById('assistance').value=data.student_info.assistance || '';
             document.getElementById('Religion').value=data.student_info.religion || '';
             document.getElementById('nrc').value=data.student_info.nrc || '';
