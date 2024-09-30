@@ -112,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // When "View Photo" is clicked
         viewPhotoBtn.onclick = function() {
-            var studentId = "{{ .student_id }}"; // Dynamic student ID from your backend
             var photoUrl = "/api/students/image/" + studentId;
             
             studentPhoto.src = photoUrl; // Set the photo URL
