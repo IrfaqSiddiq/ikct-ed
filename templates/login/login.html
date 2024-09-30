@@ -204,8 +204,11 @@
     </div>
 
     <script>
+
         // Wait for the DOM to fully load
         document.addEventListener('DOMContentLoaded', function() {
+            const hostURL = "{{ .host_url }}";
+            console.log(hostURL)
             // Get the form element
             const form = document.getElementById('login-form');
             const errorModal = document.getElementById('errorModal');
@@ -243,6 +246,8 @@
                 .then(data => {
                     // Handle the response from the server
                     console.log('Success:', data);
+                    window.location.href = '/v1/student/list';
+
                 })
                 .catch((error) => {
                     // Handle any errors

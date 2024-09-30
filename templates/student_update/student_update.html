@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
     <script>
         // Define a global variable to hold the student ID
         var studentId = "{{ .student_id }}"; // Pass the ID from Go template
@@ -24,26 +23,30 @@
         <div class="sidebar">
             <ul>
                 <li><a href="#" class="admin-portal">Admin Portal</a></li>
-                <li><a href="#">Student List</a></li>
+                <li><a href="/v1/student/list">Student List</a></li>
                 <li><a href="#">School</a></li>
                 <li><a href="#">Services</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
         </div>
 
+        
+
         <!-- Student Info -->
-        <div class="student-info">  
-            <div style="width:100%"></div>         
+        <div class="student-info">
+
+        
+            
             <!-- Fields to be populated dynamically -->
             <div class="info-box">
                 <h2>Personal Information</h2>
-                <div class="info-label"></div>
+                <div class="info-label">
                     <label>Name:</label> 
-                    <input type="text" class="text-field" id="sname" name="sname">
+                    <input type="text" class="text-field" id="name" name="name" >
                 </div>
                 <div class="info-label">
                     <label>Assistance:</label> 
-                    <input type="text" class="text-field" id="assistance" name="assistance">
+                    <input type="text" class="text-field" id="assistance" name="assistance" >
                 </div>
                 <div class="info-label">
                     <label>Religion:</label> 
@@ -55,7 +58,7 @@
                 </div>
                 <div class="info-label">
                     <label>Contact:</label> 
-                    <input type="text" class="text-field" id="contact" name="Contact">
+                    <input type="tel" class="text-field" id="contact" name="Contact">
                 </div>
                 <div class="info-label">
                     <label>School:</label> 
@@ -67,15 +70,15 @@
                 </div>
                 <div class="info-label">
                     <label>Program Duration:</label> 
-                    <input type="text" class="text-field" id="program_duration" name="Program_Duration">
+                    <input type="number" class="text-field" id="program_duration" name="Program_Duration">
                 </div>
                 <div class="info-label">
                     <label>Current Year:</label> 
-                    <input type="text" class="text-field" id="current_year" name="Current_Year">
+                    <input type="number" class="text-field" id="current_year" name="Current_Year">
                 </div>
                 <div class="info-label">
                     <label>Semester Term:</label> 
-                    <input type="text" class="text-field" id="semester_term" name="Semester_Term">
+                    <input type="number" class="text-field" id="semester_term" name="Semester_Term">
                 </div>
             </div>
 
@@ -276,13 +279,14 @@
                 <!-- Placeholder for boxes -->
                 <!-- These can be used for future content -->
             </div>
+            <div class="button-container">
+                <button class="save-button" id ="profile-btn" onclick="alert('Changes have been saved!');">Save Changes</button>
+            </div>
         </div>
-    </div>
-
-    <div class="button-container">
-        <button class="save-button" onclick="alert('Changes have been saved!');">Save Changes</button>
+        
     </div>
     
+
     <!-- JavaScript to fetch and populate data -->
     <script src="/js/student_update/student_update.js"></script>
 </body>

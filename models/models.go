@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"time"
 )
 
 type StudentsFinancialInfo struct {
@@ -404,45 +405,45 @@ func GetStudentDetail(studentID int64) (StudentsFinancialInfo, error) {
 		estimated_fees_year_3               sql.NullFloat64
 		estimated_fees_year_4               sql.NullFloat64
 		estimated_fees_year_5               sql.NullFloat64
-		payment_date_sem1_year1             sql.NullString
+		payment_date_sem1_year1             sql.NullTime
 		payment_amount_sem1_year1           sql.NullFloat64
-		payment_date_sem1_year2             sql.NullString
+		payment_date_sem1_year2             sql.NullTime
 		payment_amount_sem1_year2           sql.NullFloat64
 		etc                                 sql.NullString
-		other_fees_payment_date1            sql.NullString
+		other_fees_payment_date1            sql.NullTime
 		other_fees_details1                 sql.NullString
 		other_fees_amount1                  sql.NullFloat64
-		other_fees_payment_date2            sql.NullString
+		other_fees_payment_date2            sql.NullTime
 		other_fees_details2                 sql.NullString
 		other_fees_amount2                  sql.NullFloat64
-		other_fees_payment_date3            sql.NullString
+		other_fees_payment_date3            sql.NullTime
 		other_fees_details3                 sql.NullString
 		other_fees_amount3                  sql.NullFloat64
 		projected_total_fees_current_year   sql.NullFloat64
 		remaining_tuition_fees_current_year sql.NullFloat64
 		tuition_fees_paid_by                sql.NullString
-		rent_payment_date1                  sql.NullString
+		rent_payment_date1                  sql.NullTime
 		rent_paid_months1                   sql.NullString
 		rent_amount1                        sql.NullFloat64
-		rent_payment_date2                  sql.NullString
+		rent_payment_date2                  sql.NullTime
 		rent_paid_months2                   sql.NullString
 		rent_amount2                        sql.NullFloat64
-		rent_payment_date3                  sql.NullString
+		rent_payment_date3                  sql.NullTime
 		rent_paid_months3                   sql.NullString
 		rent_amount3                        sql.NullFloat64
-		rent_payment_date4                  sql.NullString
+		rent_payment_date4                  sql.NullTime
 		rent_paid_months4                   sql.NullString
 		rent_amount4                        sql.NullFloat64
-		upkeep_payment_date1                sql.NullString
+		upkeep_payment_date1                sql.NullTime
 		upkeep_paid_months1                 sql.NullString
 		upkeep_amount1                      sql.NullFloat64
-		upkeep_payment_date2                sql.NullString
+		upkeep_payment_date2                sql.NullTime
 		upkeep_paid_months2                 sql.NullString
 		upkeep_amount2                      sql.NullFloat64
-		upkeep_payment_date3                sql.NullString
+		upkeep_payment_date3                sql.NullTime
 		upkeep_paid_months3                 sql.NullString
 		upkeep_amount3                      sql.NullFloat64
-		upkeep_payment_date4                sql.NullString
+		upkeep_payment_date4                sql.NullTime
 		upkeep_paid_months4                 sql.NullString
 		upkeep_amount4                      sql.NullFloat64
 	)
@@ -580,7 +581,8 @@ func GetStudentDetail(studentID int64) (StudentsFinancialInfo, error) {
 		log.Println("GetStudentsList: Failed while executing the query with error: ", err)
 		return StudentsFinancialInfo{}, err
 	}
-	fmt.Println("*******studentDetails*******", name.String)
+
+	fmt.Println("*******studentDetails*******paymentdatesem1year1", payment_date_sem1_year1.Time.Format("02/01/2006"))
 	studentInfo := StudentsFinancialInfo{
 		Id:                              id,
 		Name:                            name.String,
@@ -599,49 +601,60 @@ func GetStudentDetail(studentID int64) (StudentsFinancialInfo, error) {
 		EstimatedFeesYear3:              estimated_fees_year_3.Float64,
 		EstimatedFeesYear4:              estimated_fees_year_4.Float64,
 		EstimatedFeesYear5:              estimated_fees_year_5.Float64,
-		PaymentDateSem1Year1:            payment_date_sem1_year1.String,
+		PaymentDateSem1Year1:            FormatDateTime(payment_date_sem1_year1),
 		PaymentAmountSem1Year1:          payment_amount_sem1_year1.Float64,
-		PaymentDateSem1Year2:            payment_date_sem1_year2.String,
+		PaymentDateSem1Year2:            FormatDateTime(payment_date_sem1_year2),
 		PaymentAmountSem1Year2:          payment_amount_sem1_year2.Float64,
 		ETC:                             etc.String,
-		OtherFeesPaymentDate1:           other_fees_payment_date1.String,
+		OtherFeesPaymentDate1:           FormatDateTime(other_fees_payment_date1),
 		OtherFeesDetails1:               other_fees_details1.String,
 		OtherFeesAmount1:                other_fees_amount1.Float64,
-		OtherFeesPaymentDate2:           other_fees_payment_date2.String,
+		OtherFeesPaymentDate2:           FormatDateTime(other_fees_payment_date2),
 		OtherFeeDetails2:                other_fees_details2.String,
 		OtherFeesAmount2:                other_fees_amount2.Float64,
-		OtherFeesPaymentDate3:           other_fees_payment_date3.String,
+		OtherFeesPaymentDate3:           FormatDateTime(other_fees_payment_date3),
 		OtherFeesDetails3:               other_fees_details3.String,
 		OtherFeesAmount3:                other_fees_amount3.Float64,
 		ProjectedTotalFeesCurrentYear:   projected_total_fees_current_year.Float64,
 		RemainingTuitionFeesCurrentYear: remaining_tuition_fees_current_year.Float64,
 		TuitionFeesPaidBy:               tuition_fees_paid_by.String,
-		RentPaymentDate1:                rent_payment_date1.String,
+		RentPaymentDate1:                FormatDateTime(rent_payment_date1),
 		RentPaidMonths1:                 rent_paid_months1.String,
 		RentAmount1:                     rent_amount1.Float64,
-		RentPaymentDate2:                rent_payment_date2.String,
+		RentPaymentDate2:                FormatDateTime(rent_payment_date2),
 		RentPaidMonths2:                 rent_paid_months2.String,
 		RentAmount2:                     rent_amount2.Float64,
-		RentPaymentDate3:                rent_payment_date3.String,
+		RentPaymentDate3:                FormatDateTime(rent_payment_date3),
 		RentPaidMonths3:                 rent_paid_months3.String,
 		RentAmount3:                     rent_amount3.Float64,
-		RentPaymentDate4:                rent_payment_date4.String,
+		RentPaymentDate4:                FormatDateTime(rent_payment_date4),
 		RentPaidMonths4:                 rent_paid_months4.String,
 		RentAmount4:                     rent_amount4.Float64,
-		UpkeepPaymentDate1:              upkeep_payment_date1.String,
+		UpkeepPaymentDate1:              FormatDateTime(upkeep_payment_date1),
 		UpkeepPaidMonths1:               upkeep_paid_months1.String,
 		UpkeepAmount1:                   upkeep_amount1.Float64,
-		UpkeepPaymentDate2:              upkeep_payment_date2.String,
+		UpkeepPaymentDate2:              FormatDateTime(upkeep_payment_date2),
 		UpkeepPaidMonths2:               upkeep_paid_months2.String,
 		UpkeepAmount2:                   upkeep_amount2.Float64,
-		UpkeepPaymentDate3:              upkeep_payment_date3.String,
+		UpkeepPaymentDate3:              FormatDateTime(upkeep_payment_date3),
 		UpkeepPaidMonths3:               upkeep_paid_months3.String,
 		UpkeepAmount3:                   upkeep_amount3.Float64,
-		UpkeepPaymentDate4:              upkeep_payment_date4.String,
+		UpkeepPaymentDate4:              FormatDateTime(upkeep_payment_date4),
 		UpkeepPaidMonths4:               upkeep_paid_months4.String,
 		UpkeepAmount4:                   upkeep_amount4.Float64,
 	}
 	return studentInfo, nil
+}
+
+func FormatDateTime(dateTime sql.NullTime) string {
+	paymentDate := ""
+
+	if dateTime.Valid && !dateTime.Time.IsZero() && !dateTime.Time.Equal(time.Time{}) {
+		paymentDate = dateTime.Time.Format("02/01/2006")
+	} else {
+		fmt.Println("*****date is not valid")
+	}
+	return paymentDate
 }
 
 func UpdateStudentDetail(studentInfo StudentsFinancialInfo) error {
@@ -717,7 +730,6 @@ func UpdateStudentDetail(studentInfo StudentsFinancialInfo) error {
 				id = $1
 			`
 
-	fmt.Println("date", studentInfo.PaymentDateSem1Year2)
 	_, err = db.Exec(query,
 		studentInfo.Id,
 		studentInfo.Name,

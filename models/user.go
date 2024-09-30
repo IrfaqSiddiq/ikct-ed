@@ -2,19 +2,21 @@ package models
 
 import (
 	"database/sql"
+	"fmt"
 	"ikct-ed/config"
 	"ikct-ed/utility"
 	"log"
 )
 
 type User struct {
-	ID       int    `form:"id"`
-	Name     string `form:"username" binding:"required"`
-	Email    string `form:"email" binding:"required"`
-	Password string `form:"password"`
-	RoleId   int    `form:"role"`
-	Status   bool   `form:"status"`
-	UserAuth UserAuth
+	ID        int    `form:"id"`
+	Name      string `form:"username" binding:"required"`
+	Email     string `form:"email" binding:"required"`
+	Password  string `form:"password"`
+	RoleId    int    `form:"role"`
+	Status    bool   `form:"status"`
+	LastLogin string
+	UserAuth  UserAuth
 }
 
 type UserStorage struct {
@@ -126,4 +128,52 @@ func (userAuth UserAuth) StoreJwtSessionInDB() error {
 		return err
 	}
 	return nil
+}
+
+func GetUserProfileByToken(tokenString string) (User, error) {
+	var (
+		userID    int64
+		user      User
+		name      sql.NullString
+		email     string
+		password  string
+		status    sql.NullBool
+		lastLogin sql.NullTime
+	)
+	db, err := config.GetDB2()
+	if err != nil {
+		log.Println("[ERROR] GetUserProfileByToken: Failed to connect with database with error: ", err)
+		return User{}, err
+	}
+	defer db.Close()
+
+	query := ` SELECT 
+				u.id,
+				u.name,
+				u.email,
+				u.password,
+				u.status,
+				u.last_login
+			FROM
+				users as u,
+				session as s
+			WHERE
+				u.id= s.user_id AND
+				s.user_token = $1
+				`
+	fmt.Println("***query", query)
+	err = db.QueryRow(query, tokenString).Scan(&userID, &name, &email, &password, &status, &lastLogin)
+	if err != nil {
+		log.Println("[ERROR] GetUserProfileByToken: Failed to execute the query with error: ", err)
+		return User{}, err
+	}
+	user = User{
+		ID:        int(userID),
+		Name:      name.String,
+		Email:     email,
+		Password:  password,
+		Status:    status.Bool,
+		LastLogin: lastLogin.Time.Format("2006-01-02"),
+	}
+	return user, nil
 }

@@ -132,5 +132,9 @@ func CreateSession(c *gin.Context, user *models.User) string {
 		UserID:   int64(user.ID),
 		JWTToken: SessionID,
 	}
+	maxAge := 10000
+
+	c.SetCookie("tokenString", SessionID, maxAge, "/", "localhost", false, true)
+
 	return SessionID
 }

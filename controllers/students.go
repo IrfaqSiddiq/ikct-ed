@@ -295,8 +295,18 @@ func UploadImageofStudent(c *gin.Context) {
 }
 
 func UpdateStudentDetail(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Params.ByName("id"), 10, 64)
+	if err != nil {
+		log.Println("UpdateStudentDetail: Failed to get student id with error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "fail",
+			"message": "failed to get student id",
+			"error":   err,
+		})
+		return
+	}
 	var studentInfo models.StudentsFinancialInfo
-	err := c.ShouldBindJSON(&studentInfo)
+	err = c.ShouldBindJSON(&studentInfo)
 
 	if err != nil {
 		log.Println("UpdateStudentDetail: Failed to bind json in studentInfo struct with error: ", err)
@@ -308,6 +318,7 @@ func UpdateStudentDetail(c *gin.Context) {
 		return
 	}
 
+	studentInfo.Id = id
 	err = models.UpdateStudentDetail(studentInfo)
 
 	if err != nil {

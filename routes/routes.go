@@ -2,7 +2,6 @@ package routes
 
 import (
 	"ikct-ed/controllers"
-	"log"
 	"net/http"
 	"os"
 
@@ -20,7 +19,7 @@ func AddRoutes(router *gin.RouterGroup) {
 			students.POST("/add/sheet", controllers.AddStudentsFromSheet)
 			students.PUT("/update/:id", controllers.UpdateStudentDetail)
 			students.POST("/upload/img/:id", controllers.UploadImageofStudent)
-			students.GET("/image/:id",controllers.GetImageData)
+			students.GET("/image/:id", controllers.GetImageData)
 		}
 
 		admin := api.Group("/user")
@@ -30,22 +29,13 @@ func AddRoutes(router *gin.RouterGroup) {
 		}
 	}
 
-	v1 := router.Group("/v1")
+	v1 := router.Group("/v1", controllers.ValidatePageJWT)
 	{
 		v1.GET("/student/list", controllers.StudentListPage)
 		v1.GET("/student/detail/:id", controllers.StudentDetailPage)
 		v1.GET("/student/update/:id", controllers.UpdateStudentTemplate)
 	}
-	router.GET("/test-css", func(c *gin.Context) {
-		// Debug log file path
-		filePath := "./css/student_list/student_list.css"
-		if _, err := os.Stat(filePath); os.IsNotExist(err) {
-			log.Printf("File does not exist: %s", filePath)
-		} else {
-			log.Printf("File exists: %s", filePath)
-		}
-		c.File("/Users/tutree/personal/ikct-ed/css/student_list/student_list.css")
-	})
+
 }
 
 func SetupRouter() *gin.Engine {
