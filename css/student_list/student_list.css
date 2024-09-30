@@ -111,7 +111,7 @@ th {
     margin-bottom: 20px; /* Space below the header */
 }
 
-.upload-button {
+#upload-button {
     background-color: #3c658e;
     color: #fff;
     padding: 15px 20px; /* Increased padding for larger buttons */
@@ -125,6 +125,6 @@ th {
     border-radius: 30px;
 }
 
-.upload-button:hover {
+#upload-button:hover {
     background-color: #0056b3;
 }
