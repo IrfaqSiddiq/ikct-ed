@@ -18,23 +18,23 @@
 <body>
 
     <div id="myModal" class="modal">
-
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close">&times;</span>
-            <button id="viewPhotoBtn" class="popup-btn">View Photo</button>
-            <button id="uploadPhotoBtn" class="popup-btn">Upload Photo</button>
             
-            <!-- View photo section -->
-            <div id="view-photo">
-                <img id="student-photo" src="" alt="Student Photo" style="max-width: 100%;">
+            <!-- Heading for the modal -->
+            <h2 class="modal-heading">Profile Photo</h2>
+            
+            <!-- View and change photo section -->
+            <div id="view-photo" class="center-content">
+                <img id="student-photo" src="" alt="Student Photo" class="circular-photo">
+                <button id="changePhotoBtn" class="popup-btn">Change Photo</button>
             </div>
-
-            <!-- Upload photo section -->
+    
+            <!-- Upload photo section (hidden input for selecting file) -->
             <input type="file" id="uploadPhotoInput" accept="image/*" style="display: none;">
         </div>
-
-    </div>
+    </div>    
 
 
     <div class="container">
