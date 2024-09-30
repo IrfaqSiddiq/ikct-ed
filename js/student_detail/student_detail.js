@@ -71,3 +71,89 @@ function callApiWithId(id) {
 document.addEventListener('DOMContentLoaded', function () {
     callApiWithId(studentId); // Call the API with the student ID
 });
+
+var modal = document.getElementById("myModal");
+
+        // Get the icon that opens the modal
+        var icon = document.getElementById("icon");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // Get the buttons
+        var viewPhotoBtn = document.getElementById("viewPhotoBtn");
+        var uploadPhotoBtn = document.getElementById("uploadPhotoBtn");
+
+        // Get the view photo section and image element
+        var viewPhotoSection = document.getElementById("view-photo");
+        var studentPhoto = document.getElementById("student-photo");
+
+        // Get the file input for uploading
+        var uploadPhotoInput = document.getElementById("uploadPhotoInput");
+
+        // When the user clicks on the icon, open the modal
+        icon.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+            viewPhotoSection.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                viewPhotoSection.style.display = "none";
+            }
+        }
+
+        // When "View Photo" is clicked
+        viewPhotoBtn.onclick = function() {
+            var studentId = "{{ .student_id }}"; // Dynamic student ID from your backend
+            var photoUrl = "/api/students/image/" + studentId;
+            
+            studentPhoto.src = photoUrl; // Set the photo URL
+            viewPhotoSection.style.display = "block"; // Show the photo section
+        }
+
+        // When "Upload Photo" is clicked
+        uploadPhotoBtn.onclick = function() {
+            uploadPhotoInput.click(); // Trigger the file input
+        }
+
+        // Handle the file input change event
+            uploadPhotoInput.onchange = function(event) {
+            var selectedFile = event.target.files[0];
+            if (selectedFile) {
+                console.log("File selected:", selectedFile.name);
+                
+                // Create a FormData object to send the file
+                var formData = new FormData();
+                formData.append("profilePic", selectedFile); // Use the same field name as expected by the Go API
+                
+                // Fetch API to send the file to the server
+                fetch(`/api/upload/img/${studentId}`, { // Assuming studentId is defined and holds the student's ID
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Failed to upload image");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Success:", data);
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+            }
+        }
+        
+        
+        
+        

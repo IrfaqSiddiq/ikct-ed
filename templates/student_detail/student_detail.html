@@ -17,6 +17,25 @@
 </head>
 <body>
 
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <button id="viewPhotoBtn" class="popup-btn">View Photo</button>
+            <button id="uploadPhotoBtn" class="popup-btn">Upload Photo</button>
+            
+            <!-- View photo section -->
+            <div id="view-photo">
+                <img id="student-photo" src="" alt="Student Photo" style="max-width: 100%;">
+            </div>
+
+            <!-- Upload photo section -->
+            <input type="file" id="uploadPhotoInput" accept="image/*" style="display: none;">
+        </div>
+
+    </div>
+
 
     <div class="container">
         <!-- Sidebar -->
@@ -38,7 +57,7 @@
             <div id="student-info-container">
                 <div id="student-img">
                     <img src="/api/students/image/{{ .student_id }}" style="border: 2px solid black; width: 150px; height: 150px; border-radius: 50%;" alt="">
-                    <img src="/static/img/edit.svg" style="cursor: pointer; position: absolute; width: 56px; height: 56px; bottom: 0px; right: 0px;" alt="">                      
+                    <img id="icon" src="/static/img/icon.svg" style="cursor: pointer; position: absolute; width: 56px; height: 56px; bottom: 0px; right: 0px;" alt="">                      
                 </div>
                 <div style="width: 100%;">
                     <h1 id="name">Name</h1>

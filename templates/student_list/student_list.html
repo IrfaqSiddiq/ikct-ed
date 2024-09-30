@@ -26,7 +26,11 @@
 
         <!-- Main content area -->
         <div class="main-content">
-            <h1>Data Table</h1>
+            <div class="header">
+                <h1>Data Table</h1>
+                <button class="upload-button">Upload Data</button>
+                <input type="file" id="file-input" accept=".csv" style="display: none;" />
+            </div>
             <table id="data-table">
                 <thead>
                     <tr>
