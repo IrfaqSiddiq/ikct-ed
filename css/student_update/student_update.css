@@ -30,7 +30,7 @@ body {
     margin: 6px 2px; /* Margin */
     cursor: pointer; /* Pointer cursor on hover */
     border: none; /* No border */
-    border-radius: 30px; 
+    border-radius: 4px; 
     
 }
 
@@ -176,19 +176,5 @@ body {
     .info-label {
         flex: 0 0 calc(100% - 10px); /* 1 in a row on very small screens */
     }
-}
-
-#profile-btn{
-    background-color: #3c658e;
-    color: #fff;
-    padding: 15px 20px; /* Increased padding for larger buttons */
-    text-align: center; /* Centered text */
-    text-decoration: none; /* No underline */
-    display: inline-block; /* Inline block */
-    font-size: 20px; /* Increased font size */
-    margin: 6px 2px; /* Margin */
-    cursor: pointer; /* Pointer cursor on hover */
-    border: none; /* No border */
-    border-radius: 30px; 
 }
 

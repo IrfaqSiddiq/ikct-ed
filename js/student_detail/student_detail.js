@@ -70,4 +70,10 @@ function callApiWithId(id) {
 // Call the API when the page loads
 document.addEventListener('DOMContentLoaded', function () {
     callApiWithId(studentId); // Call the API with the student ID
+
+    document.getElementById('profile-btn').addEventListener('click', saveChanges);
+
+async function saveChanges() {
+    window.location.href=`/v1/student/update/${studentId}`
+    }
 });

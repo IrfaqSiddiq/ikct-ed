@@ -44,6 +44,11 @@ body {
     transition: 0.3s ease;
 }
 
+h1{
+    font-weight: 500;
+    color: #3c658e;
+}
+
 
 
 /* Main content styles */
@@ -68,12 +73,15 @@ th, td {
 
 th {
     background-color: #f2f2f2;
+    font-weight:600;
 }
 
 /* Remove borders and outlines from the table */
 #data-table {
     border-collapse: separate; /* Ensures borders are collapsed */
     width: 100%; /* Adjust table width if necessary */
+    height: 100%;
+    padding: 15px;
 }
 
 #data-table th, #data-table td {
@@ -93,5 +101,6 @@ th {
 .details-button {
     border: none;
     outline: none;
+    color: #3c658e;
 }
 
