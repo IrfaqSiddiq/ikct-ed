@@ -71,73 +71,56 @@ function callApiWithId(id) {
 document.addEventListener('DOMContentLoaded', function () {
     callApiWithId(studentId); // Call the API with the student ID
 
+    var modal = document.getElementById("myModal");
+    var icon = document.getElementById("icon");
+    var span = document.getElementsByClassName("close")[0];
+    var studentPhoto = document.getElementById("student-photo");
+    var viewPhotoSection = document.getElementById("view-photo");
+    var changePhotoBtn = document.getElementById("changePhotoBtn");
+    var uploadPhotoInput = document.getElementById("uploadPhotoInput");
 
-        var modal = document.getElementById("myModal");
+    // When the user clicks on the icon, open the modal and show the student image
+    icon.onclick = function () {
+        modal.style.display = "block";
 
-        // Get the icon that opens the modal
-        var icon = document.getElementById("icon");
+        // Display student's current photo
+        var photoUrl = "/api/students/image/" + studentId;
+        studentPhoto.src = photoUrl;
+        viewPhotoSection.style.display = "block";
+    };
 
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-
-        // Get the buttons
-        var viewPhotoBtn = document.getElementById("viewPhotoBtn");
-        var uploadPhotoBtn = document.getElementById("uploadPhotoBtn");
-
-        // Get the view photo section and image element
-        var viewPhotoSection = document.getElementById("view-photo");
-        var studentPhoto = document.getElementById("student-photo");
-
-        // Get the file input for uploading
-        var uploadPhotoInput = document.getElementById("uploadPhotoInput");
-
-        // When the user clicks on the icon, open the modal
-        icon.onclick = function() {
-            modal.style.display = "block";
-        }
-
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
+    // Close modal when clicking the 'x' or outside the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+        viewPhotoSection.style.display = "none";
+    };
+    window.onclick = function (event) {
+        if (event.target == modal) {
             modal.style.display = "none";
             viewPhotoSection.style.display = "none";
         }
+    };
 
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-                viewPhotoSection.style.display = "none";
-            }
-        }
+    // Trigger file input click when "Change Photo" is clicked
+    changePhotoBtn.onclick = function () {
+        uploadPhotoInput.click(); // Trigger the file input
+    };
 
-        // When "View Photo" is clicked
-        viewPhotoBtn.onclick = function() {
-            var photoUrl = "/api/students/image/" + studentId;
-            
-            studentPhoto.src = photoUrl; // Set the photo URL
-            viewPhotoSection.style.display = "block"; // Show the photo section
-        }
+    // Handle file input change and upload the selected image
+    uploadPhotoInput.onchange = function (event) {
+        var selectedFile = event.target.files[0];
+        if (selectedFile) {
+            console.log("File selected:", selectedFile.name);
 
-        // When "Upload Photo" is clicked
-        uploadPhotoBtn.onclick = function() {
-            uploadPhotoInput.click(); // Trigger the file input
-        }
+            // Create a FormData object to send the file
+            var formData = new FormData();
+            formData.append("profilePic", selectedFile); // Adjust according to your API
 
-        // Handle the file input change event
-            uploadPhotoInput.onchange = function(event) {
-            var selectedFile = event.target.files[0];
-            if (selectedFile) {
-                console.log("File selected:", selectedFile.name);
-                
-                // Create a FormData object to send the file
-                var formData = new FormData();
-                formData.append("profilePic", selectedFile); // Use the same field name as expected by the Go API
-                
-                // Fetch API to send the file to the server
-                fetch(`/api/upload/img/${studentId}`, { // Assuming studentId is defined and holds the student's ID
-                    method: 'POST',
-                    body: formData
-                })
+            // Fetch API to upload the file
+            fetch(`/api/upload/img/${studentId}`, { // Replace with your API endpoint
+                method: 'POST',
+                body: formData
+            })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error("Failed to upload image");
@@ -146,12 +129,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .then(data => {
                     console.log("Success:", data);
+                    // Optionally refresh the student's photo in the modal
+                    studentPhoto.src = "/api/students/image/" + studentId + "?" + new Date().getTime(); // Force browser to load updated image
                 })
                 .catch(error => {
                     console.error("Error:", error);
                 });
-            }
         }
+    };
+
         
         
         

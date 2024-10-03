@@ -1,8 +1,6 @@
 // student_list.js
 
 const tableBody = document.getElementById('table-body');
-const uploadButton = document.getElementById('upload-button');
-const fileInput = document.getElementById('file-input');
 
 fetch('http://localhost:8778/api/students/list') // Replace with your API URL
     .then(response => response.json())
@@ -41,26 +39,29 @@ fetch('http://localhost:8778/api/students/list') // Replace with your API URL
     })
     .catch(error => console.error('Error fetching data:', error));
 
-    uploadButton.addEventListener('click', () => {
-        console.log("Upload button clicked"); // Debug log
-        fileInput.click(); // Trigger the hidden file input
-    });
-    
-    // Event listener for file input change
-    fileInput.addEventListener('change', (event) => {
-        console.log("File input changed"); // Debug log
-        const file = event.target.files[0];
-        if (file) {
-            console.log("File selected:", file.name); // Debug log
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const contents = e.target.result;
-                console.log("File contents:", contents); // Log the file contents
-                // Process the CSV contents here
-                // You can parse and handle the CSV data as needed
-            };
-            reader.readAsText(file); // Read the file as text
-        } else {
-            console.log("No file selected"); // Debug log
-        }
+    document.addEventListener('DOMContentLoaded', () => {
+        const uploadButton = document.getElementById('upload-button');
+        const fileInput = document.getElementById('file-input');
+        
+        uploadButton.addEventListener('click', () => {
+            console.log("Upload button clicked"); // Debug log
+            fileInput.click(); // Trigger the hidden file input
+        });
+        
+        fileInput.addEventListener('change', (event) => {
+            console.log("File input changed"); // Debug log
+            const file = event.target.files[0];
+            if (file) {
+                console.log("File selected:", file.name); // Debug log
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const contents = e.target.result;
+                    console.log("File contents:", contents); // Log the file contents
+                    // Process the CSV contents here
+                };
+                reader.readAsText(file); // Read the file as text
+            } else {
+                console.log("No file selected"); // Debug log
+            }
+        });
     });
