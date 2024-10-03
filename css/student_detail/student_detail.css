@@ -26,11 +26,11 @@ h1 {
 #profile-btn{
     background-color: #3c658e;
     color: #fff;
-    padding: 15px 20px; /* Increased padding for larger buttons */
+    padding: 12px 15px; /* Increased padding for larger buttons */
     text-align: center; /* Centered text */
     text-decoration: none; /* No underline */
     display: inline-block; /* Inline block */
-    font-size: 20px; /* Increased font size */
+    font-size: 17px; /* Increased font size */
     margin: 6px 2px; /* Margin */
     cursor: pointer; /* Pointer cursor on hover */
     border: none; /* No border */
@@ -227,17 +227,23 @@ h1 {
     border-radius: 50%; /* Makes the image circular */
     border: 1px solid black; /* Circular frame */
     margin-bottom: 20px; /* Add some space below the image */
-    margin-left: 10px;
+    margin-left: 75px;
+}
+
+.button-container {
+    display: flex; /* Display buttons in a row */
+    justify-content: space-between; /* Add space between the buttons */
+    gap: 30px; /* Optional: Add some space between the buttons */
 }
 
 /* Button Styles */
 .popup-btn {
     background-color: #3c658e;
     color: #fff;
-    padding: 15px 20px;
+    padding: 12px 15px;
     text-align: center;
     display: block;
-    font-size: 20px;
+    font-size: 17px;
     margin: 6px 0;
     cursor: pointer;
     border: none;
