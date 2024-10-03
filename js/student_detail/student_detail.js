@@ -131,10 +131,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                 // Create a FormData object to send the file
                 var formData = new FormData();
-                formData.append("profilePic", selectedFile); // Use the same field name as expected by the Go API
+                formData.append("profile_pic", selectedFile); // Use the same field name as expected by the Go API
                 
                 // Fetch API to send the file to the server
-                fetch(`/api/upload/img/${studentId}`, { // Assuming studentId is defined and holds the student's ID
+                fetch(`/api/students/upload/img/${studentId}`, { // Assuming studentId is defined and holds the student's ID
                     method: 'POST',
                     body: formData
                 })

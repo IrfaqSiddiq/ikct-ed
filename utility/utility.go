@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"database/sql"
 	"encoding/hex"
+	"fmt"
 	"os"
 	"strings"
 	"time"
@@ -61,6 +62,7 @@ func HashPassword(password string) string {
 	salt := GetSaltDetails()
 	hasher := sha256.New()
 	hasher.Write([]byte(password + salt))
+	fmt.Println("password:", hex.EncodeToString(hasher.Sum(nil)))
 	return hex.EncodeToString(hasher.Sum(nil))
 }
 
