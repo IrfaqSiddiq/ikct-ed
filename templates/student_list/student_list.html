@@ -8,7 +8,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script>
+        // Define a global variable to hold the student ID
+        var userId = "{{ .userID }}"; // Pass the ID from Go template
+        console.log("User ID: ",userID)
+    </script>
 </head>
+
 <body>
     <div class="container">
         <!-- Sidebar -->
@@ -20,9 +26,20 @@
                 <li><a href="#">School</a></li>
                 <li><a href="#">Services</a></li>
                 <li><a href="#">Contact</a></li>
+                <li><a href="#" id="logout-button">Log Out</a></li>
             </ul>
         </div>
         
+        <div id="logoutModal" class="modal">
+            <div class="modal-content">
+                <h2>Confirm Logout</h2>
+                <p>Are you sure you want to log out?</p>
+                <div class="modal-actions">
+                    <button id="confirmLogoutBtn" class="popup-btn">Yes</button>
+                    <button id="cancelLogoutBtn" class="popup-btn">No</button>
+                </div>
+            </div>
+        </div>
 
         <!-- Main content area -->
         <div class="main-content">

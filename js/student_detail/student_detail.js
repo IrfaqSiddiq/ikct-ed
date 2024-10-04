@@ -78,6 +78,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var viewPhotoSection = document.getElementById("view-photo");
     var changePhotoBtn = document.getElementById("changePhotoBtn");
     var uploadPhotoInput = document.getElementById("uploadPhotoInput");
+    const logoutButton = document.getElementById('logout-button');
+    const logoutModal = document.getElementById('logoutModal');
+    const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
+    const cancelLogoutBtn = document.getElementById('cancelLogoutBtn');
 
     // When the user clicks on the icon, open the modal and show the student image
     icon.onclick = function () {
@@ -150,6 +154,27 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 }}
 
+    
+    logoutButton.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent default behavior
+        logoutModal.style.display = 'block'; // Show modal
+    });
+
+    cancelLogoutBtn.addEventListener('click', () => {
+        logoutModal.style.display = 'none'; // Hide modal
+    });
+
+    // Confirm logout and redirect
+    confirmLogoutBtn.addEventListener('click', () => {
+        window.location.href = `/login?user_id=${userId}`; // Redirect to logout page
+    });
+
+    // Close the modal if clicking outside the modal content
+    window.addEventListener('click', (event) => {
+        if (event.target == logoutModal) {
+            logoutModal.style.display = 'none';
+        }
+    });
 
 
         

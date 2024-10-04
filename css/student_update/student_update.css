@@ -19,19 +19,19 @@ body {
     justify-content: end;
 }
 
-#profile-btn{
+#profile-btn {
     background-color: #3c658e;
     color: #fff;
-    padding: 15px 20px; /* Increased padding for larger buttons */
-    text-align: center; /* Centered text */
-    text-decoration: none; /* No underline */
-    display: inline-block; /* Inline block */
-    font-size: 20px; /* Increased font size */
-    margin: 6px 2px; /* Margin */
-    cursor: pointer; /* Pointer cursor on hover */
-    border: none; /* No border */
-    border-radius: 4px; 
-    
+    padding: 12px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 17px;
+    margin: 6px 2px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    margin-left: 15px;
 }
 
 
@@ -163,6 +163,94 @@ body {
     padding: 10px;
     margin: 5px;
     border-radius: 5px;
+}
+
+/* Modal Background */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0, 0, 0, 0.7); /* Darker black background with higher opacity */
+    transition: all 0.3s ease-in-out; /* Smooth transition effect */
+    backdrop-filter: blur(3px); /* Add a subtle blur effect for background */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* When the modal is displayed */
+.modal.show .modal-content {
+    transform: scale(1); /* Full size on display */
+}
+
+/* Modal heading */
+.modal-content h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    color: #3c658e;
+    margin-bottom: 20px;
+}
+
+/* Modal actions - Flexbox for button alignment */
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Button styles */
+.popup-btn {
+    background-color: #3c658e;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    outline: none;
+}
+
+/* Button hover and active state */
+.popup-btn:hover {
+    background-color: #2a4a6b;
+    transform: translateY(-3px); /* Subtle lift on hover */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1); /* Shadow effect on hover */
+}
+
+.popup-btn:active {
+    transform: translateY(2px); /* Slight press down on click */
+    background-color: #254057; /* Darker color when clicked */
+}
+
+/* Modal animation for opening */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apply fade-in effect to the modal */
+.modal.show .modal-content {
+    animation: modalFadeIn 0.5s ease;
 }
 
 /* Responsive adjustments */

@@ -68,6 +68,8 @@ function callApiWithId(id) {
         .catch(error => console.error('Error:', error));
 }
 
+
+
 // Call the API when the page loads
 document.addEventListener('DOMContentLoaded', function () {
     callApiWithId(studentId); // Call the API with the student ID
@@ -162,6 +164,34 @@ async function saveChanges() {
     }
 }
 
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const logoutButton = document.getElementById('logout-button');
+    const logoutModal = document.getElementById('logoutModal');
+    const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
+    const cancelLogoutBtn = document.getElementById('cancelLogoutBtn');
+
+    logoutButton.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent default behavior
+        logoutModal.style.display = 'block'; // Show modal
+    });
+
+    cancelLogoutBtn.addEventListener('click', () => {
+        logoutModal.style.display = 'none'; // Hide modal
+    });
+
+    // Confirm logout and redirect
+    confirmLogoutBtn.addEventListener('click', () => {
+        window.location.href = `/login?user_id=${userId}`; // Redirect to logout page
+    });
+
+    // Close the modal if clicking outside the modal content
+    window.addEventListener('click', (event) => {
+        if (event.target == logoutModal) {
+            logoutModal.style.display = 'none';
+        }
+    });
 });
 
 
