@@ -6,6 +6,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"ikct-ed/models"
+	"ikct-ed/utility"
 	"io"
 	"io/ioutil"
 	"log"
@@ -176,13 +177,15 @@ func AddStudentsCSV(c *gin.Context) {
 }
 
 func StudentListPage(c *gin.Context) {
+	hostURL := utility.GetHostURL()
 	c.HTML(
 		// Set the HTTP status to 200 (OK)
 		http.StatusOK,
 		// Use the login.html template
 		"student_list.html",
 		gin.H{
-			"title": "Student List page",
+			"title":    "Student List page",
+			"host_url": hostURL,
 		},
 	)
 }
@@ -190,7 +193,7 @@ func StudentListPage(c *gin.Context) {
 func StudentDetailPage(c *gin.Context) {
 	// Get the dynamic id from the path
 	studentID := c.Params.ByName("id")
-	fmt.Println("********studentID", studentID)
+	hostURL := utility.GetHostURL()
 	c.HTML(
 		// Set the HTTP status to 200 (OK)
 		http.StatusOK,
@@ -198,7 +201,8 @@ func StudentDetailPage(c *gin.Context) {
 		"student_detail.html",
 		gin.H{
 			"title":      "Student Detail page",
-			"student_id": studentID, // Pass the student ID to the template
+			"student_id": studentID,
+			"host_url":   hostURL,
 		},
 	)
 }
@@ -206,7 +210,7 @@ func StudentDetailPage(c *gin.Context) {
 func UpdateStudentTemplate(c *gin.Context) {
 	// Get the dynamic id from the path
 	studentID := c.Params.ByName("id")
-	fmt.Println("********studentID", studentID)
+	hostURL := utility.GetHostURL()
 	c.HTML(
 		// Set the HTTP status to 200 (OK)
 		http.StatusOK,
@@ -214,7 +218,8 @@ func UpdateStudentTemplate(c *gin.Context) {
 		"student_update.html",
 		gin.H{
 			"title":      "Student Detail page",
-			"student_id": studentID, // Pass the student ID to the template
+			"student_id": studentID,
+			"host_url":   hostURL,
 		},
 	)
 }

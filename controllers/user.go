@@ -7,6 +7,7 @@ import (
 	"ikct-ed/utility"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -134,7 +135,7 @@ func CreateSession(c *gin.Context, user *models.User) string {
 	}
 	maxAge := 10000
 
-	c.SetCookie("tokenString", SessionID, maxAge, "/", "localhost", false, true)
-
+	c.SetCookie("tokenString", SessionID, maxAge, "/", os.Getenv("DOMAIN"), false, true)
+	fmt.Println("******cookie set")
 	return SessionID
 }

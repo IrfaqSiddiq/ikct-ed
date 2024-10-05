@@ -53,7 +53,7 @@ func CreateJWT(user models.User) (string, error) {
 func ValidatePageJWT(c *gin.Context) {
 
 	tokenString, _ := c.Cookie("tokenString")
-	fmt.Println("*******hiiiii", tokenString)
+	fmt.Println("*******tokenString", tokenString)
 	_, err := models.GetUserProfileByToken(tokenString)
 	if err != nil {
 		log.Println("ValidatePageJWT : Failed to get user by user id with error : ", err)

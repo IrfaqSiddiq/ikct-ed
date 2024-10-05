@@ -1,8 +1,9 @@
 // student_list.js
 
 const tableBody = document.getElementById('table-body');
+console.log("jsfile host url",hostURL)
 
-fetch('http://localhost:8778/api/students/list') // Replace with your API URL
+fetch(`${hostURL}/api/students/list`) // Replace with your API URL
     .then(response => response.json())
     .then(data => {
         // Ensure the API response contains the students_info array

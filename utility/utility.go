@@ -75,6 +75,6 @@ func GetSaltDetails() string {
 	return os.Getenv("SALT")
 }
 
-func GetHostURL()string{
+func GetHostURL() string {
 	return os.Getenv("HOST_URL")
 }

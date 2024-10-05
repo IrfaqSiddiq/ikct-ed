@@ -1,7 +1,7 @@
 // Function to call the API with the student ID
-function callApiWithId(id) {
+function callApiWithId(id, hostURL) {
     console.log("ID: ",id)
-    const apiUrl = `http://localhost:8778/api/students/detail/${id}`; // Replace with your actual API URL
+    const apiUrl = `${hostURL}/api/students/detail/${id}`; // Replace with your actual API URL
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
@@ -72,7 +72,7 @@ function callApiWithId(id) {
 
 // Call the API when the page loads
 document.addEventListener('DOMContentLoaded', function () {
-    callApiWithId(studentId); // Call the API with the student ID
+    callApiWithId(studentId,hostURL); // Call the API with the student ID
     
     document.getElementById('profile-btn').addEventListener('click', saveChanges);
 

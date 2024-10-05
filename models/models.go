@@ -228,6 +228,8 @@ func InsertCSVIntoDB(filePath string) error {
 		) FROM '%s' WITH CSV HEADER`, filePath)
 
 	fmt.Println("temp query", query)
+
+	os.Setenv("PGPASSWORD", os.Getenv("DBPASS"))
 	// Construct the \copy command
 	cmd := exec.Command("psql", "-U", os.Getenv("DBUSER"), "-d", os.Getenv("DBNAME"), "-c",
 		query)
