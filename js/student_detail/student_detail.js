@@ -111,15 +111,6 @@ document.addEventListener('DOMContentLoaded', function () {
         uploadPhotoInput.click(); // Trigger the file input
     };
 
-    // Handle file input change and upload the selected image
-    uploadPhotoInput.onchange = function (event) {
-        var selectedFile = event.target.files[0];
-        if (selectedFile) {
-            console.log("File selected:", selectedFile.name);
-
-            // Create a FormData object to send the file
-            var formData = new FormData();
-            formData.append("profile_pic", selectedFile); // Adjust according to your API
 
         // Handle the file input change event
             uploadPhotoInput.onchange = function(event) {
@@ -144,8 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .then(data => {
                     console.log("Success:", data);
-                    // Optionally refresh the student's photo in the modal
-                    studentPhoto.src = "/api/students/image/" + studentId + "?" + new Date().getTime(); // Force browser to load updated image
+                    window.location.reload();
                 })
                 .catch(error => {
                     console.error("Error:", error);
@@ -153,7 +143,30 @@ document.addEventListener('DOMContentLoaded', function () {
             
         }
     };
-}}
+
+    deletePhotoButton.onclick = function () {
+        // Confirm if the user really wants to delete the photo
+        if (confirm("Are you sure you want to delete your profile photo?")) {
+            // Assuming studentId is defined and holds the student's ID
+            fetch(`/api/students/delete/img/${studentId}`, { 
+                method: 'DELETE' // Use the DELETE method
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to delete image");
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Photo deleted successfully:", data);
+                // Optionally update the UI to reflect the deletion
+                studentPhoto.src = "/path/to/default/photo.jpg"; // Set to a default image after deletion
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        }
+    };
 
     
     logoutButton.addEventListener('click', (event) => {
