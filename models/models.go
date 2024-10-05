@@ -229,7 +229,7 @@ func InsertCSVIntoDB(filePath string) error {
 
 	fmt.Println("temp query", query)
 	// Construct the \copy command
-	cmd := exec.Command("psql", "-U", "postgres", "-d", os.Getenv("DBNAME"), "-c",
+	cmd := exec.Command("psql", "-U", os.Getenv("DBUSER"), "-d", os.Getenv("DBNAME"), "-c",
 		query)
 
 	// Run the command and capture any errors
