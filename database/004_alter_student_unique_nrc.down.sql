@@ -1,0 +1,2 @@
+ALTER TABLE student_financial_info
+DROP CONSTRAINT student_financial_info_unique_nrc;

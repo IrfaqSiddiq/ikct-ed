@@ -377,7 +377,7 @@ SELECT
 	upkeep_paid_months4,
 	upkeep_amount4
  FROM temp_student_financial_info
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (nrc) DO NOTHING;
 `
 
 	_, err = db.Exec(query)
