@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var span = document.getElementsByClassName("close")[0];
     var studentPhoto = document.getElementById("student-photo");
     var viewPhotoSection = document.getElementById("view-photo");
+    const noPhotoText = document.getElementById("no-photo-text");
     var changePhotoBtn = document.getElementById("changePhotoBtn");
     var uploadPhotoInput = document.getElementById("uploadPhotoInput");
     const logoutButton = document.getElementById('logout-button');
@@ -91,7 +92,15 @@ document.addEventListener('DOMContentLoaded', function () {
         // Display student's current photo
         var photoUrl = "/api/students/image/" + studentId;
         studentPhoto.src = photoUrl;
-        viewPhotoSection.style.display = "block";
+        studentPhoto.onload = function() {
+            viewPhotoSection.style.display = "block"; // Show photo section when image is loaded
+            document.getElementById('no-photo-text').style.display = "none"; // Hide "NO Profile Photo" text if the image loads
+        };
+        
+        studentPhoto.onerror = function() {
+            studentPhoto.style.display = "none"; // Hide the photo if there's an error loading it
+            document.getElementById('no-photo-text').style.display = "block"; // Show "NO Profile Photo" text if image fails to load
+        };
     };
 
     // Close modal when clicking the 'x' or outside the modal
@@ -144,9 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    deletePhotoButton.onclick = function () {
-        // Confirm if the user really wants to delete the photo
-        if (confirm("Are you sure you want to delete your profile photo?")) {
+    deletePhotoBtn.onclick = function () {
             // Assuming studentId is defined and holds the student's ID
             fetch(`/api/students/delete/img/${studentId}`, { 
                 method: 'DELETE' // Use the DELETE method
@@ -159,13 +166,11 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(data => {
                 console.log("Photo deleted successfully:", data);
-                // Optionally update the UI to reflect the deletion
-                studentPhoto.src = "/path/to/default/photo.jpg"; // Set to a default image after deletion
+                window.location.reload();
             })
             .catch(error => {
                 console.error("Error:", error);
             });
-        }
     };
 
     
