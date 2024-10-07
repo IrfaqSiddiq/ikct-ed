@@ -29,7 +29,7 @@
             <!-- View and change photo section -->
             <div id="view-photo" class="center-content">
                 <img id="student-photo" src="" alt="Student Photo" class="circular-photo">
-                <p id="no-photo-text" style="display:none;">NO PROFILE PHOTO</p>
+                <p id="no-photo-text" style="display:none;">Sorry, Add a profile photo!</p>
                 <div class="button-container">
                     <button id="changePhotoBtn" class="popup-btn">Change Photo</button>
                     <button id="deletePhotoBtn" class="popup-btn">Delete Photo</button>
@@ -72,8 +72,10 @@
         <div class="student-info">
 
             <div id="student-info-container">
-                <div id="student-img">
-                    <img src="/api/students/image/{{ .student_id }}" style="border: 2px solid black; width: 150px; height: 150px; border-radius: 50%;" alt="">
+                <div id="student-img" style="position: relative;">
+                    <img src="/api/students/image/{{ .student_id }}" 
+                    onerror="this.onerror=null; this.src='/static/img/default.jpg';" 
+                    style="border: 2px solid black; width: 150px; height: 150px; border-radius: 50%;" alt="">
                     <img id="icon" src="/static/img/icon.svg" style="cursor: pointer; position: absolute; width: 56px; height: 56px; bottom: 0px; right: 0px;" alt="">                      
                 </div>
                 <div style="width: 100%;">
