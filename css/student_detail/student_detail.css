@@ -211,6 +211,7 @@ h1 {
 /* Modal Heading */
 .modal-heading {
     margin: 0 0 20px; /* Margin below heading */
+    font-weight: 500;
 }
 
 /* Center Content (now not needed, everything is vertically centered) */
@@ -226,8 +227,7 @@ h1 {
     height: 150px; /* Adjust the size as needed */
     border-radius: 50%; /* Makes the image circular */
     border: 1px solid black; /* Circular frame */
-    margin-bottom: 20px; /* Add some space below the image */
-    margin-left: 75px;
+    margin-bottom: 30px; /* Add some space below the image */
 }
 
 .button-container {
@@ -294,16 +294,18 @@ h1 {
 /* Modal heading */
 .lomodal-content h2 {
     font-family: 'Poppins', sans-serif;
+    font-weight: 500;
     font-size: 24px;
     color: #3c658e;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 /* Modal actions - Flexbox for button alignment */
 .modal-actions {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     margin-top: 20px;
+    gap: 20px;
 }
 
 /* Button styles */
@@ -329,17 +331,6 @@ h1 {
 .popup-btn:active {
     transform: translateY(2px); /* Slight press down on click */
     background-color: #254057; /* Darker color when clicked */
-}
-
-#no-photo-text {
-    display: none;
-    font-size: 18px; /* Slightly larger text */
-    color: #000000; /* Black text */
-    padding: 10px 0; /* Add padding for some space */
-    text-align: center; /* Center align the text */
-    margin-top: 20px; /* Add space above */
-    margin-bottom: 50px; /* Space below */
-    font-weight: bold; /* Make the text bold */
 }
 
 /* Modal animation for opening */

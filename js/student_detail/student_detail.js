@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var span = document.getElementsByClassName("close")[0];
     var studentPhoto = document.getElementById("student-photo");
     var viewPhotoSection = document.getElementById("view-photo");
-    const noPhotoText = document.getElementById("no-photo-text");
+    const defaultPhoto = document.getElementById("default-photo");
     var changePhotoBtn = document.getElementById("changePhotoBtn");
     var uploadPhotoInput = document.getElementById("uploadPhotoInput");
     const logoutButton = document.getElementById('logout-button');
@@ -93,13 +93,15 @@ document.addEventListener('DOMContentLoaded', function () {
         var photoUrl = "/api/students/image/" + studentId;
         studentPhoto.src = photoUrl;
         studentPhoto.onload = function() {
-            viewPhotoSection.style.display = "block"; // Show photo section when image is loaded
-            document.getElementById('no-photo-text').style.display = "none"; // Hide "NO Profile Photo" text if the image loads
+            // If the image loads successfully, show the photo section and hide the default image
+            studentPhoto.style.display = "block";
+            defaultPhoto.style.display = "none"; // Hide the default icon
         };
         
         studentPhoto.onerror = function() {
-            studentPhoto.style.display = "none"; // Hide the photo if there's an error loading it
-            document.getElementById('no-photo-text').style.display = "block"; // Show "NO Profile Photo" text if image fails to load
+            // If image fails to load, show default photo
+            studentPhoto.style.display = "none";
+            defaultPhoto.style.display = "block"; // Show default icon
         };
     };
 
@@ -185,7 +187,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Confirm logout and redirect
     confirmLogoutBtn.addEventListener('click', () => {
-        window.location.href = `/login?user_id=${userId}`; // Redirect to logout page
+        fetch('/api/students/logout', {
+            method: 'POST', // Adjust the method if needed (e.g., 'GET')
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Something went wrong!!!');
+            }
+            console.log(response.json()); // If the API returns JSON, handle it
+        })
+        .then(data => {
+            // If successful, reload the page
+            console.log('Logout successful:', data);
+            window.location.reload(); // Reloads the current page
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
     });
 
     // Close the modal if clicking outside the modal content
