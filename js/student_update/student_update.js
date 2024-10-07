@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 async function saveChanges() {
 
-    const apiUrl = `http://localhost:8778/api/students/update/${studentId}`; // Replace with your actual API URL
+    const apiUrl = `${hostURL}/api/students/update/${studentId}`; // Replace with your actual API URL
     const data = {
         name: document.getElementById('name').value,
         assistance: document.getElementById('assistance').value,

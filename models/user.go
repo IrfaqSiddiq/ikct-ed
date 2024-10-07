@@ -177,3 +177,28 @@ func GetUserProfileByToken(tokenString string) (User, error) {
 	}
 	return user, nil
 }
+
+// ExpireSession function to make is_expire false user into table
+func ExpireSession(token string) {
+	db, err := config.GetDB2()
+	if err != nil {
+		log.Println("ExpireSession: Failed while connecting with the database :", err)
+		return
+	}
+	defer db.Close()
+
+	updateQuery := `
+				UPDATE 
+				session
+				SET 
+				is_expire = TRUE 
+				WHERE 
+				user_token = $1
+				returning id`
+
+	_, err = db.Exec(updateQuery, token)
+	if err != nil {
+		log.Println("ExpireSession: failed:", err)
+		return
+	}
+}

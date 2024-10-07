@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"ikct-ed/models"
+	"ikct-ed/services"
 	"ikct-ed/utility"
 	"log"
 	"net/http"
@@ -108,6 +109,36 @@ func Login(c *gin.Context) {
 		"user_id": user.ID,
 	})
 
+}
+
+func Logout(c *gin.Context) {
+	tokenString, err := c.Cookie("tokenString")
+	if err != nil {
+		log.Println("[UN-AUTHORIZED] TokenAuthMiddleware: Failed to fetch student details by token with error: ", err)
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "Invalid token", "error": err})
+		return
+	}
+	log.Println("Token ", tokenString)
+	log.Println("header", c.Request.Header)
+
+	if len(tokenString) == 0 {
+		log.Println("[UN-AUTHORIZED] Logout: No token provided.")
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"status":  "failed",
+			"message": "No Token provided",
+		})
+		return
+	}
+
+	// using token fetch student's information.
+	_, err = models.GetUserProfileByToken(tokenString)
+	if err != nil {
+		log.Println("[UN-AUTHORIZED] TokenAuthMiddleware: Failed to fetch student details by token with error: ", err)
+		c.JSON(http.StatusUnauthorized, gin.H{"status": "failed", "message": "Failed to fetch student", "error": err})
+		return
+	}
+	models.ExpireSession(tokenString)
+	services.RemoveCookies(c, "tokenString")
 }
 
 // PasswordEncrypter Encrypts the password and returns a text string
