@@ -81,8 +81,25 @@ fetch(`${hostURL}/api/students/list`) // Replace with your API URL
     
         // Confirm logout and redirect
         confirmLogoutBtn.addEventListener('click', () => {
-            window.location.href = `/login?user_id=${userId}`; // Redirect to logout page
+            fetch('/api/students/logout', {
+                method: 'POST', // Adjust the method if needed (e.g., 'GET')
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json(); // If the API returns JSON, handle it
+            })
+            .then(data => {
+                // If successful, reload the page
+                console.log('Logout successful:', data);
+                window.location.reload(); // Reloads the current page
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
         });
+        
     
         // Close the modal if clicking outside the modal content
         window.addEventListener('click', (event) => {
