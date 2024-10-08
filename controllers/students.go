@@ -393,3 +393,39 @@ func GetImageData(c *gin.Context) {
 	c.Data(http.StatusOK, "image/jpeg", imageData)
 
 }
+
+func GetSchoolList(c *gin.Context) {
+	schools, err := models.GetSchoolList()
+	if err != nil {
+		log.Println("GetSchoolList: Failed to get school information with error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "fail",
+			"message": "failed to get school info",
+			"error":   err,
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"status":  "success",
+		"message": "successfully fetched school list",
+		"schools": schools,
+	})
+}
+
+func GetReligions(c *gin.Context) {
+	religion, err := models.GetReligions()
+	if err != nil {
+		log.Println("GetReligions: Failed to get religion information with error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "fail",
+			"message": "failed to get religion info",
+			"error":   err,
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"status":  "success",
+		"message": "successfully fetched religion list",
+		"schools": religion,
+	})
+}

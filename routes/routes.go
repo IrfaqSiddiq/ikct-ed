@@ -28,6 +28,9 @@ func AddRoutes(router *gin.RouterGroup) {
 			admin.POST("/create", controllers.CreateUser)
 			admin.POST("/login", controllers.Login)
 		}
+
+		api.GET("/schools",controllers.GetSchoolList)
+		api.GET("/religion",controllers.GetReligions)
 	}
 
 	v1 := router.Group("/v1", controllers.ValidatePageJWT)

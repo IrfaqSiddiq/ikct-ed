@@ -73,6 +73,16 @@ type StudentsFinancialInfo struct {
 	UpkeepAmount4                   float64 `json:"upkeep_amount4"`
 }
 
+type School struct {
+	ID   int64  `json:"id"`
+	Name string `json:"school"`
+}
+
+type ReligionDetails struct {
+	ID       int64  `json:"id"`
+	Religion string `json:"religion"`
+}
+
 func GetStudentsList(page int64) ([]StudentsFinancialInfo, error) {
 	db, err := config.GetDB2()
 	if err != nil {
@@ -815,4 +825,70 @@ func UploadImageofStudent(imageData []byte, id int64) error {
 		return err
 	}
 	return nil
+}
+
+func GetSchoolList() ([]School, error) {
+	schools := []School{}
+	db, err := config.GetDB2()
+	if err != nil {
+		log.Println("GetSchoolList: Failed while connecting with database with error: ", err)
+		return []School{}, err
+	}
+	defer db.Close()
+
+	query := ` SELECT id, name FROM schools`
+	rows, err := db.Query(query)
+	if err != nil {
+		log.Println("GetSchoolList: Failed while executing the query with error: ", err)
+		return []School{}, err
+	}
+	for rows.Next() {
+		var (
+			id   int64
+			name string
+		)
+		err = rows.Scan(&id, &name)
+		if err != nil {
+			log.Println("GetSchoolList: Failed while scanning the query with error: ", err)
+			continue
+		}
+		schools = append(schools, School{
+			ID:   id,
+			Name: name,
+		})
+	}
+	return schools, nil
+}
+
+func GetReligions() ([]ReligionDetails, error) {
+	religions := []ReligionDetails{}
+	db, err := config.GetDB2()
+	if err != nil {
+		log.Println("GetReligions: Failed while connecting with database with error: ", err)
+		return []ReligionDetails{}, err
+	}
+	defer db.Close()
+
+	query := ` SELECT id, religion FROM religion_details`
+	rows, err := db.Query(query)
+	if err != nil {
+		log.Println("GetReligions: Failed while executing the query with error: ", err)
+		return []ReligionDetails{}, err
+	}
+	for rows.Next() {
+		var (
+			id   int64
+			religion string
+		)
+		err = rows.Scan(&id, &religion)
+		if err != nil {
+			log.Println("GetReligions: Failed while scanning the query with error: ", err)
+			continue
+		}
+		religions = append(religions, ReligionDetails{
+			ID:   id,
+			Religion: religion,
+		})
+	}
+	return religions, nil
 }
