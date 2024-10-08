@@ -164,16 +164,18 @@ th {
 /* Modal heading */
 .modal-content h2 {
     font-family: 'Poppins', sans-serif;
+    font-weight: 500;
     font-size: 24px;
     color: #3c658e;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 /* Modal actions - Flexbox for button alignment */
 .modal-actions {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     margin-top: 20px;
+    gap: 20px;
 }
 
 /* Button styles */

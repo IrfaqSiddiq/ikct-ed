@@ -86,9 +86,9 @@ fetch(`${hostURL}/api/students/list`) // Replace with your API URL
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error('Something went wrong!!!');
                 }
-                return response.json(); // If the API returns JSON, handle it
+                console.log(response.json()); // If the API returns JSON, handle it
             })
             .then(data => {
                 // If successful, reload the page
