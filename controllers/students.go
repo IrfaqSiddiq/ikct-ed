@@ -424,8 +424,8 @@ func GetReligions(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"status":  "success",
-		"message": "successfully fetched religion list",
-		"schools": religion,
+		"status":   "success",
+		"message":  "successfully fetched religion list",
+		"religion": religion,
 	})
 }

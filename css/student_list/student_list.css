@@ -203,6 +203,84 @@ th {
     background-color: #254057; /* Darker color when clicked */
 }
 
+/* Styling for the search container - aligned to the left */
+.search-container {
+    margin: 20px 0;
+    text-align: left; /* Align to the left */
+    display: flex;
+    gap: 20px; /* Space between elements */
+    align-items: center; /* Vertically center the elements */
+}
+
+/* Styling for the search box */
+#search-box {
+    padding: 8px;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+#search-box:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    outline: none;
+    transform: scale(1.02); /* Subtle scaling effect */
+}
+
+#search-box:hover {
+    border-color: #007bff;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+#search-box::placeholder {
+    color: #aaa;
+    font-style: italic;
+    font-size: 14px;
+}
+
+/* Styling for the dropdowns */
+#religion-filter, #school-filter {
+    padding: 8px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+#religion-filter:focus, #school-filter:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    outline: none;
+    transform: scale(1.02); /* Subtle scaling effect */
+}
+
+#religion-filter:hover, #school-filter:hover {
+    border-color: #007bff;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Optional: Styling the label (if you want to add labels to the filters) */
+.search-container label {
+    font-size: 18px;
+    font-weight: 500;
+    margin-right: 10px;
+    color: #555;
+    font-family: 'Poppins', sans-serif;
+}
+
 /* Modal animation for opening */
 @keyframes modalFadeIn {
     from {
