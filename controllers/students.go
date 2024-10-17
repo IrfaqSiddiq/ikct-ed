@@ -28,7 +28,22 @@ func GetStudentsList(c *gin.Context) {
 		log.Println("GetStudentsList: Failed to covert  pageNo into integer")
 		currentPage = 1
 	}
-	studentsInfo, err := models.GetStudentsList(currentPage)
+	filter := models.FilterParameters{}
+
+	filter.Name = c.Query("name")
+	religion := c.Query("religion")
+	schools := c.Query("school")
+
+	if len(religion) > 0 {
+		filter.Religion = strings.Split(religion, ",")
+	}
+
+	fmt.Println("**length", len(filter.Religion))
+	if len(schools) > 0 {
+		filter.Schools = strings.Split(schools, ",")
+	}
+
+	studentsInfo, err := models.GetStudentsList(currentPage, filter)
 	if err != nil {
 		log.Println("GetStudentsList: Failed to get students details with error: ", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -178,6 +193,7 @@ func AddStudentsCSV(c *gin.Context) {
 }
 
 func StudentListPage(c *gin.Context) {
+
 	hostURL := utility.GetHostURL()
 	c.HTML(
 		// Set the HTTP status to 200 (OK)

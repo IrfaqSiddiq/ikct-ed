@@ -88,7 +88,7 @@ async function saveChanges() {
         school: document.getElementById('school').value,
         course: document.getElementById('course').value,
         program_duration: Number(document.getElementById('program_duration').value),
-        current_year: document.getElementById('current_year').value,
+        current_year: Number(document.getElementById('current_year').value),
         semester_term: document.getElementById('semester_term').value,
         total_course_cost: parseFloat(document.getElementById('total_course_cost').value) || 0.0,
         estimated_fees_year_1: parseFloat(document.getElementById('estimated_fees_year_1').value) || 0.0,

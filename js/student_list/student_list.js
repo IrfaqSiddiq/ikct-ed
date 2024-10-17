@@ -1,5 +1,3 @@
-// student_list.js
-
 const tableBody = document.getElementById('table-body');
 const searchBox = document.getElementById('search-box');
 const religionFilter = document.getElementById('religion-filter');
@@ -10,21 +8,21 @@ console.log("jsfile host url", hostURL);
 function populateFilters() {
     // Populate Religion Dropdown
     fetch(`${hostURL}/api/religion`)
-    .then(response => response.json())
-    .then(data => {
-        console.log("Religion Data:", data); // Debug log
-        if (data.status === "success" && Array.isArray(data.religion)) {
-            data.religion.forEach(religionObj => {
-                const option = document.createElement('option');
-                option.value = religionObj.religion;  // Use the 'religion' property
-                option.textContent = religionObj.religion; // Display the 'religion' name
-                religionFilter.appendChild(option);
-            });
-        } else {
-            console.error('Unexpected format for religions:', data);
-        }
-    })
-    .catch(error => console.error('Error fetching religions:', error));
+        .then(response => response.json())
+        .then(data => {
+            console.log("Religion Data:", data); // Debug log
+            if (data.status === "success" && Array.isArray(data.religion)) {
+                data.religion.forEach(religionObj => {
+                    const option = document.createElement('option');
+                    option.value = religionObj.religion;  // Use the 'religion' property
+                    option.textContent = religionObj.religion; // Display the 'religion' name
+                    religionFilter.appendChild(option);
+                });
+            } else {
+                console.error('Unexpected format for religions:', data);
+            }
+        })
+        .catch(error => console.error('Error fetching religions:', error));
 
     // Populate School Dropdown
     fetch(`${hostURL}/api/schools`)
@@ -90,24 +88,33 @@ function displayStudents(students) {
     });
 }
 
-// Function to filter students based on input and dropdowns
+// Function to filter students based on input and dropdowns with query parameters
 function filterStudents() {
     const searchQuery = searchBox.value.toLowerCase();
     const selectedReligion = religionFilter.value;
     const selectedSchool = schoolFilter.value;
 
-    fetch(`${hostURL}/api/students/list`)
+    // Build the query parameter string
+    let queryParams = new URLSearchParams();
+
+    if (searchQuery) {
+        queryParams.append('name', searchQuery);
+    }
+    if (selectedReligion) {
+        queryParams.append('religion', selectedReligion);
+    }
+    if (selectedSchool) {
+        queryParams.append('school', selectedSchool);
+    }
+
+    // API call with query parameters
+    fetch(`${hostURL}/api/students/list?${queryParams.toString()}`)
         .then(response => response.json())
         .then(data => {
             if (data.status === "success" && Array.isArray(data.students_info)) {
-                const filteredStudents = data.students_info.filter(student => {
-                    const matchesSearch = student.name.toLowerCase().includes(searchQuery);
-                    const matchesReligion = selectedReligion ? student.religion === selectedReligion : true;
-                    const matchesSchool = selectedSchool ? student.school === selectedSchool : true;
-                    return matchesSearch && matchesReligion && matchesSchool;
-                });
-
-                displayStudents(filteredStudents); // Update table with filtered students
+                displayStudents(data.students_info); // Update table with filtered students
+            } else {
+                console.error('Unexpected API response format:', data);
             }
         })
         .catch(error => console.error('Error filtering students:', error));

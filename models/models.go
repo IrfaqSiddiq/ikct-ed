@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strings"
 	"time"
 )
 
@@ -19,10 +20,10 @@ type StudentsFinancialInfo struct {
 	Religion                        string  `json:"religion"`
 	NRC                             string  `json:"nrc"`
 	Contact                         string  `json:"contact"`
-	School                          string  `json:"string"`
+	School                          string  `json:"school"`
 	Course                          string  `json:"course"`
 	ProgramDuration                 int64   `json:"program_duration"`
-	CurrentYear                     int64   `json:"currennt_year"`
+	CurrentYear                     int64   `json:"current_year"`
 	SemesterTerm                    string  `json:"semester_term"`
 	TotalCourseCost                 float64 `json:"total_course_cost"`
 	EstimatedFeesYear1              float64 `json:"estimated_fees_year_1"`
@@ -83,7 +84,13 @@ type ReligionDetails struct {
 	Religion string `json:"religion"`
 }
 
-func GetStudentsList(page int64) ([]StudentsFinancialInfo, error) {
+type FilterParameters struct {
+	Name     string
+	Religion []string
+	Schools  []string
+}
+
+func GetStudentsList(page int64, filter FilterParameters) ([]StudentsFinancialInfo, error) {
 	db, err := config.GetDB2()
 	if err != nil {
 		log.Println("GetStudentsList: Failed while connecting with database with error: ", err)
@@ -93,6 +100,32 @@ func GetStudentsList(page int64) ([]StudentsFinancialInfo, error) {
 	studentInfo := []StudentsFinancialInfo{}
 	limit := 10
 	offset := (page - 1) * int64(limit)
+
+	where := ""
+
+	if len(filter.Name) != 0 {
+		where += fmt.Sprintf(" AND name ILIKE '%s%%'", filter.Name) // Use fmt.Sprintf to format the query string
+	}
+
+	// Handle multiple schools
+	if len(filter.Schools) > 0 {
+		var formattedSchools []string // Slice to hold formatted school names
+		for _, school := range filter.Schools {
+			formattedSchools = append(formattedSchools, fmt.Sprintf("'%s'", strings.ToLower(school))) // Add each formatted school directly to the slice
+		}
+		// Join the formatted schools with a comma and space
+		where += fmt.Sprintf(" AND LOWER(school) IN (%s)", strings.Join(formattedSchools, ", ")) // Create the IN clause
+	}
+
+	// Handle multiple religions
+	if len(filter.Religion) > 0 {
+		var formattedReligion []string // Slice to hold formatted school names
+		for _, religion := range filter.Religion {
+			formattedReligion = append(formattedReligion, fmt.Sprintf("'%s'", strings.ToLower(religion))) // Add each formatted school directly to the slice
+		}
+		// Join the formatted Religion with a comma and space
+		where += fmt.Sprintf(" AND LOWER(religion) IN (%s)", strings.Join(formattedReligion, ", ")) // Create the IN clause
+	}
 
 	sno := (page-1)*10 + 1
 	query := ` SELECT 
@@ -110,10 +143,12 @@ func GetStudentsList(page int64) ([]StudentsFinancialInfo, error) {
 				semester_term
 			FROM
 				student_financial_info
+			WHERE
+				id > 0 ` + where + `
 			LIMIT $1
 			OFFSET $2
 			`
-
+	log.Println("GetStudentList query: ", query)
 	rows, err := db.Query(query, limit, offset)
 	if err != nil {
 		log.Println("GetStudentsList: Failed while executing the query with error: ", err)
@@ -877,7 +912,7 @@ func GetReligions() ([]ReligionDetails, error) {
 	}
 	for rows.Next() {
 		var (
-			id   int64
+			id       int64
 			religion string
 		)
 		err = rows.Scan(&id, &religion)
@@ -886,7 +921,7 @@ func GetReligions() ([]ReligionDetails, error) {
 			continue
 		}
 		religions = append(religions, ReligionDetails{
-			ID:   id,
+			ID:       id,
 			Religion: religion,
 		})
 	}
