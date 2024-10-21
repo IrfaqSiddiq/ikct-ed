@@ -166,14 +166,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     confirmLogoutBtn.addEventListener('click', () => {
-        fetch('/api/students/logout', { method: 'POST' })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    window.location.reload();
-                }
-            })
-            .catch(error => console.error('Error logging out:', error));
+        fetch('/api/students/logout', {
+            method: 'POST', // Adjust the method if needed (e.g., 'GET')
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Something went wrong!!!');
+            }
+            console.log(response.json()); // If the API returns JSON, handle it
+        })
+        .then(data => {
+            // If successful, reload the page
+            console.log('Logout successful:', data);
+            window.location.reload(); // Reloads the current page
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
     });
 
     window.addEventListener('click', (event) => {
