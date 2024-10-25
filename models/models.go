@@ -303,7 +303,6 @@ func InsertUniqueRecord() error {
 	}
 	defer db.Close()
 	query := `INSERT INTO student_financial_info(
-	id,
 	name,
 	assistance,
 	religion,
@@ -363,7 +362,6 @@ func InsertUniqueRecord() error {
 	upkeep_amount4
 )
 SELECT 
-	id,
 	name,
 	assistance,
 	religion,
