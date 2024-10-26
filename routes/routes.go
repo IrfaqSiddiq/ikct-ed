@@ -20,7 +20,9 @@ func AddRoutes(router *gin.RouterGroup) {
 			students.PUT("/update/:id", controllers.UpdateStudentDetail)
 			students.POST("/upload/img/:id", controllers.UploadImageofStudent)
 			students.GET("/image/:id", controllers.GetImageData)
+			students.DELETE("/delete/img/:id",controllers.DeleteImageOfStudent)
 			students.POST("/logout", controllers.Logout)
+			
 		}
 
 		admin := api.Group("/user")

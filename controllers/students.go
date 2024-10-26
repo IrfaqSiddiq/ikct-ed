@@ -316,6 +316,35 @@ func UploadImageofStudent(c *gin.Context) {
 	})
 }
 
+func DeleteImageOfStudent(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Params.ByName("id"), 10, 64)
+	if err != nil {
+		log.Println("DeleteImageOfStudent: Failed to get student id with error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "fail",
+			"message": "failed to get student id",
+			"error":   err,
+		})
+		return
+	}
+
+	err = models.UploadImageofStudent([]byte{}, id)
+	if err != nil {
+		log.Println("DeleteImageOfStudent: Failed to delete profile image with error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "fail",
+			"message": "failed to delete profile picture",
+			"error":   err,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":  "success",
+		"message": "successfully deleted image",
+	})
+}
+
 func UpdateStudentDetail(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Params.ByName("id"), 10, 64)
 	if err != nil {
