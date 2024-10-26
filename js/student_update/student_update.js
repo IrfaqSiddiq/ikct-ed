@@ -104,10 +104,10 @@ async function saveChanges() {
         payment_amount_sem1_year1: parseFloat(document.getElementById('payment_amount_sem1_year1').value) || 0.0,
         payment_date_sem1_year1: formatDate(document.getElementById('payment_date_sem1_year1').value),
         payment_amount_sem1_year2: parseFloat(document.getElementById('payment_amount_sem1_year2').value) ||0.0,
-        other_fees_payment_date1: formatDate(document.getElementById('other_fees_payment_date1').value),
+        other_fees_payment_date1: formatDate(document.getElementById('other_fees_payment_date1').value) ,
         other_fees_details1: document.getElementById('other_fees_details1').value,
         other_fees_amount1: parseFloat(document.getElementById('other_fees_amount1').value),
-        other_fees_payment_date2: formatDate(document.getElementById('other_fees_payment_date2').value),
+        other_fees_payment_date2: formatDate(document.getElementById('other_fees_payment_date2').value) || '',
         other_fees_details2: document.getElementById('other_fees_details2').value,
         other_fees_amount2: parseFloat(document.getElementById('other_fees_amount2').value),
         other_fees_payment_date3: formatDate(document.getElementById('other_fees_payment_date3').value),
@@ -209,13 +209,15 @@ async function saveChanges() {
  
 
 function formatDate(dateString) {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0'); // Pad single digit days
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Pad single digit months
-    const year = date.getFullYear();
-    const formattedDate = `${day}/${month}/${year}`;   
-    console.log('Formatted Date:', formattedDate); // Log the formatted date to the console
-    return formattedDate;
+    if(dateString != '') {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0'); // Pad single digit days
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Pad single digit months
+        const year = date.getFullYear();
+        const formattedDate = `${day}/${month}/${year}`;   
+        console.log('Formatted Date:', formattedDate); // Log the formatted date to the console
+        return formattedDate;
+    }
 }
 
 function formatDateToYMD(dateString) {
