@@ -43,7 +43,7 @@ func GetStudentsList(c *gin.Context) {
 		filter.Schools = strings.Split(schools, ",")
 	}
 
-	studentsInfo, err := models.GetStudentsList(currentPage, filter)
+	studentsInfo, totalCount, err := models.GetStudentsList(currentPage, filter)
 	if err != nil {
 		log.Println("GetStudentsList: Failed to get students details with error: ", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -53,9 +53,16 @@ func GetStudentsList(c *gin.Context) {
 		})
 		return
 	}
+	totalPages := ""
+	if totalCount%10 == 0 {
+		totalPages = fmt.Sprintf("%v", (totalCount / 10))
+	} else {
+		totalPages = fmt.Sprintf("%v", (totalCount/10)+1)
+	}
 	c.JSON(http.StatusOK, gin.H{
 		"status":        "success",
 		"students_info": studentsInfo,
+		"total_page":    totalPages,
 	})
 }
 

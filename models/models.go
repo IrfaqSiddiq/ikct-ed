@@ -90,11 +90,13 @@ type FilterParameters struct {
 	Schools  []string
 }
 
-func GetStudentsList(page int64, filter FilterParameters) ([]StudentsFinancialInfo, error) {
+func GetStudentsList(page int64, filter FilterParameters) ([]StudentsFinancialInfo, int64, error) {
+
+	var totalCount int64
 	db, err := config.GetDB2()
 	if err != nil {
 		log.Println("GetStudentsList: Failed while connecting with database with error: ", err)
-		return []StudentsFinancialInfo{}, err
+		return []StudentsFinancialInfo{}, 0, err
 	}
 	defer db.Close()
 	studentInfo := []StudentsFinancialInfo{}
@@ -154,12 +156,11 @@ func GetStudentsList(page int64, filter FilterParameters) ([]StudentsFinancialIn
 	rows, err := db.Query(query, limit, offset)
 	if err != nil {
 		log.Println("GetStudentsList: Failed while executing the query with error: ", err)
-		return []StudentsFinancialInfo{}, err
+		return []StudentsFinancialInfo{}, 0, err
 	}
 	defer rows.Close()
 	for rows.Next() {
 		var (
-			totalCount      int64
 			id              int64
 			name            sql.NullString
 			assistance      sql.NullString
@@ -207,7 +208,7 @@ func GetStudentsList(page int64, filter FilterParameters) ([]StudentsFinancialIn
 		})
 		sno++
 	}
-	return studentInfo, nil
+	return studentInfo, totalCount, nil
 }
 
 // insertCSVIntoDB runs the \copy command to insert CSV data into PostgreSQL
