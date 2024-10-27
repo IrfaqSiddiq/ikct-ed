@@ -290,18 +290,30 @@ func InsertCSVIntoDB(filePath string) error {
 	}
 
 	fmt.Printf("InsertCSVIntoDB: CSV successfully inserted into database. Output: %s\n", string(output))
-	err = InsertUniqueRecord()
+	err = InsertUniqueStudentsRecord()
 	if err != nil {
-		log.Println("InsertCSVIntoDB: Error inserting records in FINAl table", err)
+		log.Println("InsertCSVIntoDB: Error inserting students records in FINAl table", err)
+		return err
+	}
+
+	err = InsertUniqueSchoolRecords()
+	if err != nil {
+		log.Println("InsertCSVIntoDB: Error inserting school records in school table", err)
+		return err
+	}
+
+	err = InsertUniqueReligionRecords()
+	if err != nil {
+		log.Println("InsertCSVIntoDB: Error inserting religion records in religion table", err)
 		return err
 	}
 	return nil
 }
 
-func InsertUniqueRecord() error {
+func InsertUniqueStudentsRecord() error {
 	db, err := config.GetDB2()
 	if err != nil {
-		log.Println("InsertUniqueRecord: Failed while connecting with database with error: ", err)
+		log.Println("InsertUniqueStudentsRecord: Failed while connecting with database with error: ", err)
 		return err
 	}
 	defer db.Close()
@@ -428,10 +440,56 @@ ON CONFLICT (nrc) DO NOTHING;
 
 	_, err = db.Exec(query)
 	if err != nil {
-		log.Println("InsertUniqueRecord: Failed while executing the query with error: ", err)
+		log.Println("InsertUniqueStudentsRecord: Failed while executing the query with error: ", err)
 		return err
 	}
 	return nil
+}
+
+func InsertUniqueSchoolRecords() error {
+	db, err := config.GetDB2()
+	if err != nil {
+		log.Println("InsertUniqueSchoolRecords: Failed while connecting with database with error: ", err)
+		return err
+	}
+	defer db.Close()
+
+	query := ` INSERT INTO schools (name)
+				SELECT DISTINCT school
+				FROM student_financial_info
+				WHERE school IS NOT NULL AND school != ''
+				ON CONFLICT (name) DO NOTHING`
+
+	_, err = db.Exec(query)
+	if err != nil {
+		log.Println("InsertUniqueSchoolRecords: Failed while executing the query with error: ", err)
+		return err
+	}
+	return nil
+
+}
+
+func InsertUniqueReligionRecords() error {
+	db, err := config.GetDB2()
+	if err != nil {
+		log.Println("InsertUniqueReligionRecords: Failed while connecting with database with error: ", err)
+		return err
+	}
+	defer db.Close()
+
+	query := ` INSERT INTO religion_details (religion)
+				SELECT DISTINCT religion
+				FROM student_financial_info
+				WHERE religion IS NOT NULL AND religion != ''
+				ON CONFLICT (religion) DO NOTHING`
+
+	_, err = db.Exec(query)
+	if err != nil {
+		log.Println("InsertUniqueReligionRecords: Failed while executing the query with error: ", err)
+		return err
+	}
+	return nil
+
 }
 
 func GetStudentDetail(studentID int64) (StudentsFinancialInfo, error) {

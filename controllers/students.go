@@ -185,8 +185,8 @@ func AddStudentsCSV(c *gin.Context) {
 	err = os.Remove(filePath)
 	if err != nil {
 		log.Println("AddStudentsCSV: Failed to delete the temporary file with error: ", err)
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status":  "fail",
+		c.JSON(http.StatusOK, gin.H{
+			"status":  "success",
 			"message": "failed to delete temporary file",
 			"error":   err,
 		})
