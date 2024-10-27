@@ -26,7 +26,7 @@ function callApiWithId(id, hostURL) {
             document.getElementById('estimated_fees_year_5').value=data.student_info.estimated_fees_year_5 || '';
             document.getElementById('payment_date_sem1_year1').value = formatDateToYMD(data.student_info.payment_date_sem1_year1) || '';
             document.getElementById('payment_amount_sem1_year1').value=data.student_info.payment_amount_sem1_year1 || '';
-            document.getElementById('payment_date_sem1_year2').value=data.student_info.payment_date_sem1_year2 || '';
+            document.getElementById('payment_date_sem1_year2').value=formatDateToYMD(data.student_info.payment_date_sem1_year2) || '';
             document.getElementById('payment_amount_sem1_year2').value=data.student_info.payment_amount_sem1_year2 || '';
             document.getElementById('other_fees_payment_date1').value=formatDateToYMD(data.student_info.other_fees_payment_date1) || '';
             document.getElementById('other_fees_details1').value=data.student_info.other_fees_details1 || '';
@@ -37,20 +37,20 @@ function callApiWithId(id, hostURL) {
             document.getElementById('other_fees_payment_date3').value=formatDateToYMD(data.student_info.other_fees_payment_date3) || '';
             document.getElementById('other_fees_details3').value=data.student_info.other_fees_details3 || '';
             document.getElementById('other_fees_amount3').value=data.student_info.other_fees_amount3 || '';
-            document.getElementById('projected_total_fees_curr_year').value=data.student_info.projected_total_fees_curr_year || '';
-            document.getElementById('remaining_tuition_fees_curr_year').value=data.student_info.remaining_tuition_fees_curr_year || '';
+            document.getElementById('projected_total_fees_curr_year').value=data.student_info.projected_total_fees_current_year || '';
+            document.getElementById('remaining_tuition_fees_curr_year').value=data.student_info.remaining_tuition_fees_current_year || '';
             document.getElementById('tuition_fees_paid_by').value=data.student_info.tuition_fees_paid_by || '';
             document.getElementById('rent_payment_date1').value=formatDateToYMD(data.student_info.rent_payment_date1) || '';
-            document.getElementById('rent_paid_month1').value=data.student_info.rent_paid_month1 || '';
+            document.getElementById('rent_paid_month1').value=data.student_info.rent_paid_months1 || '';
             document.getElementById('rent_amount1').value=data.student_info.rent_amount1 || '';
             document.getElementById('rent_payment_date2').value=formatDateToYMD(data.student_info.rent_payment_date2) || '';
-            document.getElementById('rent_paid_month2').value=data.student_info.rent_paid_month2 || '';
+            document.getElementById('rent_paid_month2').value=data.student_info.rent_paid_months2 || '';
             document.getElementById('rent_amount2').value=data.student_info.rent_amount2 || '';
             document.getElementById('rent_payment_date3').value=formatDateToYMD(data.student_info.rent_payment_date3) || '';
-            document.getElementById('rent_paid_month3').value=data.student_info.rent_paid_month3 || '';
+            document.getElementById('rent_paid_month3').value=data.student_info.rent_paid_months3 || '';
             document.getElementById('rent_amount3').value=data.student_info.rent_amount3 || '';
             document.getElementById('rent_payment_date4').value=formatDateToYMD(data.student_info.rent_payment_date4) || '';
-            document.getElementById('rent_paid_month4').value=data.student_info.rent_paid_month4 || '';
+            document.getElementById('rent_paid_month4').value=data.student_info.rent_paid_months4 || '';
             document.getElementById('rent_amount4').value=data.student_info.rent_amount4 || '';
             document.getElementById('upkeep_payment_date1').value=formatDateToYMD(data.student_info.upkeep_payment_date1) || '';
             document.getElementById('upkeep_paid_months1').value=data.student_info.upkeep_paid_months1 || '';
@@ -100,9 +100,9 @@ async function saveChanges() {
         estimated_fees_year_3: parseFloat(document.getElementById('estimated_fees_year_3').value) || 0.0,
         estimated_fees_year_4: parseFloat(document.getElementById('estimated_fees_year_4').value) || 0.0,
         estimated_fees_year_5: parseFloat(document.getElementById('estimated_fees_year_5').value) || 0.0,
-        payment_date_sem1_year1: document.getElementById('payment_date_sem1_year1').value,
-        payment_amount_sem1_year1: parseFloat(document.getElementById('payment_amount_sem1_year1').value) || 0.0,
         payment_date_sem1_year1: formatDate(document.getElementById('payment_date_sem1_year1').value),
+        payment_amount_sem1_year1: parseFloat(document.getElementById('payment_amount_sem1_year1').value) || 0.0,
+        payment_date_sem1_year2: formatDate(document.getElementById('payment_date_sem1_year2').value),
         payment_amount_sem1_year2: parseFloat(document.getElementById('payment_amount_sem1_year2').value) ||0.0,
         other_fees_payment_date1: formatDate(document.getElementById('other_fees_payment_date1').value) ,
         other_fees_details1: document.getElementById('other_fees_details1').value,
@@ -113,20 +113,20 @@ async function saveChanges() {
         other_fees_payment_date3: formatDate(document.getElementById('other_fees_payment_date3').value),
         other_fees_details3: document.getElementById('other_fees_details3').value,
         other_fees_amount3: parseFloat(document.getElementById('other_fees_amount3').value),
-        projected_total_fees_curr_year: parseFloat(document.getElementById('projected_total_fees_curr_year').value),
-        remaining_tuition_fees_curr_year: parseFloat(document.getElementById('remaining_tuition_fees_curr_year').value),
+        projected_total_fees_current_year: parseFloat(document.getElementById('projected_total_fees_curr_year').value),
+        remaining_tuition_fees_current_year: parseFloat(document.getElementById('remaining_tuition_fees_curr_year').value),
         tuition_fees_paid_by: document.getElementById('tuition_fees_paid_by').value,
         rent_payment_date1: formatDate(document.getElementById('rent_payment_date1').value),
-        rent_paid_month1: document.getElementById('rent_paid_month1').value,
+        rent_paid_months1: document.getElementById('rent_paid_month1').value,
         rent_amount1: parseFloat(document.getElementById('rent_amount1').value),
         rent_payment_date2: formatDate(document.getElementById('rent_payment_date2').value),
-        rent_paid_month2: document.getElementById('rent_paid_month2').value,
+        rent_paid_months2: document.getElementById('rent_paid_month2').value,
         rent_amount2: parseFloat(document.getElementById('rent_amount2').value),
         rent_payment_date3: formatDate(document.getElementById('rent_payment_date3').value) || '',
-        rent_paid_month3: document.getElementById('rent_paid_month3').value,
+        rent_paid_months3: document.getElementById('rent_paid_month3').value,
         rent_amount3: parseFloat(document.getElementById('rent_amount3').value),
         rent_payment_date4: formatDate(document.getElementById('rent_payment_date4').value),
-        rent_paid_month4: document.getElementById('rent_paid_month4').value,
+        rent_paid_months4: document.getElementById('rent_paid_month4').value,
         rent_amount4: parseFloat(document.getElementById('rent_amount4').value),
         upkeep_payment_date1: formatDate(document.getElementById('upkeep_payment_date1').value),
         upkeep_paid_months1: document.getElementById('upkeep_paid_months1').value,
