@@ -2,6 +2,7 @@ const tableBody = document.getElementById('table-body');
 const searchBox = document.getElementById('search-box');
 const religionFilter = document.getElementById('religion-filter');
 const schoolFilter = document.getElementById('school-filter');
+const paginationContainer = document.getElementById('pagination-container');
 console.log("jsfile host url", hostURL);
 
 // Function to populate filters with data from API
@@ -120,6 +121,28 @@ function filterStudents() {
         .catch(error => console.error('Error filtering students:', error));
 }
 
+
+// function renderPaginationButtons() {
+//     paginationContainer.innerHTML = ""; // Clear existing buttons
+
+//     const totalPages = Math.ceil(studentData.length / rowsPerPage);
+
+//     for (let i = 1; i <= totalPages; i++) {
+//         const button = document.createElement('button');
+//         button.innerText = i;
+//         button.classList.add("pagination-button");
+//         if (i === currentPage) button.classList.add("active");
+
+//         button.addEventListener('click', () => {
+//             currentPage = i;
+//             displayStudents();
+//             renderPaginationButtons();
+//         });
+
+//         paginationContainer.appendChild(button);
+//     }
+// }
+
 // Event listeners and initialization
 document.addEventListener('DOMContentLoaded', () => {
     populateFilters(); // Populate religion and school filters on page load
@@ -138,16 +161,43 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     fileInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const contents = e.target.result;
-                console.log("File contents:", contents);
-                // Process the CSV contents here
-            };
-            reader.readAsText(file);
-        }
+        const selectedFile = event.target.files[0];
+        // if (selectedFile) {
+        //     const reader = new FileReader();
+        //     reader.onload = (e) => {
+        //         const contents = e.target.result;
+        //         console.log("File contents:", contents);
+        //         // Process the CSV contents here
+        //     };
+        //     reader.readAsText(selectedFile);
+        // }
+        if (selectedFile) {
+            console.log("File selected:", selectedFile.name);
+            
+            // Create a FormData object to send the file
+            var formData = new FormData();
+            formData.append("file", selectedFile); // Use the same field name as expected by the Go API
+            
+            // Fetch API to send the file to the server
+            fetch(`/api/students/add/csv`, { // Assuming studentId is defined and holds the student's ID
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to upload file");
+                }
+                console.log(response.json());
+            })
+            .then(data => {
+                console.log("Success:", data);
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        
+    }
     });
 
     // Existing logout functionality
