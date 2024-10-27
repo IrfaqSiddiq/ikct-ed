@@ -37,20 +37,20 @@ function callApiWithId(id) {
             document.getElementById('other_fees_payment_date3').value=data.student_info.other_fees_payment_date3 || '';
             document.getElementById('other_fees_details3').value=data.student_info.other_fees_details3 || '';
             document.getElementById('other_fees_amount3').value=data.student_info.other_fees_amount3 || '';
-            document.getElementById('projected_total_fees_curr_year').value=data.student_info.projected_total_fees_curr_year || '';
-            document.getElementById('remaining_tuition_fees_curr_year').value=data.student_info.remaining_tuition_fees_curr_year || '';
+            document.getElementById('projected_total_fees_curr_year').value=data.student_info.projected_total_fees_current_year || '';
+            document.getElementById('remaining_tuition_fees_curr_year').value=data.student_info.remaining_tuition_fees_current_year || '';
             document.getElementById('tuition_fees_paid_by').value=data.student_info.tuition_fees_paid_by || '';
             document.getElementById('rent_payment_date1').value=data.student_info.rent_payment_date1 || '';
-            document.getElementById('rent_paid_month1').value=data.student_info.rent_paid_month1 || '';
+            document.getElementById('rent_paid_month1').value=data.student_info.rent_paid_months1 || '';
             document.getElementById('rent_amount1').value=data.student_info.rent_amount1 || '';
             document.getElementById('rent_payment_date2').value=data.student_info.rent_payment_date2 || '';
-            document.getElementById('rent_paid_month2').value=data.student_info.rent_paid_month2 || '';
+            document.getElementById('rent_paid_month2').value=data.student_info.rent_paid_months2 || '';
             document.getElementById('rent_amount2').value=data.student_info.rent_amount2 || '';
             document.getElementById('rent_payment_date3').value=data.student_info.rent_payment_date3 || '';
-            document.getElementById('rent_paid_month3').value=data.student_info.rent_paid_month3 || '';
+            document.getElementById('rent_paid_month3').value=data.student_info.rent_paid_months3 || '';
             document.getElementById('rent_amount3').value=data.student_info.rent_amount3 || '';
             document.getElementById('rent_payment_date4').value=data.student_info.rent_payment_date4 || '';
-            document.getElementById('rent_paid_month4').value=data.student_info.rent_paid_month4 || '';
+            document.getElementById('rent_paid_month4').value=data.student_info.rent_paid_months4 || '';
             document.getElementById('rent_amount4').value=data.student_info.rent_amount4 || '';
             document.getElementById('upkeep_payment_date1').value=data.student_info.upkeep_payment_date1 || '';
             document.getElementById('upkeep_paid_months1').value=data.student_info.upkeep_paid_months1 || '';
@@ -87,35 +87,47 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // When the user clicks on the icon, open the modal and show the student image
     icon.onclick = function () {
-        modal.style.display = "block";
-
+        // Reset the photo display styles each time modal opens
+        studentPhoto.style.display = "none";
+        defaultPhoto.style.display = "none";
+        
         // Display student's current photo
+        modal.style.display = "block";
         var photoUrl = "/api/students/image/" + studentId;
         studentPhoto.src = photoUrl;
+    
         studentPhoto.onload = function() {
-            // If the image loads successfully, show the photo section and hide the default image
+            // Show the photo if it loads successfully
             studentPhoto.style.display = "block";
             defaultPhoto.style.display = "none"; // Hide the default icon
         };
-        
+    
         studentPhoto.onerror = function() {
-            // If image fails to load, show default photo
+            // Show default photo if image fails to load
             studentPhoto.style.display = "none";
-            defaultPhoto.style.display = "block"; // Show default icon
+            defaultPhoto.style.display = "block";
         };
     };
-
-    // Close modal when clicking the 'x' or outside the modal
+    
+    // Close the modal and reset display styles
     span.onclick = function () {
-        modal.style.display = "none";
-        viewPhotoSection.style.display = "none";
+        closeModal();
     };
     window.onclick = function (event) {
         if (event.target == modal) {
-            modal.style.display = "none";
-            viewPhotoSection.style.display = "none";
+            closeModal();
         }
     };
+    
+    // Close and reset the modal function
+    function closeModal() {
+        modal.style.display = "none";
+        studentPhoto.style.display = "none";
+        defaultPhoto.style.display = "none";
+        studentPhoto.src = ""; // Clear src to force reload next time
+    }
+    
+    
 
     // Trigger file input click when "Change Photo" is clicked
     changePhotoBtn.onclick = function () {
