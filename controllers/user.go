@@ -73,8 +73,8 @@ func Login(c *gin.Context) {
 		log.Println("Login Failed: while fetching user details with error: ", err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  "failed",
-			"message": "Invalid Email",
-			"error":   err,
+			"message": "Email entered is incorrect",
+			"error":   errors.New("invalid email"),
 		})
 		return
 	}
@@ -85,7 +85,7 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  "failed",
 			"message": "failed while verifying password",
-			"error":   errors.New("password is incorrect"),
+			"error":   errors.New("invalid password"),
 		})
 		return
 	}
