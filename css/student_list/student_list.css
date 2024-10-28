@@ -281,6 +281,38 @@ th {
     font-family: 'Poppins', sans-serif;
 }
 
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination-button {
+    padding: 10px 16px; /* Adjust padding for larger size */
+    margin: 0 6px;
+    cursor: pointer;
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    border-radius: 50%; /* Make buttons round */
+    font-size: 16px; /* Increase font size for readability */
+    width: 45px; /* Set width and height for a consistent round shape */
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination-button.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination-button:hover {
+    background-color: #ddd;
+}
+
+
 /* Modal animation for opening */
 @keyframes modalFadeIn {
     from {
