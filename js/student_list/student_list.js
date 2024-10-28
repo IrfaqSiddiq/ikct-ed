@@ -3,6 +3,8 @@ const searchBox = document.getElementById('search-box');
 const religionFilter = document.getElementById('religion-filter');
 const schoolFilter = document.getElementById('school-filter');
 const paginationContainer = document.getElementById('pagination-container');
+let currentPage = 1;
+let totalPages = 1;
 console.log("jsfile host url", hostURL);
 
 // Function to populate filters with data from API
@@ -45,12 +47,26 @@ function populateFilters() {
 }
 
 // Function to fetch and display all students
-function fetchStudents() {
-    fetch(`${hostURL}/api/students/list`)
+// Fetch students for the current page with optional filters
+function fetchStudents(page = 1) {
+    const searchQuery = searchBox.value.toLowerCase();
+    const selectedReligion = religionFilter.value;
+    const selectedSchool = schoolFilter.value;
+
+    // Build query parameter string for filters and page number
+    let queryParams = new URLSearchParams();
+    if (searchQuery) queryParams.append('name', searchQuery);
+    if (selectedReligion) queryParams.append('religion', selectedReligion);
+    if (selectedSchool) queryParams.append('school', selectedSchool);
+    queryParams.append('page', page);
+
+    fetch(`${hostURL}/api/students/list?${queryParams.toString()}`)
         .then(response => response.json())
         .then(data => {
             if (data.status === "success" && Array.isArray(data.students_info)) {
-                displayStudents(data.students_info); // Initial display of all students
+                displayStudents(data.students_info);
+                totalPages = data.total_page; // Set total pages from API response
+                renderPaginationButtons();
             } else {
                 console.error('Unexpected API response format:', data);
             }
@@ -58,13 +74,11 @@ function fetchStudents() {
         .catch(error => console.error('Error fetching student list:', error));
 }
 
-// Function to display students in the table
 function displayStudents(students) {
     tableBody.innerHTML = ""; // Clear the existing table rows
 
     students.forEach(student => {
         const row = document.createElement('tr');
-
         row.innerHTML = `
             <td>${student.sno}</td>
             <td>${student.name}</td>
@@ -75,11 +89,9 @@ function displayStudents(students) {
             <td>${student.school}</td>
             <td><a href="#" class="details-button" data-url="/v1/student/detail/${student.id}">Details</a></td>
         `;
-
         tableBody.appendChild(row);
     });
 
-    // Add event listeners for Details buttons
     document.querySelectorAll('.details-button').forEach(button => {
         button.addEventListener('click', function (event) {
             event.preventDefault();
@@ -89,59 +101,61 @@ function displayStudents(students) {
     });
 }
 
-// Function to filter students based on input and dropdowns with query parameters
-function filterStudents() {
-    const searchQuery = searchBox.value.toLowerCase();
-    const selectedReligion = religionFilter.value;
-    const selectedSchool = schoolFilter.value;
+// Render pagination buttons
+function renderPaginationButtons() {
+    paginationContainer.innerHTML = ""; // Clear existing buttons
+    console.log("Total Pages:", totalPages);
+    const MAX_VISIBLE_PAGES = 3; // Maximum visible pages around currentPage
+    const ellipsis = document.createElement('span');
+    ellipsis.innerText = "...";
+    ellipsis.classList.add("ellipsis"); // Add a class for styling the ellipsis if needed
 
-    // Build the query parameter string
-    let queryParams = new URLSearchParams();
+    if (totalPages <= MAX_VISIBLE_PAGES) {
+        // Display all pages if they fit within MAX_VISIBLE_PAGES
+        for (let i = 1; i <= totalPages; i++) {
+            addPaginationButton(i);
+        }
+    } else {
+        // Show first page
+        addPaginationButton(1);
 
-    if (searchQuery) {
-        queryParams.append('name', searchQuery);
-    }
-    if (selectedReligion) {
-        queryParams.append('religion', selectedReligion);
-    }
-    if (selectedSchool) {
-        queryParams.append('school', selectedSchool);
-    }
+        // Add ellipsis before middle pages if currentPage is far from start
+        //if (currentPage > 3) paginationContainer.appendChild(ellipsis.cloneNode(true));
 
-    // API call with query parameters
-    fetch(`${hostURL}/api/students/list?${queryParams.toString()}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "success" && Array.isArray(data.students_info)) {
-                displayStudents(data.students_info); // Update table with filtered students
-            } else {
-                console.error('Unexpected API response format:', data);
-            }
-        })
-        .catch(error => console.error('Error filtering students:', error));
+        // Show pages around the current page
+        let startPage = Math.max(2, currentPage - 1);
+        let endPage = Math.min(totalPages - 1, currentPage + 1);
+
+        for (let i = startPage; i <= endPage; i++) {
+            addPaginationButton(i);
+        }
+
+        // Add ellipsis after middle pages if currentPage is far from end
+        if (currentPage < totalPages - 2) paginationContainer.appendChild(ellipsis.cloneNode(true));
+
+        // Show last page
+        addPaginationButton(totalPages);
+    }
 }
 
+function addPaginationButton(pageNumber) {
+    const button = document.createElement('button');
+    button.innerText = pageNumber;
+    button.classList.add("pagination-button");
+    if (pageNumber === currentPage) button.classList.add("active");
 
-// function renderPaginationButtons() {
-//     paginationContainer.innerHTML = ""; // Clear existing buttons
+    button.addEventListener('click', () => {
+        currentPage = pageNumber;
+        fetchStudents(currentPage); // Fetch students for the selected page
+    });
 
-//     const totalPages = Math.ceil(studentData.length / rowsPerPage);
-
-//     for (let i = 1; i <= totalPages; i++) {
-//         const button = document.createElement('button');
-//         button.innerText = i;
-//         button.classList.add("pagination-button");
-//         if (i === currentPage) button.classList.add("active");
-
-//         button.addEventListener('click', () => {
-//             currentPage = i;
-//             displayStudents();
-//             renderPaginationButtons();
-//         });
-
-//         paginationContainer.appendChild(button);
-//     }
-// }
+    paginationContainer.appendChild(button);
+}
+// Filter students based on search and filter inputs
+function filterStudents() {
+    currentPage = 1;
+    fetchStudents(currentPage); // Fetch filtered students
+}
 
 // Event listeners and initialization
 document.addEventListener('DOMContentLoaded', () => {

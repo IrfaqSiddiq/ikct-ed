@@ -214,8 +214,7 @@
 
     <div id="errorModal" class="modal">
         <div class="modal-content">
-            <p>Failed while fetching user.</p>
-            <p>Please try again.</p>
+            <p id="errorMessage"></p> <!-- Error message element -->
             <button class="close-btn" id="closeModalBtn">Close</button>
         </div>
     </div>
@@ -229,6 +228,7 @@
             // Get the form element
             const form = document.getElementById('login-form');
             const errorModal = document.getElementById('errorModal');
+            const errorMessageElement = document.getElementById('errorMessage');
             const closeModalBtn = document.getElementById('closeModalBtn');
 
             // Add an event listener for form submission
@@ -254,22 +254,21 @@
                     },
                     body:formData,
                 })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
+                .then(response => response.json()) // Parse JSON response
                 .then(data => {
-                    // Handle the response from the server
-                    console.log('Success:', data);
-                    window.location.href = '/v1/student/list';
-
+                    if (data.error) {  
+                        errorMessageElement.textContent = data.error; // General error message
+                        errorModal.style.display = 'flex';
+                    }
+                    else {
+                        // Redirect to success page
+                        window.location.href = '/v1/student/list';
+                    }
                 })
                 .catch((error) => {
-                    // Handle any errors
-                    console.error('Error:', error);
-                    errorModal.style.display = 'flex'; // Show the modal
+                    // Display any unexpected errors
+                    errorMessageElement.textContent = 'An error occurred. Please try again later.';
+                    errorModal.style.display = 'flex';
                 });
             });
                 closeModalBtn.addEventListener('click', () => {

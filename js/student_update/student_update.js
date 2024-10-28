@@ -73,7 +73,8 @@ function callApiWithId(id, hostURL) {
 // Call the API when the page loads
 document.addEventListener('DOMContentLoaded', function () {
     callApiWithId(studentId,hostURL); // Call the API with the student ID
-    
+    populateReligion();
+    populateSchool();
     document.getElementById('profile-btn').addEventListener('click', saveChanges);
     const logoutButton = document.getElementById('logout-button');
     const logoutModal = document.getElementById('logoutModal');
@@ -227,4 +228,48 @@ function formatDateToYMD(dateString) {
         return `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
     }
     return dateString; // Return the original string if it's not in "dd/MM/yyyy" format
+}
+
+function populateReligion() {
+    const religionFilter = document.getElementById('Religion'); // Get the select element
+    
+    // Populate Religion Dropdown
+    fetch(`${hostURL}/api/religion`)
+        .then(response => response.json())
+        .then(data => {
+            console.log("Religion Data:", data); // Debug log
+            if (data.status === "success" && Array.isArray(data.religion)) {
+                data.religion.forEach(religionObj => {
+                    const option = document.createElement('option');
+                    option.value = religionObj.religion;  // Use the 'religion' property
+                    option.textContent = religionObj.religion; // Display the 'religion' name
+                    religionFilter.appendChild(option);
+                });
+            } else {
+                console.error('Unexpected format for religions:', data);
+            }
+        })
+        .catch(error => console.error('Error fetching religions:', error));
+}
+
+function populateSchool() {
+    const schoolFilter = document.getElementById('school'); // Get the select element
+
+    // Populate Religion Dropdown
+    fetch(`${hostURL}/api/schools`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("School Data:", data); // Debug log
+                if (data.status === "success" && Array.isArray(data.schools)) {
+                    data.schools.forEach(schoolObj => {
+                        const option = document.createElement('option');
+                        option.value = schoolObj.school;  // Use the 'school' property
+                        option.textContent = schoolObj.school; // Display the 'school' name
+                        schoolFilter.appendChild(option);
+                    });
+                } else {
+                    console.error('Unexpected format for schools:', data);
+                }
+            })
+            .catch(error => console.error('Error fetching schools:', error));
 }
