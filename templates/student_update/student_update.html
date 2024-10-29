@@ -19,7 +19,6 @@
 </head>
 <body>
 
-
     <div class="container">
         <!-- Sidebar -->
         <div class="sidebar">
@@ -44,13 +43,11 @@
                 </div>
             </div>
         </div>
-
-        
-
         <!-- Student Info -->
         <div class="student-info">
 
-        
+         <!-- Back Button -->
+         <a id="backButton" onclick="goBack()">Back</a>
             
             <!-- Fields to be populated dynamically -->
             <div class="info-box">
@@ -299,7 +296,9 @@
                 <!-- These can be used for future content -->
             </div>
             <div class="button-container">
-                <button class="save-button" id ="profile-btn" onclick="alert('Changes have been saved!');">Save Changes</button>
+                <button class="save-button" id ="profile-btn">Save Changes</button>
+                <button class="btn discard-btn" id ="discard-btn">Discard Changes</button>
+
             </div>
         </div>
         

@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
     populateReligion();
     populateSchool();
     document.getElementById('profile-btn').addEventListener('click', saveChanges);
+    document.getElementById('discard-btn').addEventListener('click', discardChanges);
     const logoutButton = document.getElementById('logout-button');
     const logoutModal = document.getElementById('logoutModal');
     const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
@@ -169,6 +170,12 @@ async function saveChanges() {
     }
 }
 
+function discardChanges() {
+    // Logic to discard changes, such as reloading the page
+    if (confirm('Are you sure you want to discard changes?')) {
+        location.reload();
+    }
+}
     
     logoutButton.addEventListener('click', (event) => {
         event.preventDefault(); // Prevent default behavior
@@ -272,4 +279,13 @@ function populateSchool() {
                 }
             })
             .catch(error => console.error('Error fetching schools:', error));
+}
+
+function goBack() {
+
+    // Set your dynamic URL here, for example
+    const dynamicUrl = '/v1/student/detail/'+studentId; 
+
+    // Redirect to the dynamic URL
+    window.location.href = dynamicUrl;
 }

@@ -234,3 +234,12 @@ document.addEventListener('DOMContentLoaded', function () {
     window.location.href=`/v1/student/update/${studentId}`
     }
 });
+
+function goBack() {
+
+    // Set your dynamic URL here, for example
+    const dynamicUrl = '/v1/student/list'
+
+    // Redirect to the dynamic URL
+    window.location.href = dynamicUrl;
+}
