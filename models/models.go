@@ -107,7 +107,7 @@ func GetStudentsList(page int64, filter FilterParameters) ([]StudentsFinancialIn
 	where := ""
 
 	if len(filter.SearchText) != 0 {
-		where += fmt.Sprintf(" AND (name ILIKE '%s%%' OR nrc ILIKE '%s%%' OR contact ILIKE '%s%%' OR course ILIKE '%s%%')",
+		where += fmt.Sprintf(" AND (name ILIKE '%%%s%%' OR nrc ILIKE '%s%%' OR contact ILIKE '%s%%' OR course ILIKE '%s%%')",
 			filter.SearchText,
 			filter.SearchText,
 			filter.SearchText,
