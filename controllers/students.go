@@ -30,17 +30,21 @@ func GetStudentsList(c *gin.Context) {
 	}
 	filter := models.FilterParameters{}
 
-	filter.Name = c.Query("name")
+	filter.SearchText = c.Query("search")
 	religion := c.Query("religion")
 	schools := c.Query("school")
+	assistance := c.Query("assistance")
 
 	if len(religion) > 0 {
 		filter.Religion = strings.Split(religion, ",")
 	}
 
-	fmt.Println("**length", len(filter.Religion))
 	if len(schools) > 0 {
 		filter.Schools = strings.Split(schools, ",")
+	}
+
+	if len(assistance) > 0 {
+		filter.Assistance = strings.Split(assistance, ",")
 	}
 
 	studentsInfo, totalCount, err := models.GetStudentsList(currentPage, filter)

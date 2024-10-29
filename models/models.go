@@ -85,9 +85,10 @@ type ReligionDetails struct {
 }
 
 type FilterParameters struct {
-	Name     string
-	Religion []string
-	Schools  []string
+	SearchText string
+	Religion   []string
+	Schools    []string
+	Assistance []string
 }
 
 func GetStudentsList(page int64, filter FilterParameters) ([]StudentsFinancialInfo, int64, error) {
@@ -105,8 +106,12 @@ func GetStudentsList(page int64, filter FilterParameters) ([]StudentsFinancialIn
 
 	where := ""
 
-	if len(filter.Name) != 0 {
-		where += fmt.Sprintf(" AND name ILIKE '%s%%'", filter.Name) // Use fmt.Sprintf to format the query string
+	if len(filter.SearchText) != 0 {
+		where += fmt.Sprintf(" AND name ILIKE '%s%%' OR nrc ILIKE '%s%%' OR contact ILIKE '%s%%' OR course ILIKE '%s%%'",
+			filter.SearchText,
+			filter.SearchText,
+			filter.SearchText,
+			filter.SearchText) // Use fmt.Sprintf to format the query string
 	}
 
 	// Handle multiple schools
@@ -127,6 +132,13 @@ func GetStudentsList(page int64, filter FilterParameters) ([]StudentsFinancialIn
 		}
 		// Join the formatted Religion with a comma and space
 		where += fmt.Sprintf(" AND LOWER(religion) IN (%s)", strings.Join(formattedReligion, ", ")) // Create the IN clause
+	}
+
+	// Handle multiple assistance
+	if len(filter.Assistance) > 0 {
+		for _, assistance := range filter.Assistance {
+			where += fmt.Sprintf(" AND LOWER(assistance) ILIKE '%%%s%%'", strings.ToLower(assistance))
+		}
 	}
 
 	sno := (page-1)*10 + 1

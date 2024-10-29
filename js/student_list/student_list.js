@@ -2,10 +2,16 @@ const tableBody = document.getElementById('table-body');
 const searchBox = document.getElementById('search-box');
 const religionFilter = document.getElementById('religion-filter');
 const schoolFilter = document.getElementById('school-filter');
+const assistanceFilter = document.getElementById('assistance-filter');
 const paginationContainer = document.getElementById('pagination-container');
 let currentPage = 1;
 let totalPages = 1;
 console.log("jsfile host url", hostURL);
+
+function toggleDropdown() {
+    const dropdownContent = document.getElementById('dropdown-content');
+    dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+  }
 
 // Function to populate filters with data from API
 function populateFilters() {
@@ -44,6 +50,7 @@ function populateFilters() {
             }
         })
         .catch(error => console.error('Error fetching schools:', error));
+
 }
 
 // Function to fetch and display all students
@@ -52,12 +59,17 @@ function fetchStudents(page = 1) {
     const searchQuery = searchBox.value.toLowerCase();
     const selectedReligion = religionFilter.value;
     const selectedSchool = schoolFilter.value;
+    // Get selected checkbox options and join them as a comma-separated string
+    const selectedOptions = Array.from(document.querySelectorAll('.dropdown-content input[type="checkbox"]:checked'))
+        .map(checkbox => checkbox.value)
+        .join(',');
 
     // Build query parameter string for filters and page number
     let queryParams = new URLSearchParams();
-    if (searchQuery) queryParams.append('name', searchQuery);
+    if (searchQuery) queryParams.append('search', searchQuery);
     if (selectedReligion) queryParams.append('religion', selectedReligion);
     if (selectedSchool) queryParams.append('school', selectedSchool);
+    if (selectedOptions) queryParams.append('assistance', selectedOptions);
     queryParams.append('page', page);
 
     fetch(`${hostURL}/api/students/list?${queryParams.toString()}`)
@@ -72,6 +84,8 @@ function fetchStudents(page = 1) {
             }
         })
         .catch(error => console.error('Error fetching student list:', error));
+
+        document.getElementById('dropdown-content').style.display = 'none';
 }
 
 function displayStudents(students) {

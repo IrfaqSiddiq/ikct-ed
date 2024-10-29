@@ -58,6 +58,21 @@
                 <select id="school-filter">
                     <option value="">All Schools</option>
                 </select>
+                <div class="dropdown">
+                    <button id="filter-button" onclick="toggleDropdown()">Assistance</button>
+                    <div class="dropdown-content" id="dropdown-content">
+                        <label>
+                            <input type="checkbox" name="option" value="fees"> Fees
+                        </label>
+                        <label>
+                            <input type="checkbox" name="option" value="rentals"> Rentals
+                        </label>
+                        <label>
+                            <input type="checkbox" name="option" value="upkeep"> Upkeep
+                        </label>
+                        <button type="button" onclick="fetchStudents()">Submit</button>
+                    </div>
+                </div>
             </div>            
          
             <table id="data-table">
