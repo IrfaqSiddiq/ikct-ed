@@ -20,9 +20,10 @@ func AddRoutes(router *gin.RouterGroup) {
 			students.PUT("/update/:id", controllers.UpdateStudentDetail)
 			students.POST("/upload/img/:id", controllers.UploadImageofStudent)
 			students.GET("/image/:id", controllers.GetImageData)
-			students.DELETE("/delete/img/:id",controllers.DeleteImageOfStudent)
+			students.DELETE("/delete/img/:id", controllers.DeleteImageOfStudent)
 			students.POST("/logout", controllers.Logout)
-			
+			students.POST("/insert", controllers.AddStudentRecord)
+
 		}
 
 		admin := api.Group("/user")
@@ -31,8 +32,8 @@ func AddRoutes(router *gin.RouterGroup) {
 			admin.POST("/login", controllers.Login)
 		}
 
-		api.GET("/schools",controllers.GetSchoolList)
-		api.GET("/religion",controllers.GetReligions)
+		api.GET("/schools", controllers.GetSchoolList)
+		api.GET("/religion", controllers.GetReligions)
 	}
 
 	v1 := router.Group("/v1", controllers.ValidatePageJWT)
@@ -40,7 +41,7 @@ func AddRoutes(router *gin.RouterGroup) {
 		v1.GET("/student/list", controllers.StudentListPage)
 		v1.GET("/student/detail/:id", controllers.StudentDetailPage)
 		v1.GET("/student/update/:id", controllers.UpdateStudentTemplate)
-		v1.GET("/student/add",controllers.AddStudentRecord)
+		v1.GET("/student/add", controllers.InsertStudentPage)
 	}
 
 }

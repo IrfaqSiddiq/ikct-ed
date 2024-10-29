@@ -252,7 +252,7 @@ func UpdateStudentTemplate(c *gin.Context) {
 	)
 }
 
-func AddStudentRecord(c *gin.Context) {
+func InsertStudentPage(c *gin.Context) {
 	hostURL := utility.GetHostURL()
 	c.HTML(
 		// Set the HTTP status to 200 (OK)
@@ -264,6 +264,10 @@ func AddStudentRecord(c *gin.Context) {
 			"host_url": hostURL,
 		},
 	)
+}
+
+func AddStudentRecord(c *gin.Context) {
+	
 }
 
 func GetStudentDetail(c *gin.Context) {
