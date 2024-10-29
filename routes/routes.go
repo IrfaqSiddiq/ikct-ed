@@ -40,6 +40,7 @@ func AddRoutes(router *gin.RouterGroup) {
 		v1.GET("/student/list", controllers.StudentListPage)
 		v1.GET("/student/detail/:id", controllers.StudentDetailPage)
 		v1.GET("/student/update/:id", controllers.UpdateStudentTemplate)
+		v1.GET("/student/add",controllers.AddStudentRecord)
 	}
 
 }

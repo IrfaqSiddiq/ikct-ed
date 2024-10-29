@@ -252,6 +252,20 @@ func UpdateStudentTemplate(c *gin.Context) {
 	)
 }
 
+func AddStudentRecord(c *gin.Context) {
+	hostURL := utility.GetHostURL()
+	c.HTML(
+		// Set the HTTP status to 200 (OK)
+		http.StatusOK,
+		// Use the student_detail.html template
+		"add_student.html",
+		gin.H{
+			"title":    "Student Detail page",
+			"host_url": hostURL,
+		},
+	)
+}
+
 func GetStudentDetail(c *gin.Context) {
 	studentID, err := strconv.ParseInt(c.Params.ByName("id"), 10, 64)
 
