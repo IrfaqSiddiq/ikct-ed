@@ -267,7 +267,33 @@ func InsertStudentPage(c *gin.Context) {
 }
 
 func AddStudentRecord(c *gin.Context) {
-	
+	var studentInfo models.StudentsFinancialInfo
+	err := c.ShouldBindJSON(&studentInfo)
+
+	if err != nil {
+		log.Println("AddStudentRecord: Failed to bind json in studentInfo struct with error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "fail",
+			"message": "failed to bind json",
+			"error":   err,
+		})
+		return
+	}
+
+	err = models.AddStudentRecord(studentInfo)
+	if err != nil {
+		log.Println("AddStudentRecord: Failed to update student detail with error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "fail",
+			"message": "Failed to update student detail",
+			"error":   err,
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"status":  "success",
+		"message": "succesfully updated student details",
+	})
 }
 
 func GetStudentDetail(c *gin.Context) {
