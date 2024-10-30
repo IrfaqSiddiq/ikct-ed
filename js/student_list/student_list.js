@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('file-input');
      
     addStudentButton.addEventListener('click', function () {
-        window.location.href = 'http://localhost:8778/v1/student/add';
+        window.location.href = hostURL+'/v1/student/add';
     });
 
     uploadButton.addEventListener('click', () => {
