@@ -54,8 +54,15 @@
                     <input type="text" class="text-field" id="name" name="name" >
                 </div>
                 <div class="info-label">
-                    <label>Assistance:</label> 
-                    <input type="text" class="text-field" id="assistance" name="assistance" >
+                    <label for="Assistance">Assistance:</label>
+                    <div class="custom-dropdown">
+                        <button class="text-field dropdown-btn" id="Assistance" onclick="toggleDropdown()">Select Assistance</button>
+                        <div class="dropdown-content" id="assistanceDropdown">
+                            <label><input type="checkbox" value="Fees" class="assistance-checkbox"> Fees</label>
+                            <label><input type="checkbox" value="Rentals" class="assistance-checkbox"> Rentals</label>
+                            <label><input type="checkbox" value="Upkeep" class="assistance-checkbox"> Upkeep</label>
+                        </div>
+                    </div>
                 </div>
                 <div class="info-label">
                     <label for="Religion">Religion:</label> 

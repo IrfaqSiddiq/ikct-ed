@@ -11,9 +11,13 @@ document.addEventListener('DOMContentLoaded', function () {
 async function saveChanges() {
 
     const apiUrl = `${hostURL}/api/students/insert`; // Replace with your actual API URL
+
+    const selectedAssistance = Array.from(document.querySelectorAll('.assistance-checkbox:checked'))
+        .map(checkbox => checkbox.value)
+        .join(',');
     const data = {
         name: document.getElementById('name').value,
-        assistance: document.getElementById('assistance').value,
+        assistance: selectedAssistance, 
         religion: document.getElementById('Religion').value,
         nrc: document.getElementById('nrc').value,
         contact: document.getElementById('contact').value,
@@ -199,6 +203,39 @@ function populateSchool() {
             })
             .catch(error => console.error('Error fetching schools:', error));
 }
+
+
+function toggleDropdown() { 
+    document.querySelector('.custom-dropdown').classList.toggle('active');
+    updateDropdownText(); // Call the function to update button text when toggling
+}
+
+function updateDropdownText() {
+    const checkboxes = document.querySelectorAll('.assistance-checkbox');
+    const dropdownBtn = document.getElementById('Assistance');
+    const selected = Array.from(checkboxes)
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox => checkbox.value);
+
+    // Update button text based on selected checkboxes
+    if (selected.length > 0) {
+        dropdownBtn.textContent = selected.join(', ');
+    } else {
+        dropdownBtn.textContent = 'Select Assistance'; // Default text
+    }
+}
+
+// Close dropdown if clicked outside
+window.addEventListener("click", function(event) {
+    if (!event.target.closest('.custom-dropdown')) {
+        document.querySelector('.custom-dropdown').classList.remove('active');
+    }
+});
+
+// Add event listeners to checkboxes to update text when selected
+document.querySelectorAll('.assistance-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', updateDropdownText);
+});
 
 function goBack() {
 
