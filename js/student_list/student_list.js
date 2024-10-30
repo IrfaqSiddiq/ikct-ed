@@ -182,7 +182,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Existing upload functionality
     const uploadButton = document.getElementById('upload-button');
+    const addStudentButton = document.getElementById('add-student-button');
     const fileInput = document.getElementById('file-input');
+     
+    addStudentButton.addEventListener('click', function () {
+        window.location.href = 'http://localhost:8778/v1/student/add';
+    });
 
     uploadButton.addEventListener('click', () => {
         fileInput.click();

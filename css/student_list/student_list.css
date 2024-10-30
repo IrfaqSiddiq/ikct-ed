@@ -130,6 +130,25 @@ th {
     background-color: #2e5071;
 }
 
+#add-student-button {
+    background-color: #3c658e;
+    color: #fff;
+    padding: 12px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 17px;
+    margin: 6px 2px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    margin-left: 950px;
+}
+
+#add-student-button:hover {
+    background-color: #2e5071;
+}
+
 /* Modal Background */
 .modal {
     display: none; /* Hidden by default */
