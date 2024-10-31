@@ -31,8 +31,12 @@ func AddRoutes(router *gin.RouterGroup) {
 			admin.POST("/create", controllers.CreateUser)
 			admin.POST("/login", controllers.Login)
 		}
-
-		api.GET("/schools", controllers.GetSchoolList)
+		schools:=api.Group("/schools")
+		{
+			schools.GET("/list", controllers.GetSchoolList)
+			schools.POST("/add",controllers.AddSchool)
+		}
+		
 		api.GET("/religion", controllers.GetReligions)
 	}
 

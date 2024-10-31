@@ -186,7 +186,7 @@ function populateSchool() {
     const schoolFilter = document.getElementById('school'); // Get the select element
 
     // Populate Religion Dropdown
-    fetch(`${hostURL}/api/schools`)
+    fetch(`${hostURL}/api/schools/list`)
             .then(response => response.json())
             .then(data => {
                 console.log("School Data:", data); // Debug log

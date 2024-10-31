@@ -280,6 +280,16 @@ func AddStudentRecord(c *gin.Context) {
 		return
 	}
 
+	if len(studentInfo.Name) == 0 {
+		log.Println("AddStudentRecord: Failed to add student record as Name is Mandatory Field:")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "fail",
+			"message": "Name is mandatory dield",
+			"error":   "Name is missing",
+		})
+		return
+	}
+
 	err = models.AddStudentRecord(studentInfo)
 	if err != nil {
 		log.Println("AddStudentRecord: Failed to update student detail with error: ", err)
@@ -492,24 +502,6 @@ func GetImageData(c *gin.Context) {
 	}
 	c.Data(http.StatusOK, "image/jpeg", imageData)
 
-}
-
-func GetSchoolList(c *gin.Context) {
-	schools, err := models.GetSchoolList()
-	if err != nil {
-		log.Println("GetSchoolList: Failed to get school information with error: ", err)
-		c.JSON(http.StatusBadRequest, gin.H{
-			"status":  "fail",
-			"message": "failed to get school info",
-			"error":   err,
-		})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{
-		"status":  "success",
-		"message": "successfully fetched school list",
-		"schools": schools,
-	})
 }
 
 func GetReligions(c *gin.Context) {

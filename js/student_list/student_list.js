@@ -34,7 +34,7 @@ function populateFilters() {
         .catch(error => console.error('Error fetching religions:', error));
 
     // Populate School Dropdown
-    fetch(`${hostURL}/api/schools`)
+    fetch(`${hostURL}/api/schools/list`)
         .then(response => response.json())
         .then(data => {
             console.log("School Data:", data); // Debug log
