@@ -7,6 +7,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const logoutModal = document.getElementById('logoutModal');
     const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
     const cancelLogoutBtn = document.getElementById('cancelLogoutBtn');
+    var modal = document.getElementById("myModal");
+    var icon = document.getElementById("icon");
+    var span = document.getElementsByClassName("close")[0];
+    var studentPhoto = document.getElementById("student-photo");
+    var viewPhotoSection = document.getElementById("view-photo");
+    const defaultPhoto = document.getElementById("default-photo");
+    var changePhotoBtn = document.getElementById("changePhotoBtn");
+    var uploadPhotoInput = document.getElementById("uploadPhotoInput");
 
 async function saveChanges() {
 
@@ -99,6 +107,108 @@ async function saveChanges() {
         alert('Error adding new student. Please try again.');
     }
 }
+
+    // When the user clicks on the icon, open the modal and show the student image
+    icon.onclick = function () {
+        // Reset the photo display styles each time modal opens
+        studentPhoto.style.display = "none";
+        defaultPhoto.style.display = "none";
+        
+        // Display student's current photo
+        modal.style.display = "block";
+        var photoUrl = "/api/students/image/";
+        studentPhoto.src = photoUrl;
+
+        studentPhoto.onload = function() {
+            // Show the photo if it loads successfully
+            studentPhoto.style.display = "block";
+            defaultPhoto.style.display = "none"; // Hide the default icon
+        };
+
+        studentPhoto.onerror = function() {
+            // Show default photo if image fails to load
+            studentPhoto.style.display = "none";
+            defaultPhoto.style.display = "block";
+        };
+    };
+
+    // Close the modal and reset display styles
+    span.onclick = function () {
+        closeModal();
+    };
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    };
+
+    // Close and reset the modal function
+    function closeModal() {
+        modal.style.display = "none";
+        studentPhoto.style.display = "none";
+        defaultPhoto.style.display = "none";
+        studentPhoto.src = ""; // Clear src to force reload next time
+    }
+
+
+
+    // Trigger file input click when "Change Photo" is clicked
+    changePhotoBtn.onclick = function () {
+        uploadPhotoInput.click(); // Trigger the file input
+    };
+
+
+        // Handle the file input change event
+            uploadPhotoInput.onchange = function(event) {
+            var selectedFile = event.target.files[0];
+            if (selectedFile) {
+                console.log("File selected:", selectedFile.name);
+                
+                // Create a FormData object to send the file
+                var formData = new FormData();
+                formData.append("profile_pic", selectedFile); // Use the same field name as expected by the Go API
+                
+                // Fetch API to send the file to the server
+                fetch(`/api/students/upload/img`, { // Assuming studentId is defined and holds the student's ID
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Failed to upload image");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Success:", data);
+                    window.location.reload();
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+            
+        }
+    };
+
+    deletePhotoBtn.onclick = function () {
+            // Assuming studentId is defined and holds the student's ID
+            fetch(`/api/students/delete/img/`, { 
+                method: 'DELETE' // Use the DELETE method
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to delete image");
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Photo deleted successfully:", data);
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    };
     
     logoutButton.addEventListener('click', (event) => {
         event.preventDefault(); // Prevent default behavior
@@ -185,7 +295,7 @@ function populateReligion() {
 function populateSchool() {
     const schoolFilter = document.getElementById('school'); // Get the select element
 
-    // Populate Religion Dropdown
+    // Populate School Dropdown
     fetch(`${hostURL}/api/schools/list`)
             .then(response => response.json())
             .then(data => {

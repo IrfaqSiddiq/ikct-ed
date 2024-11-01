@@ -30,13 +30,15 @@
         </div>
 
         
-        <div id="logoutModal" class="modal">
-            <div class="modal-content">
+
+        
+        <div id="logoutModal" class="lomodal">
+            <div class="lomodal-content">
                 <h2>Confirm Logout</h2>
                 <p>Are you sure you want to log out?</p>
                 <div class="modal-actions">
-                    <button id="confirmLogoutBtn" class="popup-btn">Yes</button>
-                    <button id="cancelLogoutBtn" class="popup-btn">No</button>
+                    <button id="confirmLogoutBtn" class="popup-btnl">Yes</button>
+                    <button id="cancelLogoutBtn" class="popup-btnl">No</button>
                 </div>
             </div>
         </div>
@@ -45,10 +47,45 @@
 
          <!-- Back Button -->
          <a id="backButton" onclick="goBack()">Back</a>
+
+            
             
             <!-- Fields to be populated dynamically -->
             <div class="info-box">
+                <div id="myModal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        
+                        <!-- Heading for the modal -->
+                        <h2 class="modal-heading">Profile Photo</h2>
+                        
+                        <!-- View and change photo section -->
+                        <div id="view-photo" class="center-content">
+                            <img id="student-photo" src="" alt="Student Photo" class="circular-photo">
+                            <img id="default-photo" src="/static/img/default.jpg" alt="Default Icon" class="circular-photo">
+                            <div class="button-container">
+                                <button id="changePhotoBtn" class="popup-btn">Add Photo</button>
+                                <button id="deletePhotoBtn" class="popup-btn">Delete Photo</button>
+                            </div>
+                        </div>
+                
+                        <!-- Upload photo section (hidden input for selecting file) -->
+                        <input type="file" id="uploadPhotoInput" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+
+                <div id="student-info-container">
+                    <div id="student-img" style="position: relative;">
+                        <img src="/api/students/image/{{ .student_id }}" 
+                        onerror="this.onerror=null; this.src='/static/img/default.jpg';" 
+                        style="width: 150px; height: 150px; border-radius: 50%;" alt="">
+                        <img id="icon" src="/static/img/icon.svg" style="cursor: pointer; position: absolute; width: 56px; height: 56px; bottom: 0px; right: 0px;" alt="">                      
+                    </div>
+                </div>
+
                 <h2>Personal Information</h2>
+                
                 <div class="info-label">
                     <label>Name:</label> 
                     <input type="text" class="text-field" id="name" name="name" >
@@ -300,7 +337,7 @@
                 <!-- These can be used for future content -->
             </div>
             <div class="button-container">
-                <button class="save-button" id ="profile-btn">Add New Student</button>
+                <button class="save-button" id ="profile-btn">Save</button>
 
             </div>
         </div>
