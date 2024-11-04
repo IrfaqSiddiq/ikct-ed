@@ -161,7 +161,7 @@ func GetStudentsList(page int64, filter FilterParameters) ([]StudentsFinancialIn
 			WHERE
 				id > 0 ` + where + `
 			ORDER BY 
-				name asc
+				LOWER(name) ASC
 			LIMIT $1
 			OFFSET $2
 			`
