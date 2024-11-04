@@ -114,6 +114,21 @@ th {
     background-color: #2e5071;
 }
 
+.text{
+    border: 1px solid #C4C4C4;
+    width: 100%;
+    margin: 8px 0px;
+    padding: 14px;
+    font-size: 16px;
+}
+
+.text:focus {
+    outline: none;
+    border-color: #C4C4C4; /* Keeps the same border color */
+    background-color: white; /* Keeps the background color the same */
+    color: black; /* Keeps the text color the same */
+}
+
 /* Modal Styling */
 .modal {
     display: none;

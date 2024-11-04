@@ -184,6 +184,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const uploadButton = document.getElementById('upload-button');
     const addStudentButton = document.getElementById('add-student-button');
     const fileInput = document.getElementById('file-input');
+    const errorModal = document.getElementById('errorModal');
+    const errorMessageElement = document.getElementById('errorMessage');
+    const closeModalBtn = document.getElementById('closeModalBtn');
      
     addStudentButton.addEventListener('click', function () {
         window.location.href = hostURL+'/v1/student/add';
@@ -216,22 +219,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 body: formData
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Failed to upload file");
-                }
-                console.log(response.json());
-            })
+            .then(response => response.json())
             .then(data => {
-                console.log("Success:", data);
-                window.location.reload();
+                if (data.error) {  
+                    errorMessageElement.textContent = data.error; // General error message
+                    errorModal.style.display = 'flex';
+                    throw new Error(data.error);
+                }
+                else {
+                    // Redirect to success page
+                    window.location.href = '/v1/student/list';
+                }
             })
             .catch(error => {
                 console.error("Error:", error);
-            });
-        
+            });        
     }
-    });
+    closeModalBtn.addEventListener('click', () => {
+    errorModal.style.display = 'none'; // Hide the modal
+});
+});
 
     // Existing logout functionality
     const logoutButton = document.getElementById('logout-button');
