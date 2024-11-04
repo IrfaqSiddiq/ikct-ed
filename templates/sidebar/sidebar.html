@@ -1,0 +1,43 @@
+{{ define "sidebar"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/sidebar/sidebar.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar -->
+
+    <div class="sidebar">
+        <ul>
+            <li><a href="#" class="admin-portal">Admin Portal</a></li>
+            <li><a href="/v1/student/list">Student List</a></li>
+            <li><a href="/v1/schools">School</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#" id="logout-button">Log Out</a></li>
+        </ul>
+    </div>
+
+    <div id="logoutModal" class="modal">
+        <div class="modal-content">
+            <h2>Confirm Logout</h2>
+            <p>Are you sure you want to log out?</p>
+            <div class="modal-actions">
+                <button id="confirmLogoutBtn" class="popup-btn">Yes</button>
+                <button id="cancelLogoutBtn" class="popup-btn">No</button>
+            </div>
+        </div>
+    </div>
+    
+
+   
+</body>
+</html>
+
+{{ end }}

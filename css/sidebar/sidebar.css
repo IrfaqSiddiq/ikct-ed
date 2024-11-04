@@ -1,0 +1,45 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    height: 100vh;
+    overflow: hidden; /* Prevent body scroll */
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #3c658e;
+    height: 100%; /* Ensure it occupies full height of the container */
+    padding: 20px;
+    position: fixed;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0; /* Ensure no padding */
+}
+
+.sidebar ul li {
+    margin-bottom: 20px;
+}
+
+.sidebar ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 18px;
+    display: block;
+    padding: 10px 0;
+}
+
+.sidebar ul li a:hover {
+    background-color: #34495e;
+    padding-left: 10px;
+    transition: 0.3s ease;
+}

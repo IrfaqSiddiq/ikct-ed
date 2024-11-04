@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"ikct-ed/models"
+	"ikct-ed/utility"
 	"log"
 	"net/http"
 
@@ -52,4 +53,18 @@ func AddSchool(c *gin.Context) {
 		"status":  "success",
 		"message": "successfully added school",
 	})
+}
+
+func SchoolPage(c *gin.Context) {
+	hostURL := utility.GetHostURL()
+	c.HTML(
+		// Set the HTTP status to 200 (OK)
+		http.StatusOK,
+		// Use the student_detail.html template
+		"schools.html",
+		gin.H{
+			"title":    "Test page",
+			"host_url": hostURL,
+		},
+	)
 }

@@ -20,17 +20,8 @@
 <body>
 
     <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <ul>
-                <li><a href="#" class="admin-portal">Admin Portal</a></li>
-                <li><a href="/v1/student/list">Student List</a></li>
-                <li><a href="#">School</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#" id="logout-button">Log Out</a></li>
-            </ul>
-        </div>
+        <!-- Include the Sidebar -->
+        {{ template "sidebar" . }}
 
         
         <div id="logoutModal" class="modal">
