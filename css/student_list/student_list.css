@@ -10,6 +10,7 @@ body {
 
 .container {
     display: flex;
+    width: 100%;
 }
 
 h1{
@@ -23,14 +24,15 @@ h1{
 .main-content {
     margin-left: 250px;
     padding: 20px;
-    width: calc(100% - 200px);
+    width: calc(100% - 250px);
+    overflow: scroll;
 }
 
-table {
+/* table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-}
+} */
 
 th, td {
     border: 1px solid #ddd;
