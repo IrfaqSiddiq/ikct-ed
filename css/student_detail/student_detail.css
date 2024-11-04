@@ -251,6 +251,15 @@ h1 {
     gap: 30px; /* Optional: Add some space between the buttons */
 }
 
+/* Circular Photo */
+.circular-photo {
+    width: 150px; /* Adjust the size as needed */
+    height: 150px; /* Adjust the size as needed */
+    border-radius: 50%; /* Makes the image circular */
+    border: 1px solid black; /* Circular frame */
+    margin-bottom: 30px; /* Add some space below the image */
+}
+
 /* Button Styles */
 .popup-btn {
     background-color: #3c658e;
