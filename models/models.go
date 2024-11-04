@@ -76,6 +76,7 @@ type StudentsFinancialInfo struct {
 
 type School struct {
 	ID   int64  `json:"id"`
+	Sno  int64  `json:"sno"`
 	Name string `json:"school"`
 }
 
@@ -1146,6 +1147,8 @@ func GetSchoolList() ([]School, error) {
 		log.Println("GetSchoolList: Failed while executing the query with error: ", err)
 		return []School{}, err
 	}
+	page := 1
+	sno := (page-1)*10 + 1
 	for rows.Next() {
 		var (
 			id   int64
@@ -1157,9 +1160,11 @@ func GetSchoolList() ([]School, error) {
 			continue
 		}
 		schools = append(schools, School{
+			Sno:  int64(sno),
 			ID:   id,
 			Name: name,
 		})
+		sno++
 	}
 	return schools, nil
 }
