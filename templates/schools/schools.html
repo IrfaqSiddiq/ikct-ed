@@ -1,0 +1,63 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/schools/schools.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <script>
+            var hostURL = "{{ .host_url }}"
+    
+            console.log("hostURL: ",hostURL)
+        </script>
+        <title>Schools List</title>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <ul>
+                    <li><a href="#" class="admin-portal">Admin Portal</a></li>
+                    <li><a href="/v1/student/list">Student List</a></li>
+                    <li><a href="/v1/schools/list">School</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#" id="logout-button">Log Out</a></li>
+                </ul>
+            </div>
+
+            <div class="main-content">
+                <div class="header">
+                    <h1>Schools List</h1>
+                    <button id="add-school-button" class="popup-btn">Add School</button>
+                </div>
+                
+                <!-- Table for listing schools -->
+                <table id="data-table">
+                    <thead>
+                        <tr>
+                            <th>School Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Data from API will be inserted here -->
+                    </tbody>
+                </table>
+        
+                <!-- Modal for adding a new school -->
+                <div id="schoolModal" class="modal">
+                    <div class="modal-content">
+                        <h2>Add New School</h2>
+                        <input type="text" id="schoolName" placeholder="Enter school name" required>
+                        <div class="modal-actions">
+                            <button class="popup-btn" id="saveSchoolButton">Save</button>
+                            <button class="popup-btn" id="cancelButton">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="/js/schools/schools.js"></script>
+        </div>
+    </body>
+</html>
