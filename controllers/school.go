@@ -5,12 +5,23 @@ import (
 	"ikct-ed/utility"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
 func GetSchoolList(c *gin.Context) {
-	schools, err := models.GetSchoolList()
+	name := c.Query("school")
+	page := c.Query("page")
+
+	var currentPage int64
+
+	currentPage, err := strconv.ParseInt(page, 10, 64)
+	if len(page) == 0 || err != nil {
+		currentPage = 1
+	}
+
+	schools, err := models.GetSchoolList(currentPage, name)
 	if err != nil {
 		log.Println("GetSchoolList: Failed to get school information with error: ", err)
 		c.JSON(http.StatusBadRequest, gin.H{

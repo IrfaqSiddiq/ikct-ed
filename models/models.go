@@ -1132,8 +1132,9 @@ func UploadImageofStudent(imageData []byte, id int64) error {
 	return nil
 }
 
-func GetSchoolList() ([]School, error) {
+func GetSchoolList(currentPage int64, name string) ([]School, error) {
 	schools := []School{}
+	where := ""
 	db, err := config.GetDB2()
 	if err != nil {
 		log.Println("GetSchoolList: Failed while connecting with database with error: ", err)
@@ -1141,8 +1142,25 @@ func GetSchoolList() ([]School, error) {
 	}
 	defer db.Close()
 
-	query := ` SELECT id, name FROM schools`
-	rows, err := db.Query(query)
+	limit := 10
+	offset := (currentPage - 1) * 10
+
+	if len(name) != 0 {
+		where += fmt.Sprintf(` WHERE name ilike '%v%%'`, name)
+	}
+
+	query := ` SELECT 
+				id, name 
+			FROM 
+				schools ` + where + ` 
+			ORDER BY 
+				LOWER(name) ASC
+			LIMIT $1
+			OFFSET $2
+			`
+
+	fmt.Println("GetSchoolList: query", query)
+	rows, err := db.Query(query, limit, offset)
 	if err != nil {
 		log.Println("GetSchoolList: Failed while executing the query with error: ", err)
 		return []School{}, err
