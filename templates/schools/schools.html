@@ -15,17 +15,8 @@
     </head>
     <body>
         <div class="container">
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <ul>
-                    <li><a href="#" class="admin-portal">Admin Portal</a></li>
-                    <li><a href="/v1/student/list">Student List</a></li>
-                    <li><a href="/v1/schools/list">School</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#" id="logout-button">Log Out</a></li>
-                </ul>
-            </div>
+            <!-- Include the Sidebar -->
+            {{ template "sidebar" . }}
 
             <div class="main-content">
                 <div class="header">
@@ -37,6 +28,7 @@
                 <table id="data-table">
                     <thead>
                         <tr>
+                            <th>Serial No.</th>
                             <th>School Name</th>
                         </tr>
                     </thead>
@@ -49,7 +41,7 @@
                 <div id="schoolModal" class="modal">
                     <div class="modal-content">
                         <h2>Add New School</h2>
-                        <input type="text" id="schoolName" placeholder="Enter school name" required>
+                        <input type="text" id="school" class="text" placeholder="Enter school name" required>
                         <div class="modal-actions">
                             <button class="popup-btn" id="saveSchoolButton">Save</button>
                             <button class="popup-btn" id="cancelButton">Cancel</button>
