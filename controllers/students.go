@@ -76,9 +76,8 @@ func AddStudentsCSV(c *gin.Context) {
 	if err != nil {
 		log.Println("AddStudentsCSV: failed to read file with error: ", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"status":  "failed",
-			"message": "failed to read file",
-			"error":   err,
+			"status": "failed",
+			"error":  "failed to read file",
 		})
 		return
 	}
@@ -90,9 +89,8 @@ func AddStudentsCSV(c *gin.Context) {
 	if err != nil {
 		log.Println("AddStudentsCSV: failed to copy file with error: ", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"status":  "failed",
-			"message": "failed to copy file content",
-			"error":   err,
+			"status": "failed",
+			"error":  "failed to copy file content",
 		})
 		return
 	}
@@ -127,9 +125,8 @@ func AddStudentsCSV(c *gin.Context) {
 	if err != nil {
 		log.Println("AddStudentsCSV: failed to create temporary file on server with error: ", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"status":  "failed",
-			"message": "failed to create temporary file",
-			"error":   err,
+			"status": "failed",
+			"error":  "failed to create temporary file",
 		})
 		return
 	}
@@ -141,9 +138,8 @@ func AddStudentsCSV(c *gin.Context) {
 	if err != nil {
 		log.Println("AddStudentsCSV: failed to write cleaned CSV content with error: ", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"status":  "failed",
-			"message": "failed to write cleaned CSV content",
-			"error":   err,
+			"status": "failed",
+			"error":  "failed to write cleaned CSV content",
 		})
 		return
 	}
@@ -154,9 +150,8 @@ func AddStudentsCSV(c *gin.Context) {
 	if err != nil {
 		log.Println("AddStudentsCSV: failed to open file with error: ", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"status":  "failed",
-			"message": "failed to open file for DB insertion",
-			"error":   err,
+			"status": "failed",
+			"error":  "failed to open file for DB insertion",
 		})
 		return
 	}
@@ -179,9 +174,8 @@ func AddStudentsCSV(c *gin.Context) {
 	err = models.InsertCSVIntoDB(filePath)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"status":  "fail",
-			"message": "failed to insert csv records",
-			"error":   err,
+			"status": "fail",
+			"error":  "failed to insert csv records",
 		})
 		return
 	}
@@ -192,7 +186,6 @@ func AddStudentsCSV(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"status":  "success",
 			"message": "failed to delete temporary file",
-			"error":   err,
 		})
 		return
 	}
