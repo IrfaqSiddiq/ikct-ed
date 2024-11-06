@@ -65,11 +65,10 @@ function populateFilters() {
         
                             // Event to fill the input with the selected school name when an item is clicked
                             listItem.addEventListener("click", () => {
-                                console.log("school",school)
                                 schoolFilter.value = school;
                                 schoolResults.innerHTML = ''; // Clear suggestions after selection
                                 schoolResults.style.display = 'none';
-                                fetchStudents()
+                                fetchStudents();
                             });
         
                             schoolResults.appendChild(listItem);
@@ -111,7 +110,6 @@ function fetchStudents(page = 1) {
     const searchQuery = searchBox.value.toLowerCase();
     const selectedReligion = religionFilter.value;
     const selectedSchool = schoolFilter.value;
-    console.log("******irfffaqqq*****",selectedSchool)
     // Get selected checkbox options and join them as a comma-separated string
     const selectedOptions = Array.from(document.querySelectorAll('.dropdown-content input[type="checkbox"]:checked'))
         .map(checkbox => checkbox.value)

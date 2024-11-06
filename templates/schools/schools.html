@@ -18,24 +18,40 @@
             <!-- Include the Sidebar -->
             {{ template "sidebar" . }}
 
+            <div id="logoutModal" class="lomodal">
+                <div class="lomodal-content">
+                    <h2>Confirm Logout</h2>
+                    <p>Are you sure you want to log out?</p>
+                    <div class="modal-actions">
+                        <button id="confirmLogoutBtn" class="popup-btn">Yes</button>
+                        <button id="cancelLogoutBtn" class="popup-btn">No</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="main-content">
                 <div class="header">
                     <h1>Schools List</h1>
                     <button id="add-school-button" class="popup-btn">Add School</button>
                 </div>
-                
+                <div class="search-container">
+                    <input type="text" id="search-box" placeholder="Search Text...">
+                </div>
                 <!-- Table for listing schools -->
                 <table id="data-table">
                     <thead>
                         <tr>
-                            <th>Serial No.</th>
-                            <th>School Name</th>
+                            <th id="serial-col">Serial No.</th>
+                            <th id="school-col">School Name</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
                         <!-- Data from API will be inserted here -->
                     </tbody>
                 </table>
+                <div id="pagination-container" class="pagination-container">
+                    <!-- Pagination buttons will be generated here -->
+                </div>
         
                 <!-- Modal for adding a new school -->
                 <div id="schoolModal" class="modal">

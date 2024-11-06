@@ -334,6 +334,7 @@ th {
     display: none;
     margin-left: 490px;
     margin-top: 190px;
+    list-style: none; 
 }
 
 #school-results div {

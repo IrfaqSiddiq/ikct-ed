@@ -13,9 +13,9 @@ body {
 }
 
 h1 {
-    font-weight: 400;
+    font-weight: 500;
     color: #3c658e;
-    margin-left: 30px;
+    margin-bottom: 15px;
 }
 
 .container {
@@ -56,17 +56,84 @@ h1 {
     transition: 0.3s ease;
 }
 
-h1 {
-    font-weight: 500;
-    color: #3c658e;
-    margin-bottom: 20px;
+/* Modal Background */
+.lomodal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0, 0, 0, 0.7); /* Darker black background with higher opacity */
+    transition: all 0.3s ease-in-out; /* Smooth transition effect */
+    backdrop-filter: blur(3px); /* Add a subtle blur effect for background */
 }
 
+/* Modal Content */
+.lomodal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* When the modal is displayed */
+.modal.show .modal-content {
+    transform: scale(1); /* Full size on display */
+}
+
+/* Modal heading */
+.lomodal-content h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    color: #3c658e;
+    margin-bottom: 40px;
+}
+
+/* Modal actions - Flexbox for button alignment */
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+/* Button styles */
+.popup-btn {
+    background-color: #3c658e;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    outline: none;
+}
+
+/* Button hover and active state */
+.popup-btn:hover {
+    background-color: #2a4a6b;
+    transform: translateY(-3px); /* Subtle lift on hover */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1); /* Shadow effect on hover */
+}
+
+.popup-btn:active {
+    transform: translateY(2px); /* Slight press down on click */
+    background-color: #254057; /* Darker color when clicked */
+}
 /* Main Content */
 .main-content {
     margin-left: 250px;
     padding: 20px;
     width: calc(100% - 250px);
+    overflow: scroll;
 }
 
 /* Table Styling */
@@ -88,12 +155,61 @@ th {
     font-weight: 600;
 }
 
+#serial-col {
+    width: 400px;
+}
+
+#school-col {
+    width: 600px;
+}
+
 /* Header and Button */
 .header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 20px;
+}
+
+.search-container label {
+    font-size: 18px;
+    font-weight: 500;
+    margin-right: 10px;
+    color: #555;
+    font-family: 'Poppins', sans-serif;
+}
+
+#search-box {
+    padding: 8px;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+}
+
+#search-box:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    outline: none;
+    transform: scale(1.02); /* Subtle scaling effect */
+}
+
+#search-box:hover {
+    border-color: #007bff;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+#search-box::placeholder {
+    color: #aaa;
+    font-style: italic;
+    font-size: 14px;
 }
 
 #add-school-button {
@@ -188,4 +304,36 @@ th {
 .popup-btn:active {
     transform: translateY(2px);
     background-color: #254057;
+}
+
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination-btn {
+    padding: 10px 16px; /* Adjust padding for larger size */
+    margin: 0 6px;
+    cursor: pointer;
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    border-radius: 50%; /* Make buttons round */
+    font-size: 16px; /* Increase font size for readability */
+    width: 45px; /* Set width and height for a consistent round shape */
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination-btn.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination-btn:hover {
+    background-color: #ddd;
 }
