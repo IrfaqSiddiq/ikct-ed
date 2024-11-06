@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"ikct-ed/models"
 	"ikct-ed/utility"
 	"log"
@@ -21,7 +22,7 @@ func GetSchoolList(c *gin.Context) {
 		currentPage = 1
 	}
 
-	schools, err := models.GetSchoolList(currentPage, name)
+	totalCount, schools, err := models.GetSchoolList(currentPage, name)
 	if err != nil {
 		log.Println("GetSchoolList: Failed to get school information with error: ", err)
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -31,10 +32,17 @@ func GetSchoolList(c *gin.Context) {
 		})
 		return
 	}
+	totalPages := ""
+	if totalCount%10 == 0 {
+		totalPages = fmt.Sprintf("%v", (totalCount / 10))
+	} else {
+		totalPages = fmt.Sprintf("%v", (totalCount/10)+1)
+	}
 	c.JSON(http.StatusOK, gin.H{
-		"status":  "success",
-		"message": "successfully fetched school list",
-		"schools": schools,
+		"status":     "success",
+		"message":    "successfully fetched school list",
+		"schools":    schools,
+		"total_page": totalPages,
 	})
 }
 

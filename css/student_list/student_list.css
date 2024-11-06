@@ -50,8 +50,8 @@ th {
 #data-table {
     border-collapse: separate; /* Ensures borders are collapsed */
     width: 100%; /* Adjust table width if necessary */
-    height: 100%;
     padding: 15px;
+    margin-top: 50px;
 }
 
 #data-table th, #data-table td {
@@ -277,7 +277,7 @@ th {
   }
 
   /* Styling for the dropdowns */
-#religion-filter, #school-filter {
+#religion-filter {
     padding: 8px;
     width: 200px;
     border: 1px solid #ccc;
@@ -289,7 +289,7 @@ th {
     background-color: #f9f9f9;
 }
 
-#religion-filter:focus, #school-filter:focus {
+#religion-filter:focus{
     border-color: #007bff;
     background-color: #fff;
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
@@ -297,10 +297,56 @@ th {
     transform: scale(1.02); /* Subtle scaling effect */
 }
 
-#religion-filter:hover, #school-filter:hover {
+#religion-filter:hover{
     border-color: #007bff;
     background-color: #fff;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+#school-search {
+    padding: 8px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+#school-search:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    outline: none;
+    transform: scale(1.02);
+}
+
+#school-results {
+    position: absolute;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    max-height: 150px;
+    overflow-y: auto;
+    display: none;
+    margin-left: 490px;
+    margin-top: 190px;
+}
+
+#school-results div {
+    padding: 8px;
+    cursor: pointer;
+}
+
+#school-results div:hover {
+    background-color: #f0f0f0;
+}
+
+.suggestion-item{
+    padding: 10px;
 }
 
 /* Optional: Styling the label (if you want to add labels to the filters) */

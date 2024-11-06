@@ -1132,13 +1132,14 @@ func UploadImageofStudent(imageData []byte, id int64) error {
 	return nil
 }
 
-func GetSchoolList(currentPage int64, name string) ([]School, error) {
+func GetSchoolList(currentPage int64, name string) (int64, []School, error) {
+	var totalCount int64
 	schools := []School{}
 	where := ""
 	db, err := config.GetDB2()
 	if err != nil {
 		log.Println("GetSchoolList: Failed while connecting with database with error: ", err)
-		return []School{}, err
+		return 0, []School{}, err
 	}
 	defer db.Close()
 
@@ -1150,6 +1151,7 @@ func GetSchoolList(currentPage int64, name string) ([]School, error) {
 	}
 
 	query := ` SELECT 
+				COUNT(*)OVER(),
 				id, name 
 			FROM 
 				schools ` + where + ` 
@@ -1163,7 +1165,7 @@ func GetSchoolList(currentPage int64, name string) ([]School, error) {
 	rows, err := db.Query(query, limit, offset)
 	if err != nil {
 		log.Println("GetSchoolList: Failed while executing the query with error: ", err)
-		return []School{}, err
+		return 0, []School{}, err
 	}
 	page := 1
 	sno := (page-1)*10 + 1
@@ -1172,7 +1174,7 @@ func GetSchoolList(currentPage int64, name string) ([]School, error) {
 			id   int64
 			name string
 		)
-		err = rows.Scan(&id, &name)
+		err = rows.Scan(&totalCount, &id, &name)
 		if err != nil {
 			log.Println("GetSchoolList: Failed while scanning the query with error: ", err)
 			continue
@@ -1184,7 +1186,7 @@ func GetSchoolList(currentPage int64, name string) ([]School, error) {
 		})
 		sno++
 	}
-	return schools, nil
+	return totalCount, schools, nil
 }
 
 func GetReligions() ([]ReligionDetails, error) {

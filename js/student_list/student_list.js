@@ -1,7 +1,8 @@
 const tableBody = document.getElementById('table-body');
 const searchBox = document.getElementById('search-box');
 const religionFilter = document.getElementById('religion-filter');
-const schoolFilter = document.getElementById('school-filter');
+const schoolFilter = document.getElementById('school-search');
+const schoolResults = document.getElementById('school-results');
 const assistanceFilter = document.getElementById('assistance-filter');
 const paginationContainer = document.getElementById('pagination-container');
 let currentPage = 1;
@@ -33,23 +34,74 @@ function populateFilters() {
         })
         .catch(error => console.error('Error fetching religions:', error));
 
-    // Populate School Dropdown
-    fetch(`${hostURL}/api/schools/list`)
-        .then(response => response.json())
-        .then(data => {
-            console.log("School Data:", data); // Debug log
-            if (data.status === "success" && Array.isArray(data.schools)) {
-                data.schools.forEach(schoolObj => {
-                    const option = document.createElement('option');
-                    option.value = schoolObj.school;  // Use the 'school' property
-                    option.textContent = schoolObj.school; // Display the 'school' name
-                    schoolFilter.appendChild(option);
-                });
-            } else {
-                console.error('Unexpected format for schools:', data);
+        schoolFilter.addEventListener("keyup", function () {
+            // Clear previous suggestions
+            schoolResults.innerHTML = '';
+        
+            // Get the current input value
+            const query = schoolFilter.value.toLowerCase().trim();
+        
+            // Only make an API call if the input is not empty
+            if (query.length === 0) {
+                schoolResults.style.display = 'none'; // Hide the suggestion box if input is empty
+                return;
             }
-        })
-        .catch(error => console.error('Error fetching schools:', error));
+        
+            // Call the API to fetch the school list dynamically
+            fetch(`${hostURL}/api/schools/list?school=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("School Data:", data); // Debug log
+        
+                    // Check if response format is as expected
+                    if (data.status === "success" && Array.isArray(data.schools)) {
+                        const filteredSchools = data.schools.map(schoolObj => schoolObj.school); // Extract school names
+        
+                        // Populate the <ul> with <li> elements for each matching school
+                        filteredSchools.forEach(school => {
+                            const listItem = document.createElement('li');
+                            listItem.textContent = school;
+                            listItem.classList.add("suggestion-item"); // Add CSS class for styling
+        
+                            // Event to fill the input with the selected school name when an item is clicked
+                            listItem.addEventListener("click", () => {
+                                console.log("school",school)
+                                schoolFilter.value = school;
+                                schoolResults.innerHTML = ''; // Clear suggestions after selection
+                                schoolResults.style.display = 'none';
+                                fetchStudents()
+                            });
+        
+                            schoolResults.appendChild(listItem);
+                        });
+        
+                        // Show or hide the suggestion container based on whether there are any matches
+                        schoolResults.style.display = filteredSchools.length > 0 ? 'block' : 'none';
+                    } else {
+                        console.error('Unexpected format for schools:', data);
+                    }
+                })
+                .catch(error => console.error('Error fetching schools:', error));
+        });
+
+
+    // // Populate School Dropdown
+    // fetch(`${hostURL}/api/schools/list`)
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         console.log("School Data:", data); // Debug log
+    //         if (data.status === "success" && Array.isArray(data.schools)) {
+    //             data.schools.forEach(schoolObj => {
+    //                 const option = document.createElement('option');
+    //                 option.value = schoolObj.school;  // Use the 'school' property
+    //                 option.textContent = schoolObj.school; // Display the 'school' name
+    //                 schoolFilter.appendChild(option);
+    //             });
+    //         } else {
+    //             console.error('Unexpected format for schools:', data);
+    //         }
+    //     })
+    //     .catch(error => console.error('Error fetching schools:', error));
 
 }
 
@@ -59,6 +111,7 @@ function fetchStudents(page = 1) {
     const searchQuery = searchBox.value.toLowerCase();
     const selectedReligion = religionFilter.value;
     const selectedSchool = schoolFilter.value;
+    console.log("******irfffaqqq*****",selectedSchool)
     // Get selected checkbox options and join them as a comma-separated string
     const selectedOptions = Array.from(document.querySelectorAll('.dropdown-content input[type="checkbox"]:checked'))
         .map(checkbox => checkbox.value)
