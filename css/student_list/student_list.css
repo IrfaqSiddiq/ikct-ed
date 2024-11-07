@@ -325,21 +325,27 @@ th {
 
 #school-results {
     position: absolute;
-    width: 200px;
+    width: 200px; /* Ensure it matches the width of the search box */
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #fff;
     max-height: 150px;
     overflow-y: auto;
     display: none;
-    margin-left: 490px;
-    margin-top: 190px;
-    list-style: none; 
+    top: calc(200px - 61px); /* Position just below the search box */
+    left: 0;
+    margin: 0; /* Remove extra margin */
+    padding: 0; /* Remove extra padding */
+    z-index: 10;
+    list-style: none;
+    box-sizing: border-box;
+    margin-left: 760px;
 }
 
 #school-results div {
     padding: 8px;
     cursor: pointer;
+    margin: 0;
 }
 
 #school-results div:hover {
