@@ -1,3 +1,5 @@
+const searchBox = document.getElementById('search-box');
+
 document.addEventListener('DOMContentLoaded', () => {
     let currentPage = 1; // Set initial page to 1
 
@@ -10,11 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('saveSchoolButton').addEventListener('click', addSchool);
     const logoutButton = document.getElementById('logout-button');
     const logoutModal = document.getElementById('logoutModal');
-    const searchBox = document.getElementById('search-box');
+    
     console.log("Search", searchBox);
     const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
     const cancelLogoutBtn = document.getElementById('cancelLogoutBtn');
-    searchBox.addEventListener('input', fetchSchools);
+    searchBox.addEventListener('input', () => fetchSchools(currentPage));
 
     logoutButton.addEventListener('click', (event) => {
         event.preventDefault(); // Prevent default behavior
@@ -63,13 +65,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to fetch schools list with pagination support
 async function fetchSchools(page = 1) {
+
     const searchQuery = searchBox.value.toLowerCase();
     const limit = 10; // Adjust the number of schools per page if needed
     let queryParams = new URLSearchParams();
-    if (searchQuery) queryParams.append('school', searchQuery);
-    queryParams.append('page', page);
+    if (searchQuery) 
+    queryParams.append('school', searchQuery);
+    queryParams.append('page', Number(page));
+
     const url = `${hostURL}/api/schools/list?${queryParams.toString()}`;
-    
 
     try {
         const response = await fetch(url);
@@ -77,7 +81,7 @@ async function fetchSchools(page = 1) {
 
         if (data.status === "success" && Array.isArray(data.schools)) {
             displaySchools(data.schools);
-            createPagination(data.total_pages, page);
+            createPagination(data.total_page,page);
         } else {
             console.error('Unexpected API response format:', data);
         }
@@ -88,34 +92,35 @@ async function fetchSchools(page = 1) {
 
 // Function to display the schools in the school list section
 function displaySchools(schools) {
-const tableBody = document.getElementById('table-body');
-tableBody.innerHTML = ""; // Clear the existing table rows
+    const tableBody = document.getElementById('table-body');
+    tableBody.innerHTML = ""; // Clear the existing table rows
 
-schools.forEach(school => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-        <td>${school.sno}</td>
-        <td>${school.school}</td>
-    `;
-    tableBody.appendChild(row);
-});
+    schools.forEach(school => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${school.sno}</td>
+            <td>${school.school}</td>
+        `;
+        tableBody.appendChild(row);
+    });
 }
 
 // Function to create pagination buttons
-function createPagination(totalPages=4, currentPage) {
-const paginationContainer = document.getElementById('pagination-container');
-paginationContainer.innerHTML = ""; // Clear previous pagination
-console.log("Total Pages: ", totalPages);
-for (let i = 1; i <= totalPages; i++) {
-    const button = document.createElement('button');
-    button.textContent = i;
-    button.classList.add('pagination-btn');
-    button.setAttribute('data-page', i);
-    if (i === currentPage) {
-        button.classList.add('active'); // Highlight the current page
+function createPagination(totalPages=1, currentPage) {
+    console.log(totalPages,currentPage)
+    const paginationContainer = document.getElementById('pagination-container');
+    paginationContainer.innerHTML = ""; // Clear previous pagination
+    console.log("Total Pages: ", totalPages);
+    for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement('button');
+        button.textContent = i;
+        button.classList.add('pagination-btn');
+        button.setAttribute('data-page', i);
+        if (i === currentPage) {
+            button.classList.add('active'); // Highlight the current page
+        }
+        paginationContainer.appendChild(button);
     }
-    paginationContainer.appendChild(button);
-}
 }
 
 // Function to open the popup

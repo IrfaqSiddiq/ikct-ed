@@ -156,7 +156,7 @@ th {
 }
 
 #serial-col {
-    width: 400px;
+    width: 100px;
 }
 
 #school-col {
@@ -330,7 +330,7 @@ th {
 }
 
 .pagination-btn.active {
-    background-color: #007bff;
+    background-color: #3c658e!important;
     color: white;
 }
 

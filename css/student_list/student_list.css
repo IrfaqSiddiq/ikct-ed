@@ -382,7 +382,7 @@ th {
 }
 
 .pagination-button.active {
-    background-color: #007bff;
+    background-color: #3c658e!important;
     color: white;
 }
 
