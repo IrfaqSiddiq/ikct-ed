@@ -1132,7 +1132,7 @@ func UploadImageofStudent(imageData []byte, id int64) error {
 	return nil
 }
 
-func GetSchoolList(currentPage int64, name string) (int64, []School, error) {
+func GetSchoolList(currentPage int64, name string, limit int64) (int64, []School, error) {
 	var totalCount int64
 	schools := []School{}
 	where := ""
@@ -1143,8 +1143,6 @@ func GetSchoolList(currentPage int64, name string) (int64, []School, error) {
 	}
 	defer db.Close()
 
-	limit := 10
-	offset := (currentPage - 1) * 10
 
 	if len(name) != 0 {
 		where += fmt.Sprintf(` WHERE name ilike '%v%%'`, name)
@@ -1157,12 +1155,18 @@ func GetSchoolList(currentPage int64, name string) (int64, []School, error) {
 				schools ` + where + ` 
 			ORDER BY 
 				LOWER(name) ASC
-			LIMIT $1
-			OFFSET $2
+			
 			`
 
+	var offset int64
+	if limit != 0 {
+		offset = (currentPage - 1) * 10
+		query += fmt.Sprintf(`LIMIT %v
+			OFFSET %v`, limit, offset)
+	}
+
 	fmt.Println("GetSchoolList: query", query)
-	rows, err := db.Query(query, limit, offset)
+	rows, err := db.Query(query)
 	if err != nil {
 		log.Println("GetSchoolList: Failed while executing the query with error: ", err)
 		return 0, []School{}, err

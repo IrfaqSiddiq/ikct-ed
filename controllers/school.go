@@ -14,6 +14,7 @@ import (
 func GetSchoolList(c *gin.Context) {
 	name := c.Query("school")
 	page := c.Query("page")
+	limit := c.Query("limit")
 
 	var currentPage int64
 
@@ -22,7 +23,12 @@ func GetSchoolList(c *gin.Context) {
 		currentPage = 1
 	}
 
-	totalCount, schools, err := models.GetSchoolList(currentPage, name)
+	l, err := strconv.ParseInt(limit, 10, 64)
+	if len(limit) == 0 || err != nil {
+		log.Println("GetSchoolList: Failed to get limit of schools")
+	}
+
+	totalCount, schools, err := models.GetSchoolList(currentPage, name, l)
 	if err != nil {
 		log.Println("GetSchoolList: Failed to get school information with error: ", err)
 		c.JSON(http.StatusBadRequest, gin.H{

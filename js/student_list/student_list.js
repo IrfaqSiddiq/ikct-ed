@@ -48,7 +48,7 @@ function populateFilters() {
             }
         
             // Call the API to fetch the school list dynamically
-            fetch(`${hostURL}/api/schools/list?school=${query}`)
+            fetch(`${hostURL}/api/schools/list?school=${query}&limit=10`)
                 .then(response => response.json())
                 .then(data => {
                     console.log("School Data:", data); // Debug log
