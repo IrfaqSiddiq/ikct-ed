@@ -73,7 +73,7 @@ async function fetchSchools(page = 1) {
     queryParams.append('school', searchQuery);
     queryParams.append('page', Number(page));
 
-    const url = `${hostURL}/api/schools/list?${queryParams.toString()}`;
+    const url = `${hostURL}/api/schools/list?${queryParams.toString()}&limit=10`;
 
     try {
         const response = await fetch(url);
