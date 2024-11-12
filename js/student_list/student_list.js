@@ -5,6 +5,8 @@ const schoolFilter = document.getElementById('school-search');
 const schoolResults = document.getElementById('school-results');
 const assistanceFilter = document.getElementById('assistance-filter');
 const paginationContainer = document.getElementById('pagination-container');
+const goToPageInput = document.getElementById('go-to-page-input');
+const goToPageButton = document.getElementById('go-to-page-button');
 let currentPage = 1;
 let totalPages = 1;
 console.log("jsfile host url", hostURL);
@@ -221,6 +223,22 @@ function filterStudents() {
     currentPage = 1;
     fetchStudents(currentPage); // Fetch filtered students
 }
+
+goToPageButton.addEventListener('click', () => {
+    const pageNumber = parseInt(goToPageInput.value, 10);
+
+    // Validate the input for page number
+    if (isNaN(pageNumber) || pageNumber < 1 || pageNumber > totalPages) {
+        alert(`Please enter a valid page number between 1 and ${totalPages}`);
+        goToPageInput.value = ''; // Clear input
+        return;
+    }
+
+    // Update current page and fetch students for the selected page
+    currentPage = pageNumber;
+    fetchStudents(currentPage);
+    goToPageInput.value = ''; // Clear input after navigation
+});
 
 // Event listeners and initialization
 document.addEventListener('DOMContentLoaded', () => {
