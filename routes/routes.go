@@ -11,7 +11,7 @@ import (
 func AddRoutes(router *gin.RouterGroup) {
 	api := router.Group("/api")
 	{
-		students := api.Group("/students")
+		students := api.Group("/students", controllers.ValidateAPIJWT)
 		{
 			students.GET("/list", controllers.GetStudentsList)
 			students.POST("/add/csv", controllers.AddStudentsCSV)
@@ -31,7 +31,7 @@ func AddRoutes(router *gin.RouterGroup) {
 			admin.POST("/create", controllers.CreateUser)
 			admin.POST("/login", controllers.Login)
 		}
-		schools := api.Group("/schools")
+		schools := api.Group("/schools", controllers.ValidateAPIJWT)
 		{
 			schools.GET("/list", controllers.GetSchoolList)
 			schools.POST("/add", controllers.AddSchool)

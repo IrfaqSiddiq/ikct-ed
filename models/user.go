@@ -121,7 +121,7 @@ func (userAuth UserAuth) StoreJwtSessionInDB() error {
 		return err
 	}
 	defer db.Close()
-	query := ` INSERT INTO session(user_token,valid_until,user_id)VALUES($1,CURRENT_TIMESTAMP + INTERVAL '5 years',$2)`
+	query := ` INSERT INTO session(user_token,valid_until,user_id,is_expire)VALUES($1,CURRENT_TIMESTAMP + INTERVAL '5 years',$2,false)`
 	_, err = db.Exec(query, userAuth.JWTToken, userAuth.UserID)
 	if err != nil {
 		log.Println("[ERROR] StoreJwtSessionInDB: Failed to execute the query with error: ", err)
