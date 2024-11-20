@@ -1,9 +1,9 @@
 name: ikct ed
 
-# Trigger on push
+# Trigger on push to master branch
 on:
   push:
-      branches:
+    branches:
       - master
 
 jobs:
@@ -13,13 +13,24 @@ jobs:
     environment: 
       name: prod env
       url: https://ikct.online/
-    steps:
 
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up SSH agent and add private key
       - name: Use SSH key
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          
+
+      # Add the server's SSH fingerprint to known_hosts to avoid SSH host key checking
+      - name: Add server's SSH fingerprint to known_hosts
+        run: |
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+
+      # Deploy the application
       - name: Deploy ikct for prod env
         run: |
-              ssh -vvv root@93.127.185.235 "cd work/ikct/prod/ikct-ed && git checkout master && git pull origin master && ./build_for_prod.sh && sudo systemctl restart ikct.online.service"
+          ssh -vvv root@93.127.185.235 "cd /path/to/work/ikct/prod/ikct-ed && git checkout master && git pull origin master && ./build_for_prod.sh && sudo systemctl restart ikct.online.service"
