@@ -14,6 +14,12 @@ jobs:
       name: prod env
       url: https://ikct.online/
     steps:
+
+      - name: Use SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          
       - name: Deploy ikct for prod env
         run: |
               ssh -vvv root@93.127.185.235 "cd work/ikct/prod/ikct-ed && git checkout master && git pull origin master && ./build_for_prod.sh && sudo systemctl restart ikct.online.service"
