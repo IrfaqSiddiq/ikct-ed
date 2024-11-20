@@ -1,0 +1,19 @@
+name: ikct ed
+
+# Trigger on push
+on:
+  push:
+      branches:
+      - master
+
+jobs:
+  deploy_test_student_env:
+    runs-on: self-hosted
+    if: github.ref == 'refs/heads/master'
+    environment: 
+      name: prod env
+      url: https://ikct.online/
+    steps:
+      - name: Deploy ikct for prod env
+        run: |
+          ssh root@93.127.185.235 "cd work/ikct/prod/ikct-ed && git checkout master && git pull origin master && ./build_for_prod.sh && sudo systemctl restart ikct.online.service && exit"
