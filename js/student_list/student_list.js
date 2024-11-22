@@ -125,7 +125,7 @@ function fetchStudents(page = 1) {
     if (selectedOptions) queryParams.append('assistance', selectedOptions);
     queryParams.append('page', page);
 
-    fetch(`${hostURL}/api/students/list?${queryParams.toString()}`)
+    fetch(`${hostURL}/api/student/list?${queryParams.toString()}`)
         .then(response => response.json())
         .then(data => {
             if (data.status === "success" && Array.isArray(data.students_info)) {
@@ -284,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.append("file", selectedFile); // Use the same field name as expected by the Go API
             
             // Fetch API to send the file to the server
-            fetch(`/api/students/add/csv`, { // Assuming studentId is defined and holds the student's ID
+            fetch(`/api/student/add/csv`, { // Assuming studentId is defined and holds the student's ID
                 method: 'POST',
                 body: formData
             })
@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     confirmLogoutBtn.addEventListener('click', () => {
-        fetch('/api/students/logout', {
+        fetch('/api/student/logout', {
             method: 'POST', // Adjust the method if needed (e.g., 'GET')
         })
         .then(response => {

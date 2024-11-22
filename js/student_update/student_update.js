@@ -1,7 +1,7 @@
 // Function to call the API with the student ID
 function callApiWithId(id, hostURL) {
     console.log("ID: ",id)
-    const apiUrl = `${hostURL}/api/students/detail/${id}`; // Replace with your actual API URL
+    const apiUrl = `${hostURL}/api/student/detail/${id}`; // Replace with your actual API URL
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 async function saveChanges() {
 
-    const apiUrl = `${hostURL}/api/students/update/${studentId}`; // Replace with your actual API URL
+    const apiUrl = `${hostURL}/api/student/update/${studentId}`; // Replace with your actual API URL
     const data = {
         name: document.getElementById('name').value,
         assistance: document.getElementById('assistance').value,
@@ -188,7 +188,7 @@ function discardChanges() {
 
     // Confirm logout and redirect
     confirmLogoutBtn.addEventListener('click', () => {
-        fetch('/api/students/logout', {
+        fetch('/api/student/logout', {
             method: 'POST', // Adjust the method if needed (e.g., 'GET')
         })
         .then(response => {

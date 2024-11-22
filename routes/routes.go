@@ -11,18 +11,18 @@ import (
 func AddRoutes(router *gin.RouterGroup) {
 	api := router.Group("/api")
 	{
-		students := api.Group("/students", controllers.ValidateAPIJWT)
+		student := api.Group("/student", controllers.AuthorizationOfRoles2PermissionsAPI)
 		{
-			students.GET("/list", controllers.GetStudentsList)
-			students.POST("/add/csv", controllers.AddStudentsCSV)
-			students.GET("/detail/:id", controllers.GetStudentDetail)
-			students.POST("/add/sheet", controllers.AddStudentsFromSheet)
-			students.PUT("/update/:id", controllers.UpdateStudentDetail)
-			students.POST("/upload/img/:id", controllers.UploadImageofStudent)
-			students.GET("/image/:id", controllers.GetImageData)
-			students.DELETE("/delete/img/:id", controllers.DeleteImageOfStudent)
-			students.POST("/logout", controllers.Logout)
-			students.POST("/insert", controllers.AddStudentRecord)
+			student.GET("/list", controllers.GetStudentsList)
+			student.POST("/add/csv", controllers.AddStudentsCSV)
+			student.GET("/detail/:id", controllers.GetStudentDetail)
+			student.POST("/add/sheet", controllers.AddStudentsFromSheet)
+			student.PUT("/update/:id", controllers.UpdateStudentDetail)
+			student.POST("/upload/img/:id", controllers.UploadImageofStudent)
+			student.GET("/image/:id", controllers.GetImageData)
+			student.DELETE("/delete/img/:id", controllers.DeleteImageOfStudent)
+			student.POST("/logout", controllers.Logout)
+			student.POST("/insert", controllers.AddStudentRecord)
 
 		}
 
@@ -30,17 +30,20 @@ func AddRoutes(router *gin.RouterGroup) {
 		{
 			admin.POST("/create", controllers.CreateUser)
 			admin.POST("/login", controllers.Login)
+
+			admin.GET("/detail", controllers.AuthorizationOfRoles2PermissionsAPI, controllers.GetAdminDetails)
 		}
-		schools := api.Group("/schools", controllers.ValidateAPIJWT)
+		schools := api.Group("/schools", controllers.AuthorizationOfRoles2PermissionsAPI)
 		{
 			schools.GET("/list", controllers.GetSchoolList)
 			schools.POST("/add", controllers.AddSchool)
 		}
 
 		api.GET("/religion", controllers.GetReligions)
+
 	}
 
-	v1 := router.Group("/v1", controllers.ValidatePageJWT)
+	v1 := router.Group("/v1", controllers.AuthorizationOfRoles2PermissionsPage)
 	{
 		v1.GET("/student/list", controllers.StudentListPage)
 		v1.GET("/student/detail/:id", controllers.StudentDetailPage)

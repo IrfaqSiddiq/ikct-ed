@@ -2,7 +2,7 @@
 function callApiWithId(id) {
     console.log("ID: ",id)
     console.log("hostURL: ",hostURL)
-    const apiUrl = `${hostURL}/api/students/detail/${id}`; // Replace with your actual API URL
+    const apiUrl = `${hostURL}/api/student/detail/${id}`; // Replace with your actual API URL
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // Display student's current photo
         modal.style.display = "block";
-        var photoUrl = "/api/students/image/" + studentId;
+        var photoUrl = "/api/student/image/" + studentId;
         studentPhoto.src = photoUrl;
     
         studentPhoto.onload = function() {
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 formData.append("profile_pic", selectedFile); // Use the same field name as expected by the Go API
                 
                 // Fetch API to send the file to the server
-                fetch(`/api/students/upload/img/${studentId}`, { // Assuming studentId is defined and holds the student's ID
+                fetch(`/api/student/upload/img/${studentId}`, { // Assuming studentId is defined and holds the student's ID
                     method: 'POST',
                     body: formData
                 })
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     deletePhotoBtn.onclick = function () {
             // Assuming studentId is defined and holds the student's ID
-            fetch(`/api/students/delete/img/${studentId}`, { 
+            fetch(`/api/student/delete/img/${studentId}`, { 
                 method: 'DELETE' // Use the DELETE method
             })
             .then(response => {
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Confirm logout and redirect
     confirmLogoutBtn.addEventListener('click', () => {
-        fetch('/api/students/logout', {
+        fetch('/api/student/logout', {
             method: 'POST', // Adjust the method if needed (e.g., 'GET')
         })
         .then(response => {

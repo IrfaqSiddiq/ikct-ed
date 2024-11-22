@@ -15,21 +15,21 @@ type RBAC struct {
 
 // Role data structure representing a role
 type Role struct {
-	ID       int    
-	Role     string 
-	Assigned bool   
+	ID       int
+	Role     string
+	Assigned bool
 }
 
-//Permission  data structure that represents a permission
+// Permission  data structure that represents a permission
 type Permission struct {
 	ID          int
 	Permission  string
 	DisplayName string
-	Assigned    bool 
-	Create      bool 
-	Read        bool 
-	Update      bool 
-	Delete      bool 
+	Assigned    bool
+	Create      bool
+	Read        bool
+	Update      bool
+	Delete      bool
 }
 
 // Role2permission data structure that represents the relationship between
@@ -52,6 +52,10 @@ func GetRoleIdByUserId(userId int) (int, error) {
 	}
 	defer db.Close()
 	err = db.QueryRow("SELECT role_id FROM user2role WHERE user_id = $1", userId).Scan(&roleId)
+	if err != nil {
+		log.Println("GetRoleIdByUserId: Failed to get role id for this user with error: ", err)
+		return roleId, err
+	}
 	return roleId, nil
 }
 
@@ -100,7 +104,12 @@ func GetPermissionId(name string) (int, error) {
 func AuthorizationOfRoles2Permission(roleId, permissionID int) (RBAC, error) {
 	var AuthorizationOfRoles2Permissionlist RBAC
 	query := `SELECT
-	              r.id as role_id,rp.create,rp.read,rp.update,rp.delete, p.id as permission_id
+	              r.id as role_id,
+				  rp.allow_create,
+				  rp.allow_read,
+				  rp.allow_update,
+				  rp.allow_delete, 
+				  p.id as permission_id
 	          FROM 
 			      user2role ur 
 			  JOIN	
@@ -127,9 +136,7 @@ func AuthorizationOfRoles2Permission(roleId, permissionID int) (RBAC, error) {
 	}
 	defer db.Close()
 	row := db.QueryRow(query, roleId, permissionID)
-	if err != nil {
-		log.Println("AuthorizationOfRoles2Permission failed while querying with :", err)
-	}
+
 	var role_id sql.NullInt64
 	var permission_id sql.NullInt64
 	var create sql.NullBool

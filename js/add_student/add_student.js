@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 async function saveChanges() {
 
-    const apiUrl = `${hostURL}/api/students/insert`; // Replace with your actual API URL
+    const apiUrl = `${hostURL}/api/student/insert`; // Replace with your actual API URL
 
     const selectedAssistance = Array.from(document.querySelectorAll('.assistance-checkbox:checked'))
         .map(checkbox => checkbox.value)
@@ -116,7 +116,7 @@ async function saveChanges() {
         
         // Display student's current photo
         modal.style.display = "block";
-        var photoUrl = "/api/students/image/";
+        var photoUrl = "/api/student/image/";
         studentPhoto.src = photoUrl;
 
         studentPhoto.onload = function() {
@@ -169,7 +169,7 @@ async function saveChanges() {
                 formData.append("profile_pic", selectedFile); // Use the same field name as expected by the Go API
                 
                 // Fetch API to send the file to the server
-                fetch(`/api/students/upload/img`, { // Assuming studentId is defined and holds the student's ID
+                fetch(`/api/student/upload/img`, { // Assuming studentId is defined and holds the student's ID
                     method: 'POST',
                     body: formData
                 })
@@ -192,7 +192,7 @@ async function saveChanges() {
 
     deletePhotoBtn.onclick = function () {
             // Assuming studentId is defined and holds the student's ID
-            fetch(`/api/students/delete/img/`, { 
+            fetch(`/api/student/delete/img/`, { 
                 method: 'DELETE' // Use the DELETE method
             })
             .then(response => {
@@ -221,7 +221,7 @@ async function saveChanges() {
 
     // Confirm logout and redirect
     confirmLogoutBtn.addEventListener('click', () => {
-        fetch('/api/students/logout', {
+        fetch('/api/student/logout', {
             method: 'POST', // Adjust the method if needed (e.g., 'GET')
         })
         .then(response => {

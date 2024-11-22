@@ -170,3 +170,25 @@ func CreateSession(c *gin.Context, user *models.User) string {
 	fmt.Println("******cookie set")
 	return SessionID
 }
+
+func GetAdminDetails(c *gin.Context) {
+
+	tokenString, _ := c.Cookie("tokenString")
+
+	user, err := models.GetAdminDetailsByToken(tokenString)
+	if err != nil {
+		log.Println("GetAdminDetails : Failed to get admin details with error : ", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  "fail",
+			"error":   "Failed to get admin details",
+			"message": err.Error(),
+		})
+		return
+	}
+	
+	c.JSON(http.StatusOK, gin.H{
+		"status": "success",
+		"admin":  user,
+	})
+
+}

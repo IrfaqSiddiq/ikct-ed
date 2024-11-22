@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"ikct-ed/models"
 	"ikct-ed/utility"
@@ -28,6 +29,20 @@ func GetStudentsList(c *gin.Context) {
 		log.Println("GetStudentsList: Failed to covert  pageNo into integer")
 		currentPage = 1
 	}
+
+	permissions, _ := c.Get("permissions")
+	data, err := json.Marshal(permissions)
+	if err != nil {
+		log.Println("GetStudentsList: Failed to marshal permission")
+	}
+
+	var rbac models.RBAC
+
+	err = json.Unmarshal(data, &rbac)
+	if err != nil {
+		log.Println("GetStudentsList: Failed to unmarshal permission")
+	}
+
 	filter := models.FilterParameters{}
 
 	filter.SearchText = c.Query("search")
@@ -67,6 +82,7 @@ func GetStudentsList(c *gin.Context) {
 		"status":        "success",
 		"students_info": studentsInfo,
 		"total_page":    totalPages,
+		"permissions":   rbac,
 	})
 }
 

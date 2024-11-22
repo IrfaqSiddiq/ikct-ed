@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Confirm logout and redirect
     confirmLogoutBtn.addEventListener('click', () => {
-        fetch('/api/students/logout', {
+        fetch('/api/student/logout', {
             method: 'POST', // Adjust the method if needed (e.g., 'GET')
         })
         .then(response => {

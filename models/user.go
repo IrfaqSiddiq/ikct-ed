@@ -19,6 +19,21 @@ type User struct {
 	UserAuth  UserAuth
 }
 
+type AdminDetails struct {
+	ID        int    `json:"id"`
+	Name      string `json:"name"`
+	Email     string `json:"email"`
+	Password  string `json:"password"`
+	Status    bool   `json:"status"`
+	LastLogin string
+	AdminRole AdminRole
+}
+
+type AdminRole struct {
+	RoleID int64  `json:"role_id"`
+	Role   string `json:"role"`
+}
+
 type UserStorage struct {
 	User *User
 }
@@ -201,4 +216,58 @@ func ExpireSession(token string) {
 		log.Println("ExpireSession: failed:", err)
 		return
 	}
+}
+
+func GetAdminDetailsByToken(tokenString string) (AdminDetails, error) {
+	var (
+		userID    int64
+		admin     AdminDetails
+		name      sql.NullString
+		email     string
+		status    sql.NullBool
+		lastLogin sql.NullTime
+		role      string
+	)
+	db, err := config.GetDB2()
+	if err != nil {
+		log.Println("[ERROR] GetUserProfileByToken: Failed to connect with database with error: ", err)
+		return AdminDetails{}, err
+	}
+	defer db.Close()
+
+	query := ` SELECT 
+				u.id,
+				u.name,
+				u.email,
+				u.status,
+				u.last_login,
+				r.role
+			FROM
+				users as u,
+				session as s,
+				user2role as u2r,
+				role as r
+			WHERE
+				u.id= s.user_id AND
+				u2r.user_id = u.id AND
+				u2r.role_id = r.id AND
+				s.user_token = $1
+				`
+	fmt.Println("***query", query)
+	err = db.QueryRow(query, tokenString).Scan(&userID, &name, &email, &status, &lastLogin, &role)
+	if err != nil {
+		log.Println("[ERROR] GetUserProfileByToken: Failed to execute the query with error: ", err)
+		return AdminDetails{}, err
+	}
+	admin = AdminDetails{
+		ID:        int(userID),
+		Name:      name.String,
+		Email:     email,
+		Status:    status.Bool,
+		LastLogin: lastLogin.Time.Format("2006-01-02"),
+		AdminRole: AdminRole{
+			Role: role,
+		},
+	}
+	return admin, nil
 }

@@ -30,23 +30,3 @@ CREATE TABLE role2permission (
     CONSTRAINT fk_permission FOREIGN KEY (permission_id) REFERENCES permission(id)
 );
 
-INSERT INTO public.permission (id,permission) VALUES
-(1,'job'),
-(2,'blog'),
-(3,'sitemap'),
-(4,'users'),
-(5,'synthetic_job'),
-(6,'bounty_company'),
-(7,'permissionNrole'),
-(8,'payout');
-
-INSERT into public.role2permission 
-(role_id,permission_id,allow_create,allow_read,allow_update,allow_delete) VALUES
-(1,1,true,true,true,true),
-(1,2,true,true,true,true),
-(1,3,true,true,true,true),
-(1,4,true,true,true,true),
-(1,5,true,true,true,true),
-(1,6,true,true,true,true),
-(1,7,true,true,true,true),
-(1,8,true,true,true,true);
