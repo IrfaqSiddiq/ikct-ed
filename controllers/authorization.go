@@ -170,5 +170,5 @@ func AuthorizationOfRoles2PermissionsAPI(c *gin.Context) {
 
 func NoAccess(c *gin.Context) {
 
-	c.HTML(http.StatusOK, "authentication/no-access.html", gin.H{})
+	c.HTML(http.StatusOK, "no-access.html", gin.H{})
 }

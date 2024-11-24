@@ -50,11 +50,10 @@ function populateFilters() {
             }
         
             // Call the API to fetch the school list dynamically
-            fetch(`${hostURL}/api/schools/list?school=${query}&limit=10`)
+            fetch(`${hostURL}/api/school/list?school=${query}&limit=10`)
                 .then(response => response.json())
                 .then(data => {
                     console.log("School Data:", data); // Debug log
-        
                     // Check if response format is as expected
                     if (data.status === "success" && Array.isArray(data.schools)) {
                         const filteredSchools = data.schools.map(schoolObj => schoolObj.school); // Extract school names
@@ -78,6 +77,7 @@ function populateFilters() {
         
                         // Show or hide the suggestion container based on whether there are any matches
                         schoolResults.style.display = filteredSchools.length > 0 ? 'block' : 'none';
+
                     } else {
                         console.error('Unexpected format for schools:', data);
                     }
@@ -87,7 +87,7 @@ function populateFilters() {
 
 
     // // Populate School Dropdown
-    // fetch(`${hostURL}/api/schools/list`)
+    // fetch(`${hostURL}/api/school/list`)
     //     .then(response => response.json())
     //     .then(data => {
     //         console.log("School Data:", data); // Debug log
@@ -132,6 +132,18 @@ function fetchStudents(page = 1) {
                 displayStudents(data.students_info);
                 totalPages = data.total_page; // Set total pages from API response
                 renderPaginationButtons();
+
+                 // Logic to check the condition and disable the button
+
+                 if (data.permissions.Role2permission.create === false) { // Replace with your actual condition
+                    const button=document.getElementById('add-student-button');
+
+                    button.disabled = true
+                    // Apply custom CSS styles
+                    button.style.backgroundColor = '#ccc'; // Example: gray background
+                    button.style.cursor = 'not-allowed';  // Example: disabled cursor
+                    button.style.opacity = '0.6';         // Example: reduced opacity
+                 }
             } else {
                 console.error('Unexpected API response format:', data);
             }

@@ -296,7 +296,7 @@ function populateSchool() {
     const schoolFilter = document.getElementById('school'); // Get the select element
 
     // Populate School Dropdown
-    fetch(`${hostURL}/api/schools/list`)
+    fetch(`${hostURL}/api/school/list`)
             .then(response => response.json())
             .then(data => {
                 console.log("School Data:", data); // Debug log

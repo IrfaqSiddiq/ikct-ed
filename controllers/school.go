@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"fmt"
 	"ikct-ed/models"
 	"ikct-ed/utility"
@@ -16,9 +17,22 @@ func GetSchoolList(c *gin.Context) {
 	page := c.Query("page")
 	limit := c.Query("limit")
 
+	permissions, _ := c.Get("permissions")
+	data, err := json.Marshal(permissions)
+	if err != nil {
+		log.Println("GetStudentsList: Failed to marshal permission")
+	}
+
+	var rbac models.RBAC
+
+	err = json.Unmarshal(data, &rbac)
+	if err != nil {
+		log.Println("GetStudentsList: Failed to unmarshal permission")
+	}
+
 	var currentPage int64
 
-	currentPage, err := strconv.ParseInt(page, 10, 64)
+	currentPage, err = strconv.ParseInt(page, 10, 64)
 	if len(page) == 0 || err != nil {
 		currentPage = 1
 	}
@@ -45,10 +59,11 @@ func GetSchoolList(c *gin.Context) {
 		totalPages = fmt.Sprintf("%v", (totalCount/10)+1)
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"status":     "success",
-		"message":    "successfully fetched school list",
-		"schools":    schools,
-		"total_page": totalPages,
+		"status":      "success",
+		"message":     "successfully fetched school list",
+		"schools":     schools,
+		"total_page":  totalPages,
+		"permissions": rbac,
 	})
 }
 

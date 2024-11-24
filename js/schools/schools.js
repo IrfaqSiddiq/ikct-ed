@@ -73,13 +73,25 @@ async function fetchSchools(page = 1) {
     queryParams.append('school', searchQuery);
     queryParams.append('page', Number(page));
 
-    const url = `${hostURL}/api/schools/list?${queryParams.toString()}&limit=10`;
+    const url = `${hostURL}/api/school/list?${queryParams.toString()}&limit=10`;
 
     try {
         const response = await fetch(url);
         const data = await response.json();
 
         if (data.status === "success" && Array.isArray(data.schools)) {
+            // Logic to check the condition and disable the button
+
+            if (data.permissions.Role2permission.create === false) { // Replace with your actual condition
+                const button=document.getElementById('add-school-button');
+
+                button.disabled = true
+                // Apply custom CSS styles
+                button.style.backgroundColor = '#ccc'; // Example: gray background
+                button.style.cursor = 'not-allowed';  // Example: disabled cursor
+                button.style.opacity = '0.6';         // Example: reduced opacity
+            }
+
             displaySchools(data.schools);
             createPagination(data.total_page,page);
         } else {
@@ -144,7 +156,7 @@ async function addSchool() {
     formData.append('school', school);  
 
     try {
-        const response = await fetch('/api/schools/add', {  
+        const response = await fetch('/api/school/add', {  
             method: 'POST',
             body: formData  
         });

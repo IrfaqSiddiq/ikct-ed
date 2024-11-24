@@ -33,7 +33,7 @@ func AddRoutes(router *gin.RouterGroup) {
 
 			admin.GET("/detail", controllers.AuthorizationOfRoles2PermissionsAPI, controllers.GetAdminDetails)
 		}
-		schools := api.Group("/schools", controllers.AuthorizationOfRoles2PermissionsAPI)
+		schools := api.Group("/school", controllers.AuthorizationOfRoles2PermissionsAPI)
 		{
 			schools.GET("/list", controllers.GetSchoolList)
 			schools.POST("/add", controllers.AddSchool)
@@ -49,7 +49,7 @@ func AddRoutes(router *gin.RouterGroup) {
 		v1.GET("/student/detail/:id", controllers.StudentDetailPage)
 		v1.GET("/student/update/:id", controllers.UpdateStudentTemplate)
 		v1.GET("/student/add", controllers.InsertStudentPage)
-		v1.GET("/schools", controllers.SchoolPage)
+		v1.GET("/school/list", controllers.SchoolPage)
 
 	}
 
