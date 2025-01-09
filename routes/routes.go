@@ -26,19 +26,20 @@ func AddRoutes(router *gin.RouterGroup) {
 
 		}
 
-		admin := api.Group("/user")
+		admin := api.Group("/user", controllers.AuthorizationOfRoles2PermissionsAPI)
 		{
+			admin.DELETE("/delete/:id", controllers.DeleteAdminByID)
+			admin.GET("/list", controllers.GetAdminList)
 			admin.POST("/create", controllers.CreateUser)
-			admin.POST("/login", controllers.Login)
-
-			admin.GET("/detail", controllers.AuthorizationOfRoles2PermissionsAPI, controllers.GetAdminDetails)
+			admin.GET("/detail", controllers.GetAdminDetails)
 		}
 		schools := api.Group("/school", controllers.AuthorizationOfRoles2PermissionsAPI)
 		{
 			schools.GET("/list", controllers.GetSchoolList)
 			schools.POST("/add", controllers.AddSchool)
+			schools.DELETE("/delete/:id", controllers.DeleteSchool)
 		}
-
+		api.POST("/login", controllers.Login)
 		api.GET("/religion", controllers.GetReligions)
 
 	}
@@ -50,6 +51,7 @@ func AddRoutes(router *gin.RouterGroup) {
 		v1.GET("/student/update/:id", controllers.UpdateStudentTemplate)
 		v1.GET("/student/add", controllers.InsertStudentPage)
 		v1.GET("/school/list", controllers.SchoolPage)
+		v1.GET("/admin/list", controllers.AdminListPage)
 
 	}
 

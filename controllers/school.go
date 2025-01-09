@@ -94,6 +94,33 @@ func AddSchool(c *gin.Context) {
 		"message": "successfully added school",
 	})
 }
+func DeleteSchool(c *gin.Context) {
+	id := c.Params.ByName("id")
+	schoolID, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		log.Println("DeleteSchool Failed while getting schoolID with error: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  "failed",
+			"message": "Invalid school ID",
+			"error":   "Enter valid school id",
+		})
+		return
+	}
+	err =models.DeleteSchool(schoolID)
+	if err != nil {
+		log.Println("DeleteSchool Failed while deleting school with error: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  "failed",
+			"message": err.Error(),
+			"error":   "Something went wrong",
+		})
+		return
+	}
+	c.JSON(http.StatusOK,gin.H{
+		"status": "success",
+		"message": "Successfully deleted the school",
+	})
+}
 
 func SchoolPage(c *gin.Context) {
 	hostURL := utility.GetHostURL()

@@ -5,7 +5,7 @@ INSERT INTO permission (id,permission) VALUES
 
 INSERT INTO role(id, role)VALUES
 (1, 'super-admin'),
-(2, 'user');
+(2, 'admin');
 
 INSERT INTO user2role (role_id,user_id)VALUES
 (1,1),
@@ -16,6 +16,6 @@ INSERT into public.role2permission
 (1,1,true,true,true,true),
 (1,2,true,true,true,true),
 (1,3,true,true,true,true),
-(2,1,true,true,true,false),
-(2,2,true,true,true,false),
+(2,1,true,true,true,true),
+(2,2,true,true,true,true),
 (2,3,false,true,false,false);

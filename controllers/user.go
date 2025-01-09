@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -18,31 +19,76 @@ import (
 func CreateUser(c *gin.Context) {
 	//create a variable of type User to receive data from the form
 	var newUser models.User
-	if c.ShouldBind(&newUser) != nil {
-		c.JSON(http.StatusBadRequest, "Error trying get form data!")
+	if c.ShouldBindJSON(&newUser) != nil {
+		c.JSON(http.StatusBadRequest, "Error trying get json data!")
 		return
 	}
+
 	CheckUser, err := models.CheckUser(strings.ToLower(newUser.Email))
 	if CheckUser {
 		fmt.Println("User already exists with this email")
 		c.JSON(http.StatusNotFound, gin.H{"status": "failed", "error": err, "message": "User already exists with this email !!!"})
 	} else {
 		//Password encryption
-		passwordEncripted, err := PasswordEncrypter(newUser.Password)
-		if err != nil {
-			c.JSON(http.StatusNotFound, gin.H{"status": "failed", "error": err, "message": "Use another password !!!"})
-		} else {
-			userStorage := models.UserStorage{}
-			err = userStorage.User.New(newUser, passwordEncripted)
+		passwordEncripted := utility.HashPassword(newUser.Password)
 
-			if err != nil {
-				c.JSON(http.StatusNotFound, gin.H{"status": "failed", "error": err, "message": "User not created !!!"})
-			} else {
-				//return to the user list view
-				c.JSON(http.StatusOK, gin.H{"status": "success", "message": "User Created successfully!!!"})
-			}
+		userStorage := models.UserStorage{}
+		err = userStorage.User.New(newUser, passwordEncripted)
+		if err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"status": "failed", "error": err, "message": "User not created !!!"})
+		} else {
+			//return to the user list view
+			c.JSON(http.StatusOK, gin.H{"status": "success", "message": "User Created successfully!!!"})
 		}
+		
 	}
+}
+
+
+func DeleteAdminByID(c *gin.Context) {
+	id := c.Params.ByName("id")
+	userID, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		log.Println("DeleteAdminByID Failed while getting userID with error: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  "failed",
+			"message": "Invalid account",
+			"error":   "Enter valid account id",
+		})
+		return
+	}
+
+	err = models.DeleteAdminByID(userID)
+	if err != nil {
+		log.Println("DeleteAdminByID Failed: while fetching user details with error: ", err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  "failed",
+			"message": "Email entered is incorrect",
+			"error":   "invalid email",
+		})
+		return
+	}
+	c.JSON(http.StatusOK,gin.H{
+		"status": "success",
+		"message": "Admin deleted successfully",
+	})
+}
+
+func GetAdminList(c *gin.Context){
+	adminList, err := models.GetAdminList()
+	if err != nil {
+		log.Println("GetAdminList Failed: while fetching admin list with error: ", err.Error())
+		c.JSON(http.StatusInternalServerError,gin.H{
+			"status": "failed",
+			"error": "admin list cannot be displayed",
+			"message":   err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+        "status": "success",
+        "data":   adminList,
+    })
 }
 
 func Login(c *gin.Context) {
@@ -185,10 +231,15 @@ func GetAdminDetails(c *gin.Context) {
 		})
 		return
 	}
-	
+
 	c.JSON(http.StatusOK, gin.H{
 		"status": "success",
 		"admin":  user,
 	})
 
+}
+
+func AdminListPage(c *gin.Context) {
+	hostURL := utility.GetHostURL()
+	c.HTML(http.StatusOK, "admin_list.html", gin.H{"host_url":hostURL})
 }

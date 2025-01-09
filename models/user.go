@@ -9,12 +9,12 @@ import (
 )
 
 type User struct {
-	ID        int    `form:"id"`
-	Name      string `form:"username" binding:"required"`
-	Email     string `form:"email" binding:"required"`
-	Password  string `form:"password"`
-	RoleId    int    `form:"role"`
-	Status    bool   `form:"status"`
+	ID        int    `json:"id"`
+	Name      string `json:"name" binding:"required"`
+	Email     string `json:"email" binding:"required"`
+	Password  string `json:"password"`
+	RoleId    int    `json:"role_id"`
+	Status    bool   `json:"status"`
 	LastLogin string
 	UserAuth  UserAuth
 }
@@ -80,6 +80,35 @@ func (u *User) New(newUser User, passwordEncripted string) error {
 	VALUES ($1,$2,$3,$4) RETURNING id`
 	var userId int
 	err = db.QueryRow(query, newUser.Name, newUser.Email, passwordEncripted, newUser.Status).Scan(&userId)
+	if err != nil {
+		return err
+	}
+	newUser.ID = userId
+	err = User2Role(newUser)
+	if err != nil {
+		log.Println("New: failed to insert user2role with error: ", err)
+		return err
+	}
+	return nil
+}
+
+// New
+// Input: User, passwordEncripted
+// Output: error
+// Desc: This method inserts a new record in the user table and also inserts a new record
+// in the user2role table for mapping purposes.
+func User2Role(newUser User) error {
+	db, err := config.GetDB2()
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+	//query to insert a new record in the users table
+	query := `INSERT INTO user2role(
+	role_id,user_id)
+	VALUES ($1,$2)`
+
+	_, err = db.Exec(query, newUser.RoleId,newUser.ID)
 	if err != nil {
 		return err
 	}
@@ -270,4 +299,87 @@ func GetAdminDetailsByToken(tokenString string) (AdminDetails, error) {
 		},
 	}
 	return admin, nil
+}
+
+func DeleteAdminByID(id int64) error {
+	db, err := config.GetDB2()
+	if err != nil {
+		log.Println("[ERROR] DeleteAdminByID: Failed to connect with database with error: ", err)
+		return err
+	}
+	defer db.Close()
+
+	query := ` DELETE FROM user2role WHERE user_id = $1`
+	_, err = db.Exec(query, id)
+	if err != nil {
+		log.Println("[ERROR] DeleteAdminByID: Failed to delete user2role record with error: ", err)
+		return err
+	}
+
+	query = ` DELETE FROM users WHERE id = $1`
+	_, err = db.Exec(query, id)
+	if err != nil {
+		log.Println("[ERROR] DeleteAdminByID: Failed to delete users record with error: ", err)
+		return err
+	}
+	return nil
+}
+
+func GetAdminList() ([]AdminDetails, error){
+	var adminList []AdminDetails
+	db, err := config.GetDB2()
+	if err != nil {
+		log.Println("[ERROR] DeleteAdminByID: Failed to connect with database with error: ", err)
+		return []AdminDetails{},err
+	}
+	defer db.Close()
+
+	query := `SELECT 
+				u.id,
+				u.name,
+				u.email,
+				u.status,
+				r.role
+			FROM
+				users as u,
+				user2role as u2r,
+                role as r
+			WHERE 
+				u.id = u2r.user_id AND
+				u2r.role_id = r.id
+
+			`
+	fmt.Println("AdminList Query:",query)
+
+	rows, err:=db.Query(query)
+	if err!= nil {
+        log.Println("[ERROR] GetAdminList: Failed to execute the query with error: ", err)
+        return []AdminDetails{}, err
+    }
+	defer rows.Close()
+	for rows.Next(){
+
+		var(
+			id int64
+            name sql.NullString
+            email string
+            status sql.NullBool
+			role string
+		)
+        err := rows.Scan(&id, &name, &email, &status, &role)
+        if err!= nil {
+            log.Println("[ERROR] GetAdminList: Failed to scan the row with error: ", err)
+            return []AdminDetails{}, err
+        }
+        adminList = append(adminList, AdminDetails{
+			ID:        int(id),
+            Name:      name.String,
+            Email:     email,
+            Status:    status.Bool,
+			AdminRole: AdminRole{
+				Role: role,
+			},
+		})
+	}
+	return adminList, nil
 }
