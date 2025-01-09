@@ -164,3 +164,33 @@ func AuthorizationOfRoles2Permission(roleId, permissionID int) (RBAC, error) {
 	}
 	return AuthorizationOfRoles2Permissionlist, err
 }
+
+func GetAllRoles()([]Role, error){
+	db, err := config.GetDB2()
+	if err != nil {
+		log.Println("GetAllRoles is failed while connecting to DB with error :", err)
+		return []Role{},err
+	}
+
+	defer db.Close()
+	query := ` SELECT id, role FROM role`
+	rows, err := db.Query(query)
+	if err!= nil {
+        log.Println("GetAllRoles failed while executing the query with error: ", err)
+        return []Role{}, err
+    }
+	defer rows.Close()
+	var roles []Role
+	for rows.Next() {
+		var role string
+		var id int
+
+		err = rows.Scan(&id, &role)
+		if err!= nil {
+            log.Println("GetAllRoles failed while scanning row with error: ", err)
+            continue
+        }
+		roles = append(roles, Role{ID: id, Role: role})
+	}
+	return roles, nil
+}

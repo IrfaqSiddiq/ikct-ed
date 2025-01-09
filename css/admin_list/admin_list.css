@@ -1,0 +1,430 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  height: 100vh;
+  overflow: hidden; /* Prevent body scroll */
+}
+
+h1 {
+  font-weight: 500;
+  color: #3c658e;
+  margin-bottom: 15px;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  height: 100vh; /* Make the container full height */
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #3c658e;
+  height: 100%; /* Ensure it occupies full height of the container */
+  padding: 20px;
+  position: fixed;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0; /* Ensure no padding */
+}
+
+.sidebar ul li {
+  margin-bottom: 20px;
+}
+
+.sidebar ul li a {
+  color: #ecf0f1;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 18px;
+  display: block;
+  padding: 10px 0;
+}
+
+.sidebar ul li a:hover {
+  background-color: #34495e;
+  padding-left: 10px;
+  transition: 0.3s ease;
+}
+
+/* Modal Background */
+.lomodal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.7
+  ); /* Darker black background with higher opacity */
+  transition: all 0.3s ease-in-out; /* Smooth transition effect */
+  backdrop-filter: blur(3px); /* Add a subtle blur effect for background */
+}
+
+/* Modal Content */
+.lomodal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 30px;
+  border-radius: 12px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* When the modal is displayed */
+.modal.show .modal-content {
+  transform: scale(1); /* Full size on display */
+}
+
+/* Modal heading */
+.lomodal-content h2 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  color: #3c658e;
+  margin-bottom: 40px;
+}
+
+/* Modal actions - Flexbox for button alignment */
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 20px;
+}
+
+/* Button styles */
+.popup-btn {
+  background-color: #3c658e;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  outline: none;
+}
+
+/* Button hover and active state */
+.popup-btn:hover {
+  background-color: #2a4a6b;
+  transform: translateY(-3px); /* Subtle lift on hover */
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1); /* Shadow effect on hover */
+}
+
+.popup-btn:active {
+  transform: translateY(2px); /* Slight press down on click */
+  background-color: #254057; /* Darker color when clicked */
+}
+/* Main Content */
+.main-content {
+  margin-left: 250px;
+  padding: 20px;
+  width: calc(100% - 250px);
+  overflow: scroll;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 15px;
+  text-align: left;
+  font-size: 18px;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: 600;
+}
+
+#serial-col {
+  width: 100px;
+}
+
+#school-col {
+  width: 600px;
+}
+
+/* Header and Button */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.search-container label {
+  font-size: 18px;
+  font-weight: 500;
+  margin-right: 10px;
+  color: #555;
+  font-family: 'Poppins', sans-serif;
+}
+
+#search-box {
+  padding: 8px;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: all 0.3s ease-in-out;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  background-color: #f9f9f9;
+  margin-bottom: 20px;
+}
+
+#search-box:focus {
+  border-color: #007bff;
+  background-color: #fff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+  outline: none;
+  transform: scale(1.02); /* Subtle scaling effect */
+}
+
+#search-box:hover {
+  border-color: #007bff;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+#search-box::placeholder {
+  color: #aaa;
+  font-style: italic;
+  font-size: 14px;
+}
+
+#add-school-button {
+  background-color: #3c658e;
+  color: #fff;
+  padding: 12px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 17px;
+  margin: 6px 2px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+#add-school-button:hover {
+  background-color: #2e5071;
+}
+
+.text {
+  border: 1px solid #c4c4c4;
+  width: 100%;
+  margin: 8px 0px;
+  padding: 14px;
+  font-size: 16px;
+}
+
+.text:focus {
+  outline: none;
+  border-color: #c4c4c4; /* Keeps the same border color */
+  background-color: white; /* Keeps the background color the same */
+  color: black; /* Keeps the text color the same */
+}
+
+/* Modal Styling */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  transition: all 0.3s ease-in-out;
+  backdrop-filter: blur(3px);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 30px;
+  border-radius: 12px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h2 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  color: #3c658e;
+  margin-bottom: 40px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 20px;
+}
+
+.popup-btn {
+  background-color: #3c658e;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.popup-btn:hover {
+  background-color: #2a4a6b;
+  transform: translateY(-3px);
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.popup-btn:active {
+  transform: translateY(2px);
+  background-color: #254057;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-btn {
+  padding: 10px 16px; /* Adjust padding for larger size */
+  margin: 0 6px;
+  cursor: pointer;
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 50%; /* Make buttons round */
+  font-size: 16px; /* Increase font size for readability */
+  width: 45px; /* Set width and height for a consistent round shape */
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination-btn.active {
+  background-color: #3c658e !important;
+  color: white;
+}
+
+.pagination-btn:hover {
+  background-color: #ddd;
+}
+/* Popup overlay */
+#popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure it stays on top of other content */
+}
+
+/* Popup content */
+#popup-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  margin: 100px auto; /* Centers the popup horizontally and vertically */
+  height: auto;
+}
+
+/* Form styling */
+.form-group {
+  margin-bottom: 20px; /* Add space between each input group */
+}
+
+/* Label styling */
+label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+/* Input box styling */
+input[type='text'],
+input[type='email'],
+input[type='password'],
+select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Styling for form buttons */
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+input[type='submit'] {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input[type='submit']:hover {
+  background-color: #45a049;
+}
+
+/* Close button styling */
+#cancel-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#cancel-btn:hover {
+  background-color: #d32f2f;
+}

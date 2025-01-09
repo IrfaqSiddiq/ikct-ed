@@ -40,6 +40,7 @@ func AddRoutes(router *gin.RouterGroup) {
 			schools.DELETE("/delete/:id", controllers.DeleteSchool)
 		}
 		api.POST("/login", controllers.Login)
+		api.GET("/roles",controllers.GetAllRoles)
 		api.GET("/religion", controllers.GetReligions)
 
 	}
@@ -51,7 +52,7 @@ func AddRoutes(router *gin.RouterGroup) {
 		v1.GET("/student/update/:id", controllers.UpdateStudentTemplate)
 		v1.GET("/student/add", controllers.InsertStudentPage)
 		v1.GET("/school/list", controllers.SchoolPage)
-		v1.GET("/admin/list", controllers.AdminListPage)
+		v1.GET("/user/list", controllers.AdminListPage)
 
 	}
 
